@@ -4,11 +4,10 @@
     "baseUrl": "./src",
     "module": "commonjs",
     "paths": {
-      "@route/*": ["route/*"],
+      "@entity/*": ["entity/*"],
       "@service/*": ["service/*"],
       "@controller/*": ["controller/*"], 
-      "@util/*": ["util/*"], 
-      "@entity/*": ["entity/*"],
+      "@util/*": ["util/*"]
     }
   },
   "include": [

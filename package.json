@@ -4,7 +4,9 @@
   "description": "typescript 2d game engine",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:prod": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "dev": "webpack-dev-server --mode development --open"
   },
   "author": "Stuart Haas",
   "license": "ISC",
