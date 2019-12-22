@@ -4,9 +4,13 @@
     "baseUrl": "./src",
     "module": "commonjs",
     "paths": {
-      "@entity/*": ["entity/*"],
-      "@service/*": ["service/*"],
+      "@behavior/*": ["behavior/*"],
       "@controller/*": ["controller/*"], 
+      "@core/*": ["core/*"],
+      "@entity/*": ["entity/*"],
+      "@math/*": ["math/*"],
+      "@render/*": ["render/*"],
+      "@service/*": ["service/*"],
       "@util/*": ["util/*"]
     }
   },

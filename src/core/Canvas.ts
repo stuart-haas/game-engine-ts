@@ -1,6 +1,9 @@
-export var gl: WebGLRenderingContext;
+export var context: CanvasRenderingContext2D;
 
 export class Canvas {
+
+  public static HEIGHT:number;
+  public static WIDTH:number;
 
   /**
    * Initialize WebGL, potentially using the canvas
@@ -16,13 +19,12 @@ export class Canvas {
       }
     } else {
       canvas = document.createElement("canvas") as HTMLCanvasElement;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       document.body.appendChild(canvas);
     }
 
-    gl = canvas.getContext("webgl");
-    if(gl == undefined) {
-      throw new Error("Unable to initialize WebGL!");
-    }
+    context = canvas.getContext("2d");
 
     return canvas;
   }
