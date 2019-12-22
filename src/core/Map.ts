@@ -2,11 +2,12 @@ import { Camera } from './Camera';
 
 export class Map {
 
-  public static WIDTH:number = 2000;
-  public static HEIGHT:number = 1000;
+  public static WIDTH:number;
+  public static HEIGHT:number;
 
-  public constructor() {
-    
+  public constructor(width: number, height: number) {
+    Map.WIDTH = width;
+    Map.HEIGHT = height;
   }
 
   public generate(context: CanvasRenderingContext2D): void {

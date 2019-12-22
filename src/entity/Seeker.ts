@@ -10,8 +10,8 @@ export class Seeker extends Entity {
 
   constructor(position: Vector, maxForce?: number, seekThreshold?: number, color?: string) {
       super(position, maxForce);
-      this.seekThreshold = seekThreshold || 200;
-      this.color = color || '#f00';
+      this.seekThreshold = seekThreshold || 500;
+      this.color = color || '#ffff00';
   }
 
   update(target: Vector): void {
@@ -20,7 +20,6 @@ export class Seeker extends Entity {
           this.force = this.distance.normalize().multiply(this.maxForce);
           this.acceleration.add(this.force);
       }
-
       super.update();
   }
 

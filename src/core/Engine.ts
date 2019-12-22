@@ -7,9 +7,6 @@ import { EntityManager } from './EntityManager';
 
 export class Engine {
 
-  public static MAP_WIDTH: number = 5000;
-  public static MAP_HEIGHT: number = 5000;
-
   public canvas: HTMLCanvasElement;
   public map: Map;
   public camera: Camera;
@@ -19,7 +16,7 @@ export class Engine {
 
   public constructor() {
 
-    this.map = new Map();
+    this.map = new Map(5000, 5000);
     this.camera = new Camera();
     this.player = new Player();
     this.entityManager = new EntityManager();
