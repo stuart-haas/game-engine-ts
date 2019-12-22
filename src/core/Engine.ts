@@ -1,6 +1,5 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
-import { Entity } from '@entity/Entity';
 import { Spawner } from './Spawner';
 import { Map } from './Map';
 import { Camera } from './Camera';

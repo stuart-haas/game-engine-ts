@@ -1,6 +1,6 @@
 import { Entity } from '@entity/Entity';
 import { Camera } from './Camera';
-import { Vector } from '../math/Vector';
+import { Vector } from '@math/Vector';
 
 export class EntityManager {
 

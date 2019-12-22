@@ -1,5 +1,4 @@
 import { Vector } from '@math/Vector';
-import { Engine } from './Engine';
 import { Seeker } from '@entity/Seeker';
 import { Coin } from '@entity/Coin';
 import { EntityManager } from './EntityManager';

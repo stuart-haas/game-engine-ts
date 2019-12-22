@@ -1,6 +1,6 @@
 import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
-import { Shape } from '../render/Shape';
+import { Shape } from '@render/Shape';
 
 export class Seeker extends Entity {
 

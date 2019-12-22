@@ -3,7 +3,7 @@ import { Input } from '@core/Input';
 import { Shape } from '@render/Shape';
 import { Math2 } from '@math/Math2';
 import { Vector } from '@math/Vector';
-import { Map } from '../core/Map';
+import { Map } from '@core/Map';
 
 enum Keys {
   Up = 38,

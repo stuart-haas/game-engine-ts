@@ -1,4 +1,3 @@
-import { Engine } from './Engine';
 import { Camera } from './Camera';
 
 export class Map {
