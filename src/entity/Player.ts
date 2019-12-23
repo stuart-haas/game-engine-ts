@@ -4,6 +4,7 @@ import { Shape } from '@render/Shape';
 import { Math2 } from '@math/Math2';
 import { Vector } from '@math/Vector';
 import { Map } from '@core/Map';
+import { Collision } from '../core/Collision';
 
 enum Keys {
   Up = 38,
@@ -14,11 +15,13 @@ enum Keys {
 
 export class Player extends Entity {
 
+  private map: Map;
   private input: Input
-  private offset: Vector = new Vector(50, 50);
+  private offset: Vector = new Vector(31, 31);
 
-  public constructor() {
+  public constructor(map: Map) {
     super();
+    this.map = map;
     this.input = new Input();
   }
 
@@ -35,6 +38,6 @@ export class Player extends Entity {
   }
 
   public render(context: CanvasRenderingContext2D): void {
-      Shape.circle(context, this.position, 16, '#000000');
+      Shape.rectangle(context, this.position, 32, 32, '#ff0');
   }
 }

@@ -32,9 +32,9 @@ export class Map {
     for(let i = 0; i < this.tiles.length; i ++) {
       for(let j = 0; j < this.tiles[i].length; j ++) {
         let tile:Tile = this.tiles[i][j];
-        if(Camera.in_viewport(tile.x, tile.y)) {
+        if(Camera.in_viewport(tile.position.x, tile.position.y)) {
           context.beginPath();
-          context.rect(tile.x, tile.y, this.tileSize - 2, this.tileSize - 2);
+          context.rect(tile.position.x, tile.position.y, this.tileSize - 2, this.tileSize - 2);
           context.fillStyle = tile.color;
           context.fill();
           context.closePath();

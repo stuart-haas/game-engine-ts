@@ -10,7 +10,7 @@ export class Canvas {
    * @param elementId 
    */
   public static initialize(elementId?: string): HTMLCanvasElement {
-    let canvas: HTMLCanvasElement;
+    var canvas: HTMLCanvasElement;
 
     if(elementId !== undefined) {
       canvas = document.getElementById(elementId) as HTMLCanvasElement;

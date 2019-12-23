@@ -9,4 +9,12 @@ export class Shape {
     context.closePath();
     context.fill();
   }
+
+  public static rectangle(context: CanvasRenderingContext2D, position: Vector, width: number, height: number, color: string): void {
+    context.fillStyle = color;
+    context.beginPath();
+    context.rect(position.x, position.y, width, height);
+    context.closePath();
+    context.fill();
+  }
 }

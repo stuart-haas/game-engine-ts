@@ -29,8 +29,8 @@ export class Vector{
   }
 
   distSq(vector: Vector): number {
-  let dx = vector.x - this.x;
-  let dy = vector.y - this.y;
+  var dx = vector.x - this.x;
+  var dy = vector.y - this.y;
   return dx * dx + dy * dy;
 }
 

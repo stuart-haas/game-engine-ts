@@ -23,7 +23,7 @@ export class SpriteAnimation {
       this.currentFrame = 0; 
       this.counter = 0; 
 
-      for (let frameNumber = this.startFrame; frameNumber <= this.endFrame; frameNumber ++) {
+      for (var frameNumber = this.startFrame; frameNumber <= this.endFrame; frameNumber ++) {
         this.animationSequence.push(frameNumber);
       }
   }
@@ -37,8 +37,8 @@ export class SpriteAnimation {
   }
 
   render(context: CanvasRenderingContext2D) {
-      let row = Math.floor(this.animationSequence[this.currentFrame] / this.spriteSheet.framesPerRow);
-      let col = Math.floor(this.animationSequence[this.currentFrame] % this.spriteSheet.framesPerRow);
+      var row = Math.floor(this.animationSequence[this.currentFrame] / this.spriteSheet.framesPerRow);
+      var col = Math.floor(this.animationSequence[this.currentFrame] % this.spriteSheet.framesPerRow);
    
       context.drawImage(
         this.spriteSheet.image,

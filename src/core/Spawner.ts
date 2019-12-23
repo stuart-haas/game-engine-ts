@@ -28,7 +28,7 @@ export class Spawner {
   }
 
   getPosition(target: Vector): Vector {
-    let position = null;
+    var position = null;
     do {
       position = new Vector(Math.random() * Map.WIDTH, Math.random() * Map.HEIGHT);
     }

@@ -5,7 +5,6 @@ import { Map } from './Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Collision } from './Collision';
-import { Vector } from '../math/Vector';
 
 export class Engine {
 
@@ -26,8 +25,8 @@ export class Engine {
 
     this.map = new Map(2000, 2000);
     this.camera = new Camera();
-    this.player = new Player();
-    this.entityManager = new EntityManager();
+    this.player = new Player(this.map);
+    this.entityManager = new EntityManager(this.map);
     this.spawner = new Spawner(this.entityManager);
   }
 
@@ -62,16 +61,16 @@ export class Engine {
       this.player.update();
       this.player.render(context);
 
-      Collision.check(this.player.position, this.map);
+      //Collision.check(this.player, this.map);
 
       this.spawner.update(this.player.position);
 
       this.entityManager.update(this.player.position, context); 
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
-    }
 
-    context.restore();
+      context.restore();
+    }
   }
 
   public resize(): void {
