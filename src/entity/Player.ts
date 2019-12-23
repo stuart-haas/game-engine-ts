@@ -4,7 +4,6 @@ import { Shape } from '@render/Shape';
 import { Math2 } from '@math/Math2';
 import { Vector } from '@math/Vector';
 import { Map } from '@core/Map';
-import { Collision } from '../core/Collision';
 
 enum Keys {
   Up = 38,
@@ -15,13 +14,11 @@ enum Keys {
 
 export class Player extends Entity {
 
-  private map: Map;
   private input: Input
-  private offset: Vector = new Vector(31, 31);
+  private offset: Vector = new Vector(64, 64);
 
-  public constructor(map: Map) {
+  public constructor() {
     super();
-    this.map = map;
     this.input = new Input();
   }
 

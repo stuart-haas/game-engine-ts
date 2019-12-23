@@ -32,10 +32,9 @@ export class Camera {
 
     Camera.X = this.position.x;
     Camera.Y = this.position.y;
-
   }
 
-  public static in_viewport(x: number, y: number): boolean {
+  public static inViewPort(x: number, y: number): boolean {
     if(
       x < Camera.OFFSET_X - Canvas.WIDTH / 2 ||
       x > Camera.X + Canvas.WIDTH ||

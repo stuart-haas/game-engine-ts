@@ -5,7 +5,7 @@ import { Entity } from '@entity/Entity';
 
 export class Collision {
 
-  public static check(target: Entity, map: Map): boolean {
+  public static detect(target: Entity, map: Map, callback?: Function): boolean {
     var left:number = target.position.x / map.tileSize;
     var right:number = (target.position.x + map.tileSize) / map.tileSize;
     var top:number = target.position.y / map.tileSize;
@@ -20,8 +20,7 @@ export class Collision {
       for(var j = top; j <= bottom; j ++) {
         var tile: Tile = map.tileAt(Math.floor(i), Math.floor(j));
         if(tile.type == Types.Collider) {
-          tile.color = '#000';
-          Collision.resolve(target, tile, map);
+          callback(target, tile, map);
           return true;
         }
       }

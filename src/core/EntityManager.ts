@@ -21,7 +21,7 @@ export class EntityManager {
   public update(target: Vector, context: CanvasRenderingContext2D) {
     for(var i = 0; i < this.entities.length; i ++) {
       var entity = this.entities[i];
-      if(Camera.in_viewport(entity.position.x, entity.position.y)) {
+      if(Camera.inViewPort(entity.position.x, entity.position.y)) {
         entity.update(target);
         entity.render(context);
         //Collision.check(entity, this.map);

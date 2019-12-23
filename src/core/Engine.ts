@@ -5,6 +5,8 @@ import { Map } from './Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Collision } from './Collision';
+import { ONE } from './Level';
+import { Entity } from '@entity/Entity';
 
 export class Engine {
 
@@ -23,9 +25,9 @@ export class Engine {
 
   public constructor() {
 
-    this.map = new Map(2000, 2000);
+    this.map = new Map();
     this.camera = new Camera();
-    this.player = new Player(this.map);
+    this.player = new Player();
     this.entityManager = new EntityManager(this.map);
     this.spawner = new Spawner(this.entityManager);
   }
@@ -37,7 +39,9 @@ export class Engine {
     Canvas.WIDTH = this.canvas.width;
     Canvas.HEIGHT = this.canvas.height;
 
-    this.map.generate();
+    this.map.generate(ONE);
+
+    console.log(Map.WIDTH, Map.HEIGHT);
 
     this.loop();
   }
@@ -61,7 +65,10 @@ export class Engine {
       this.player.update();
       this.player.render(context);
 
-      //Collision.check(this.player, this.map);
+      Collision.detect(this.player, this.map, function(r1: Entity, r2: Entity, map: Map) {
+        //r2.color = '#000';
+        //Collision.resolve(r1, r2, map);
+      });
 
       this.spawner.update(this.player.position);
 
