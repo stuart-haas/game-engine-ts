@@ -35,6 +35,6 @@ export class Player extends Entity {
   }
 
   public render(context: CanvasRenderingContext2D): void {
-      Shape.circle(context, this.position, 10, '#000000');
+      Shape.circle(context, this.position, 16, '#000000');
   }
 }

@@ -24,12 +24,12 @@ export class Entity {
     this.color = color || '#000';
   }
 
-  public update(target?: Vector) {
+  public update(target?: Vector): void {
     this.velocity.add(this.acceleration);
     this.velocity.multiply(this.friction);
     this.acceleration.divide(this.mass);
     this.position.add(this.velocity);
   }
 
-  public render(context: CanvasRenderingContext2D) {};
+  public render(context: CanvasRenderingContext2D): void {};
 }

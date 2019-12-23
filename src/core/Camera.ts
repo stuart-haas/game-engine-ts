@@ -17,10 +17,8 @@ export class Camera {
     this.scrollSpeed = scrollSpeed || 0.05;
   }
 
-  public update(context: CanvasRenderingContext2D, target: Vector, callback?: Function): void {
-    context.clearRect(0, 0, Canvas.WIDTH, Canvas.HEIGHT);
-    context.save();
-
+  public update(context: CanvasRenderingContext2D, target: Vector): void {
+    
     Camera.OFFSET_X = Math.round(target.x - Camera.X);
     Camera.OFFSET_Y = Math.round(target.y - Camera.Y);
 
@@ -32,12 +30,9 @@ export class Camera {
 
     context.translate(-this.position.x, -this.position.y);
 
-    callback();
-
     Camera.X = this.position.x;
     Camera.Y = this.position.y;
 
-    context.restore();
   }
 
   public static in_viewport(x: number, y: number): boolean {
