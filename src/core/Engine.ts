@@ -4,9 +4,11 @@ import { Spawner } from './Spawner';
 import { Map } from './Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
-import { Collision } from './Collision';
+import { Collision } from '@physics/Collision';
 import { ONE } from './Level';
 import { Entity } from '@entity/Entity';
+import { Vector } from '@math/Vector';
+import { Math2 } from '@math/Math2';
 
 export class Engine {
 
@@ -41,12 +43,11 @@ export class Engine {
 
     this.map.generate(ONE);
 
-    console.log(Map.WIDTH, Map.HEIGHT);
-
     this.loop();
   }
 
   public loop(): void {
+    const self = this;
 
     window.requestAnimationFrame(this.loop.bind(this));
 
@@ -63,16 +64,20 @@ export class Engine {
       this.map.render(context);
 
       this.player.update();
-      this.player.render(context);
 
-      Collision.detect(this.player, this.map, function(r1: Entity, r2: Entity, map: Map) {
-        //r2.color = '#000';
-        //Collision.resolve(r1, r2, map);
+      var neighbors = Vector.findInRadius(this.player.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
+      this.map.renderPoints(neighbors, context);
+
+      Collision.detect(this.player, this.map, 0, function(source: Entity, target: Entity, map: Map) {
+        target.color = '#000';
+        Collision.resolve(source, target, map);
       });
+      
+      //this.spawner.update(this.player.position);
 
-      this.spawner.update(this.player.position);
+      //this.entityManager.update(this.player, this.player.position, context); 
 
-      this.entityManager.update(this.player.position, context); 
+      this.player.render(context);
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 

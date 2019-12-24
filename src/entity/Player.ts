@@ -15,7 +15,7 @@ enum Keys {
 export class Player extends Entity {
 
   private input: Input
-  private offset: Vector = new Vector(64, 64);
+  private offset: Vector = new Vector(79, 79);
 
   public constructor() {
     super();

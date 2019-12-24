@@ -7,9 +7,9 @@ import { Map } from './Map';
 export class Spawner {
 
   private entityManager: EntityManager;
-  private maxEntities = 10;
+  private maxEntities = 1;
   private coinSpawnChance: number = 100;
-  private seekerSpawnChance: number = 300;
+  private seekerSpawnChance: number = 100;
 
   constructor(entityManager: EntityManager) {
     this.entityManager = entityManager;
@@ -19,7 +19,7 @@ export class Spawner {
     if(this.entityManager.entities.length == this.maxEntities) return;
 
     if (Math.floor(Math.random() * this.coinSpawnChance) == 0) {
-      this.entityManager.addEntity(new Coin(this.getPosition(target)));
+      //this.entityManager.addEntity(new Coin(this.getPosition(target)));
     }
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {

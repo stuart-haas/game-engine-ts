@@ -1,7 +1,13 @@
 import { Vector } from '@math/Vector';
 
+export enum Types{
+  Path = 0,
+  Collider = 1
+}
+
 export class Entity {
 
+  public nearby: Vector[] = [];
   public position: Vector;
   public velocity: Vector;
   public acceleration: Vector;
@@ -11,6 +17,7 @@ export class Entity {
   public friction: number;
   public size: number;
   public color: string;
+  public type: number;
 
   constructor(position?: Vector, maxForce?: number, maxSpeed?: number, mass?: number, friction?: number, size?: number, color?: string) {
     this.position = position || new Vector();

@@ -9,6 +9,7 @@
       "@core/*": ["core/*"],
       "@entity/*": ["entity/*"],
       "@math/*": ["math/*"],
+      "@physics/*": ["physics/*"],
       "@render/*": ["render/*"],
       "@service/*": ["service/*"],
       "@util/*": ["util/*"]
