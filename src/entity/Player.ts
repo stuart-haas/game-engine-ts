@@ -14,11 +14,13 @@ enum Keys {
 
 export class Player extends Entity {
 
+  private map: Map;
   private input: Input
   private offset: Vector = new Vector(79, 79);
 
   public constructor() {
     super();
+    this.map = Map.getInstance();
     this.input = new Input();
   }
 
@@ -30,8 +32,8 @@ export class Player extends Entity {
 
     super.update();
 
-    this.position.x = Math2.clamp(this.position.x, this.offset.x, Map.WIDTH - this.offset.x);
-    this.position.y = Math2.clamp(this.position.y, this.offset.y, Map.HEIGHT - this.offset.y);
+    this.position.x = Math2.clamp(this.position.x, this.offset.x, this.map.width - this.offset.x);
+    this.position.y = Math2.clamp(this.position.y, this.offset.y, this.map.height - this.offset.y);
   }
 
   public render(context: CanvasRenderingContext2D): void {

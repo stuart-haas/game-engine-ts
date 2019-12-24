@@ -30,8 +30,8 @@ export class Engine {
     this.map = new Map();
     this.camera = new Camera();
     this.player = new Player();
-    this.entityManager = new EntityManager(this.map);
-    this.spawner = new Spawner(this.entityManager);
+    this.entityManager = new EntityManager();
+    this.spawner = new Spawner();
   }
 
   public start(): void {
@@ -72,7 +72,7 @@ export class Engine {
         Collision.resolve(source, target, map);
       });
       
-      //this.spawner.update(this.player.position);
+      this.spawner.update(this.player.position);
 
       this.entityManager.update(this.player.position, context); 
 

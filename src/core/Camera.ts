@@ -13,7 +13,10 @@ export class Camera {
   public position: Vector = new Vector();
   public scrollSpeed: number;
 
+  private map: Map;
+
   public constructor(scrollSpeed?: number) {
+    this.map = Map.getInstance();
     this.scrollSpeed = scrollSpeed || 0.05;
   }
 
@@ -25,8 +28,8 @@ export class Camera {
     this.position.x = this.position.x  + ((target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed;
     this.position.y = this.position.y  + ((target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed;
 
-    this.position.x = Math2.clamp(this.position.x, 0, Map.WIDTH -  Canvas.WIDTH);
-    this.position.y = Math2.clamp(this.position.y, 0, Map.HEIGHT - Canvas.HEIGHT);
+    this.position.x = Math2.clamp(this.position.x, 0, this.map.width -  Canvas.WIDTH);
+    this.position.y = Math2.clamp(this.position.y, 0, this.map.height - Canvas.HEIGHT);
 
     context.translate(-this.position.x, -this.position.y);
 

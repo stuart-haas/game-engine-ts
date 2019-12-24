@@ -6,13 +6,15 @@ import { Map } from './Map';
 
 export class Spawner {
 
+  private map: Map;
   private entityManager: EntityManager;
-  private maxEntities = 1;
+  private maxEntities = 10;
   private coinSpawnChance: number = 100;
   private seekerSpawnChance: number = 100;
 
-  constructor(entityManager: EntityManager) {
-    this.entityManager = entityManager;
+  constructor() {
+    this.map = Map.getInstance();
+    this.entityManager = EntityManager.getInstance();
   }
 
   update(target: Vector): void {
@@ -30,7 +32,7 @@ export class Spawner {
   getPosition(target: Vector): Vector {
     var position = null;
     do {
-      position = new Vector(Math.random() * Map.WIDTH, Math.random() * Map.HEIGHT);
+      position = new Vector(Math.random() * this.map.width, Math.random() * this.map.height);
     }
     while(position.distSq(target) < 5 * 5);
     return position;

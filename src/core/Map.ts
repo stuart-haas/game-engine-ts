@@ -5,23 +5,31 @@ import { Types, Entity } from '@entity/Entity';
 
 export class Map {
 
-  public static WIDTH:number = 0;
-  public static HEIGHT:number = 0;
-
   public tiles: Tile[][];
-  public tileSize:number;
+  public tileSize: number;
+  public width: number = 0;
+  public height: number = 0;
+
+  private static instance: Map;
+
+  public static getInstance(width?: number, height?: number, tileSize:number=32) {
+    if(!Map.instance) {
+      Map.instance = new Map(width, height, tileSize);
+    }
+    return Map.instance;
+  }
 
   public constructor(width?: number, height?: number, tileSize:number=32) {
-    Map.WIDTH = width;
-    Map.HEIGHT = height;
+    this.width = width;
+    this.height = height;
     this.tiles = [];
     this.tileSize = tileSize;
   }
 
   public generate(map?: number[][]): void {
     if(map === undefined) {
-      var rows = ~~(Map.WIDTH / this.tileSize) + 1;
-      var columns = ~~(Map.HEIGHT / this.tileSize) + 1;
+      var rows = ~~(this.width / this.tileSize) + 1;
+      var columns = ~~(this.height / this.tileSize) + 1;
       
       for (var x = 0, i = 0; i < rows; x += this.tileSize, i++) {
         this.tiles[i] = [];
@@ -30,8 +38,8 @@ export class Map {
         }
       }
     } else {
-      Map.WIDTH = map.length * this.tileSize;
-      Map.HEIGHT = map[0].length * this.tileSize;
+      this.width = map.length * this.tileSize;
+      this.height = map[0].length * this.tileSize;
       for (var x = 0, i = 0; i < map.length; x+= this.tileSize, i++) {
         this.tiles[i] = [];
         for (var y = 0, j = 0; j < map[i].length; y += this.tileSize, j++) {
@@ -83,9 +91,9 @@ export class Map {
     var bottom:number = (source.y + this.tileSize) / this.tileSize + distance;
 
     if(left < 0) left = 0;
-    if(right > Map.WIDTH) right = Map.WIDTH;
+    if(right > this.width) right = this.width;
     if(top < 0) top = 0;
-    if(bottom > Map.HEIGHT) bottom = Map.HEIGHT;
+    if(bottom > this.height) bottom = this.height;
 
     for(var i = left; i <= right; i ++) { 
       for(var j = top; j <= bottom; j ++) {

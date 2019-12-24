@@ -10,8 +10,17 @@ export class EntityManager {
   
   private map: Map;
 
-  public constructor(map: Map) {
-    this.map = map;
+  private static instance: EntityManager;
+
+  public static getInstance() {
+    if(!EntityManager.instance) {
+      EntityManager.instance = new EntityManager();
+    }
+    return EntityManager.instance;
+  }
+
+  public constructor() {
+    this.map = Map.getInstance();
   }
 
   public addEntity(entity: Entity): void {
@@ -23,8 +32,9 @@ export class EntityManager {
       var entity = this.entities[i];
       if(Camera.inViewPort(entity.position.x, entity.position.y)) {
         entity.update(target);
-        var neighbors = Vector.findInRadius(entity.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-        this.map.renderNeighbors(neighbors, context);
+        var neighbors = Vector.findInRadius(entity.position, 128, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
+        var tiles = this.map.renderNeighbors(neighbors, context);
+        entity.tiles = tiles;
         entity.render(context);
       }
     }
