@@ -66,8 +66,8 @@ export class Vector {
 
   public static findInRadius(source: Vector, radius: number, step: number = 4, offset: Vector = new Vector()): Vector[] {
     var points:Vector[] = [];
-    var x = source.x + offset.x;
-    var y = source.y + offset.y;
+    var x = Math.round(source.x + offset.x);
+    var y = Math.round(source.y + offset.y);
 
     for(var j = x - radius; j <= x + radius; j += step) {
       for(var k = y - radius; k <= y + radius; k += step) {

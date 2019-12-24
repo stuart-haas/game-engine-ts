@@ -1,4 +1,3 @@
-import { Vector } from './Vector';
 export class Math2 {
 
   public static random(): number {

@@ -26,6 +26,7 @@ export class Seeker extends Entity {
         this.force = this.distance.normalize().multiply(this.maxForce);
         this.acceleration.add(this.force);
     }
+    
     super.update();
   }
 

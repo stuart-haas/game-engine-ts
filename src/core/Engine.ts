@@ -47,7 +47,6 @@ export class Engine {
   }
 
   public loop(): void {
-    const self = this;
 
     window.requestAnimationFrame(this.loop.bind(this));
 
@@ -66,7 +65,7 @@ export class Engine {
       this.player.update();
 
       var neighbors = Vector.findInRadius(this.player.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-      this.map.renderPoints(neighbors, context);
+      this.map.renderNeighbors(neighbors, context);
 
       Collision.detect(this.player, this.map, 0, function(source: Entity, target: Entity, map: Map) {
         target.color = '#000';
@@ -75,7 +74,7 @@ export class Engine {
       
       //this.spawner.update(this.player.position);
 
-      //this.entityManager.update(this.player, this.player.position, context); 
+      this.entityManager.update(this.player.position, context); 
 
       this.player.render(context);
 

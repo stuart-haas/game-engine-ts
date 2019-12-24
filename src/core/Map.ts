@@ -1,7 +1,7 @@
 import { Camera } from './Camera';
 import { Tile } from '@entity/Tile';
 import { Vector } from '@math/Vector';
-import { Entity } from '@entity/Entity';
+import { Types, Entity } from '@entity/Entity';
 
 export class Map {
 
@@ -52,15 +52,27 @@ export class Map {
     }
   }
 
-  public renderPoints(points: Vector[], context: CanvasRenderingContext2D, color:string = 'green'): void {
+  public renderNeighbors(points: Vector[], context: CanvasRenderingContext2D, color:string = 'green'): Entity[] {
+    var tiles:Entity[] = [];
     for(var i = 0; i < points.length; i ++) {
       var point:Vector = points[i];
       var tile: Tile = this.tileByVector(point.x, point.y);
-      if(tile === undefined) return;
-      var newTile = new Tile(tile.position.x, tile.position.y, tile.size, tile.type);
-      newTile.color = color;
-      newTile.render(context);
+      if(tile !== undefined && tile.type !== Types.Collider) {
+        var newTile = new Tile(tile.position.x, tile.position.y, tile.size, tile.type);
+        newTile.color = color;
+        newTile.render(context);
+        tiles.push(newTile);
+        tiles = Map.removeDuplicateNeighbors(tiles);
+      }
     }
+    return tiles;
+  }
+
+  public static removeDuplicateNeighbors(arr: Entity[]) {
+    return arr.filter((e, i) => {
+      return arr.findIndex((x) => {
+      return x.position.x == e.position.x && x.position.y == e.position.y;}) == i;
+    });
   }
 
   public findNeighors(source: Vector, distance: number = 0): Entity[] {

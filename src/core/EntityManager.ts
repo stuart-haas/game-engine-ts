@@ -18,11 +18,13 @@ export class EntityManager {
     this.entities.push(entity);
   }
 
-  public update(player: Entity, target: Vector, context: CanvasRenderingContext2D) {
+  public update(target: Vector, context: CanvasRenderingContext2D) {
     for(var i = 0; i < this.entities.length; i ++) {
       var entity = this.entities[i];
       if(Camera.inViewPort(entity.position.x, entity.position.y)) {
         entity.update(target);
+        var neighbors = Vector.findInRadius(entity.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
+        this.map.renderNeighbors(neighbors, context);
         entity.render(context);
       }
     }

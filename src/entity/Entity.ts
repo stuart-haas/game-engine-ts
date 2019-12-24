@@ -7,7 +7,7 @@ export enum Types{
 
 export class Entity {
 
-  public nearby: Vector[] = [];
+  public neighbors: Vector[];
   public position: Vector;
   public velocity: Vector;
   public acceleration: Vector;
