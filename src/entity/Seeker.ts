@@ -26,7 +26,7 @@ export class Seeker extends Entity {
 
     this.animation.update();
 
-    var points:Vector[] = Vector.findInRadius(this.position, this.seekThreshold, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
+    var points:Vector[] = Vector.pointsInRadius(this.position, this.seekThreshold, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
     this.neighbors = this.map.renderNeighbors(points);
 
     var targetTile:Tile = this.map.tileByVector(target.x, target.y);

@@ -33,7 +33,6 @@ export class SpriteAnimation {
       if (this.counter == (this.frameSpeed - 1)) {
         this.currentFrame = (this.currentFrame + 1) % this.animationSequence.length;
       }
-
       this.counter = (this.counter + 1) % this.frameSpeed;
   }
 

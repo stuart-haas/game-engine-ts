@@ -3,9 +3,9 @@ export class Vector {
   public x: number = 0;
   public y: number = 0;
 
-  constructor(x ? : number, y ? : number) {
-    this.x = x || 0;
-    this.y = y || 0;
+  constructor(x: number = 0, y: number = 0) {
+    this.x = x;
+    this.y = y;
   }
 
   public add(vector: Vector): Vector {
@@ -41,30 +41,30 @@ export class Vector {
   }
 
   public normalize(): Vector {
-    if (this.getLength() != 0) {
-      this.x /= this.getLength();
-      this.y /= this.getLength();
+    if (this.length != 0) {
+      this.x /= this.length;
+      this.y /= this.length;
     }
     return this;
-  }
-
-  public getLength(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
-  }
-
-  public getAngle(): number {
-    return Math.atan2(this.y, this.x);
   }
 
   public clone(): Vector {
     return new Vector(this.x, this.y);
   }
 
+  public get length(): number {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  public get angle(): number {
+    return Math.atan2(this.y, this.x);
+  }
+
   public static fromAngle(angle: number, magnitude: number): Vector {
     return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
 
-  public static findInRadius(source: Vector, radius: number, step: number = 4, offset: Vector = new Vector()): Vector[] {
+  public static pointsInRadius(source: Vector, radius: number, step: number = 4, offset: Vector = new Vector()): Vector[] {
     var points:Vector[] = [];
     var x = Math.round(source.x + offset.x);
     var y = Math.round(source.y + offset.y);
