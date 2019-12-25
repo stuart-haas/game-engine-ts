@@ -7,8 +7,7 @@ export enum Types{
 
 export class Entity {
 
-  public neighbors: Vector[] = [];
-  public tiles: Entity[] = [];
+  public neighbors: Entity[] = [];
   public position: Vector;
   public velocity: Vector;
   public acceleration: Vector;
@@ -39,5 +38,5 @@ export class Entity {
     this.position.add(this.velocity);
   }
 
-  public render(context: CanvasRenderingContext2D): void {};
+  public render(): void {};
 }

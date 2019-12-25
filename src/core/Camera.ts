@@ -1,7 +1,7 @@
 import { Vector } from '@math/Vector';
 import { Math2 } from '@math/Math2';
 import { Map } from './Map';
-import { Canvas } from './Canvas';
+import { Canvas, context } from './Canvas';
 
 export class Camera {
 
@@ -15,12 +15,21 @@ export class Camera {
 
   private map: Map;
 
+  private static instance: Camera;
+
+  public static getInstance(scrollSpeed?: number) {
+    if(!Camera.instance) {
+      Camera.instance = new Camera(scrollSpeed);
+    }
+    return Camera.instance;
+  }
+
   public constructor(scrollSpeed?: number) {
     this.map = Map.getInstance();
     this.scrollSpeed = scrollSpeed || 0.05;
   }
 
-  public update(context: CanvasRenderingContext2D, target: Vector): void {
+  public update(target: Vector): void {
     
     Camera.OFFSET_X = Math.round(target.x - Camera.X);
     Camera.OFFSET_Y = Math.round(target.y - Camera.Y);

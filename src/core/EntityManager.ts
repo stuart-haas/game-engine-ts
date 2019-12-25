@@ -1,7 +1,6 @@
 import { Entity } from '@entity/Entity';
 import { Camera } from './Camera';
 import { Vector } from '@math/Vector';
-import { Collision } from '@physics/Collision';
 import { Map } from './Map';
 
 export class EntityManager {
@@ -27,15 +26,12 @@ export class EntityManager {
     this.entities.push(entity);
   }
 
-  public update(target: Vector, context: CanvasRenderingContext2D) {
+  public update(target: Vector) {
     for(var i = 0; i < this.entities.length; i ++) {
       var entity = this.entities[i];
       if(Camera.inViewPort(entity.position.x, entity.position.y)) {
         entity.update(target);
-        var neighbors = Vector.findInRadius(entity.position, 128, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-        var tiles = this.map.renderNeighbors(neighbors, context);
-        entity.tiles = tiles;
-        entity.render(context);
+        entity.render();
       }
     }
   }

@@ -36,7 +36,7 @@ export class Player extends Entity {
     this.position.y = Math2.clamp(this.position.y, this.offset.y, this.map.height - this.offset.y);
   }
 
-  public render(context: CanvasRenderingContext2D): void {
-      Shape.rectangle(context, this.position, 32, 32, '#ff0');
+  public render(): void {
+      Shape.rectangle(this.position, 32, 32, '#ff0');
   }
 }

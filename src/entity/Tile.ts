@@ -1,4 +1,5 @@
 import { Types, Entity } from '@entity/Entity';
+import { context } from '@core/Canvas';
 
 export class Tile extends Entity {
 
@@ -11,10 +12,10 @@ export class Tile extends Entity {
     this.color = type == Types.Path ? 'red' : 'blue';
   }
 
-  public render(context: CanvasRenderingContext2D): void {
+  public render(color?: string): void {
     context.beginPath();
     context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
-    context.fillStyle = this.color;
+    context.fillStyle = color || this.color;
     context.fill();
     context.closePath();
   }

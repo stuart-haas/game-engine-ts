@@ -18,7 +18,7 @@ export class Coin extends Entity {
     this.animation.update();
   }
 
-  public render(context: CanvasRenderingContext2D): void {
-    this.animation.render(context);
+  public render(): void {
+    this.animation.render();
   }
 }

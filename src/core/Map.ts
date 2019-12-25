@@ -49,18 +49,18 @@ export class Map {
     }
   }
 
-  public render(context: CanvasRenderingContext2D): void {
+  public render(): void {
     for(let i = 0; i < this.tiles.length; i ++) {
       for(let j = 0; j < this.tiles[i].length; j ++) {
         let tile:Tile = this.tiles[i][j];
         if(Camera.inViewPort(tile.position.x, tile.position.y)) {
-          tile.render(context);
+          tile.render();
         }
       }
     }
   }
 
-  public renderNeighbors(points: Vector[], context: CanvasRenderingContext2D, color:string = 'green'): Entity[] {
+  public renderNeighbors(points: Vector[], color:string = 'green'): Entity[] {
     var tiles:Entity[] = [];
     for(var i = 0; i < points.length; i ++) {
       var point:Vector = points[i];
@@ -68,7 +68,7 @@ export class Map {
       if(tile !== undefined && tile.type !== Types.Collider) {
         var newTile = new Tile(tile.position.x, tile.position.y, tile.size, tile.type);
         newTile.color = color;
-        newTile.render(context);
+        newTile.render();
         tiles.push(newTile);
         tiles = Map.removeDuplicateNeighbors(tiles);
       }

@@ -1,5 +1,6 @@
 import { Entity } from '@entity/Entity';
 import { SpriteSheet } from './SpriteSheet';
+import { context } from '@core/Canvas';
 
 export class SpriteAnimation {
 
@@ -36,7 +37,7 @@ export class SpriteAnimation {
       this.counter = (this.counter + 1) % this.frameSpeed;
   }
 
-  render(context: CanvasRenderingContext2D) {
+  render() {
       var row = Math.floor(this.animationSequence[this.currentFrame] / this.spriteSheet.framesPerRow);
       var col = Math.floor(this.animationSequence[this.currentFrame] % this.spriteSheet.framesPerRow);
    

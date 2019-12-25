@@ -1,4 +1,5 @@
 import { Entity } from '@entity/Entity';
+import { context } from '@core/Canvas';
 
 export class SpriteSheet {
 
@@ -22,7 +23,7 @@ export class SpriteSheet {
       this.framesPerRow = Math.floor(this.image.width / this.frameWidth);
   }
 
-  render(context: CanvasRenderingContext2D): void {
+  render(): void {
     context.drawImage(
           this.image,
           this.parent.position.x, this.parent.position.y,
