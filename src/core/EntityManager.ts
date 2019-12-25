@@ -1,13 +1,10 @@
 import { Entity } from '@entity/Entity';
 import { Camera } from './Camera';
 import { Vector } from '@math/Vector';
-import { Map } from './Map';
 
 export class EntityManager {
 
   public entities: Entity[] = [];
-  
-  private map: Map;
 
   private static instance: EntityManager;
 
@@ -19,7 +16,7 @@ export class EntityManager {
   }
 
   public constructor() {
-    this.map = Map.getInstance();
+    
   }
 
   public addEntity(entity: Entity): void {
