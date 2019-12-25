@@ -25,7 +25,6 @@ export class Engine {
   private interval:number = 1000 / this.fps;
 
   public constructor() {
-
     this.map = Map.getInstance();
     this.camera = Camera.getInstance();
     this.entityManager = EntityManager.getInstance();
