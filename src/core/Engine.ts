@@ -66,9 +66,9 @@ export class Engine {
       var neighbors = Vector.findInRadius(this.player.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
       this.map.renderNeighbors(neighbors);
 
-      Collision.detect(this.player, this.map, 0, function(source: Entity, target: Entity, map: Map) {
+      Collision.detect(this.player, 0, function(source: Entity, target: Entity) {
         target.color = '#000';
-        Collision.resolve(source, target, map);
+        Collision.resolve(source, target);
       });
       
       this.spawner.update(this.player.position);

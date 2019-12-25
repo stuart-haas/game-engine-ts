@@ -4,7 +4,8 @@ import { Types, Entity } from '@entity/Entity';
 
 export class Collision {
 
-  public static detect(source: Entity, map: Map, distance: number = 0, callback?: Function): boolean {
+  public static detect(source: Entity, distance: number = 0, callback?: Function): boolean {
+    var map = Map.getInstance();
     var neighbors: Entity[] = map.findNeighors(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
@@ -17,7 +18,8 @@ export class Collision {
     return false;
   }
 
-  public static resolve(source: Entity, target: Entity, map: Map): boolean {
+  public static resolve(source: Entity, target: Entity): boolean {
+    var map = Map.getInstance();
     var colliding: boolean = false;
     
     var rv1: Vector = new Vector(source.position.x, source.position.y);
