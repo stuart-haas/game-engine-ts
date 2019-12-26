@@ -22,23 +22,27 @@ export class Seeker extends Entity {
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
   }
 
-  public update(target: Vector): void {
+  public update(): void {
 
     this.animation.update();
 
-    var points:Vector[] = Vector.pointsInRadius(this.position, this.seekThreshold, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-    this.neighbors = this.map.renderNeighbors(points);
+    for(var i = 0; i < this.targets.length; i ++) {
+      var target = this.targets[i];
+      
+      var points:Vector[] = Vector.pointsInRadius(this.position, this.seekThreshold, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
+      this.neighbors = this.map.renderNeighbors(points);
 
-    var targetTile:Tile = this.map.tileByVector(target.x, target.y);
+      var targetTile:Tile = this.map.tileByVector(target.x, target.y);
 
-    for(var i = 0; i < this.neighbors.length; i ++) {
-      var sourceTile:Tile = this.neighbors[i];
-      if(targetTile.position.x == sourceTile.position.x && 
-         targetTile.position.y == sourceTile.position.y )
-      {
-        this.distance = target.clone().subtract(this.position);
-        this.force = this.distance.normalize().multiply(this.maxForce);
-        this.acceleration.add(this.force);
+      for(var i = 0; i < this.neighbors.length; i ++) {
+        var sourceTile:Entity = this.neighbors[i];
+        if(targetTile.position.x == sourceTile.position.x && 
+          targetTile.position.y == sourceTile.position.y )
+        {
+          this.distance = target.clone().subtract(this.position);
+          this.force = this.distance.normalize().multiply(this.maxForce);
+          this.acceleration.add(this.force);
+        }
       }
     }
 

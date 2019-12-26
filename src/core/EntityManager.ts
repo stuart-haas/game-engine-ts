@@ -20,14 +20,23 @@ export class EntityManager {
   }
 
   public addEntity(entity: Entity): void {
-    this.entities.push(entity);
+    var index = this.entities.push(entity)  - 1;
+    entity.index = index;
   }
 
-  public update(target: Vector) {
+  public getEntity(index: number): Entity {
+    return this.entities[index];
+  }
+
+  public removeEntity(index: number): void {
+    this.entities.splice(index, 1);
+  }
+
+  public update() {
     for(var i = 0; i < this.entities.length; i ++) {
       var entity = this.entities[i];
       if(Camera.inViewPort(entity.position.x, entity.position.y)) {
-        entity.update(target);
+        entity.update();
         entity.render();
       }
     }

@@ -14,7 +14,7 @@ export class Engine {
   public canvas: HTMLCanvasElement;
   public map: Map;
   public camera: Camera;
-  public player: Player;
+  public player: Entity;
   public entityManager: EntityManager;
   public spawner: Spawner;
 
@@ -29,7 +29,9 @@ export class Engine {
     this.camera = Camera.getInstance();
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
-    this.player = new Player();
+
+    this.entityManager.addEntity(new Player());
+    this.player = this.entityManager.getEntity(0);
   }
 
   public start(): void {
@@ -60,8 +62,6 @@ export class Engine {
 
       this.map.render();
 
-      this.player.update();
-
       var neighbors = Vector.pointsInRadius(this.player.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
       this.map.renderNeighbors(neighbors);
 
@@ -72,9 +72,7 @@ export class Engine {
       
       this.spawner.update(this.player.position);
 
-      this.entityManager.update(this.player.position); 
-
-      this.player.render();
+      this.entityManager.update(); 
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 

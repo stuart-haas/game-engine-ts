@@ -7,6 +7,7 @@ export enum Types{
 
 export class Entity {
 
+  public targets: Vector[] = [];
   public neighbors: Entity[] = [];
   public position: Vector;
   public velocity: Vector;
@@ -18,6 +19,8 @@ export class Entity {
   public size: number;
   public color: string;
   public type: number;
+  public index: number;
+
 
   constructor(position?: Vector, maxForce?: number, maxSpeed?: number, mass?: number, friction?: number, size?: number, color?: string) {
     this.position = position || new Vector();
@@ -31,7 +34,11 @@ export class Entity {
     this.color = color || '#000';
   }
 
-  public update(target?: Vector): void {
+  public addTarget(target: Vector): void {  
+    this.targets.push(target);
+  }
+
+  public update(): void {
     this.velocity.add(this.acceleration);
     this.velocity.multiply(this.friction);
     this.acceleration.divide(this.mass);

@@ -3,6 +3,7 @@ import { Seeker } from '@entity/Seeker';
 import { Coin } from '@entity/Coin';
 import { EntityManager } from './EntityManager';
 import { Map } from './Map';
+import { Entity } from '@entity/Entity';
 
 export class Spawner {
 
@@ -34,7 +35,9 @@ export class Spawner {
     }
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {
-      this.entityManager.addEntity(new Seeker(this.getPosition(target)));
+      var seeker: Entity = new Seeker(this.getPosition(target));
+      seeker.addTarget(this.entityManager.getEntity(0).position);
+      this.entityManager.addEntity(seeker);
     }
   }
 
