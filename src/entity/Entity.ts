@@ -21,7 +21,6 @@ export class Entity {
   public type: number;
   public index: number;
 
-
   constructor(position?: Vector, maxForce?: number, maxSpeed?: number, mass?: number, friction?: number, size?: number, color?: string) {
     this.position = position || new Vector();
     this.velocity = new Vector();

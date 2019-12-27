@@ -13,10 +13,12 @@ export class Tile extends Entity {
   }
 
   public render(color?: string): void {
-    context.beginPath();
-    context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
-    context.fillStyle = color || this.color;
-    context.fill();
-    context.closePath();
+    if(this.type == Types.Collider) {
+      context.beginPath();
+      context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
+      context.fillStyle = color || this.color;
+      context.fill();
+      context.closePath();
+    }
   }
 }

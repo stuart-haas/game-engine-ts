@@ -3,7 +3,7 @@ import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@render/SpriteSheet';
 import { SpriteAnimation } from '@render/SpriteAnimation';
 import { Map } from '@core/Map';
-import { Tile } from './Tile';
+import { Collision } from '../physics/Collision';
 
 export class Seeker extends Entity {
 
@@ -17,7 +17,7 @@ export class Seeker extends Entity {
   constructor(position: Vector, maxForce?: number, seekThreshold?: number) {
       super(position, maxForce);
       this.map = Map.getInstance();
-      this.seekThreshold = seekThreshold || 128;
+      this.seekThreshold = seekThreshold || 256;
       this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
   }
@@ -26,19 +26,16 @@ export class Seeker extends Entity {
 
     this.animation.update();
 
+    Collision.detect(this, 0, function(source: Entity, target: Entity) {
+      target.color = 'blue';
+      Collision.resolve(source, target);
+    });
+
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      
-      var points:Vector[] = Vector.pointsInRadius(this.position, this.seekThreshold, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-      this.neighbors = this.map.renderNeighbors(points);
-
-      var targetTile:Tile = this.map.tileByVector(target.x, target.y);
-
-      for(var i = 0; i < this.neighbors.length; i ++) {
-        var sourceTile:Entity = this.neighbors[i];
-        if(targetTile.position.x == sourceTile.position.x && 
-          targetTile.position.y == sourceTile.position.y )
-        {
+      this.distance = target.clone().subtract(this.position);
+      if(this.distance.length <= this.seekThreshold && this.distance.length > this.seekThreshold / 2) {
+        if(Vector.lineOfSight(this.map, this.position, target)) {
           this.distance = target.clone().subtract(this.position);
           this.force = this.distance.normalize().multiply(this.maxForce);
           this.acceleration.add(this.force);

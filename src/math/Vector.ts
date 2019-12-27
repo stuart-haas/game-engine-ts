@@ -1,3 +1,8 @@
+import { Shape } from '@render/Shape';
+import { Map } from '../core/Map';
+import { Tile } from '../entity/Tile';
+import { Types } from '../entity/Entity';
+
 export class Vector {
 
   public x: number = 0;
@@ -60,6 +65,20 @@ export class Vector {
     return Math.atan2(this.y, this.x);
   }
 
+  public get nx(): number {
+    if(this.length !== 0) {
+      return this.x / this.length;
+    }
+    return 0.001;
+  }
+
+  public get ny(): number {
+    if(this.length !== 0) {
+      return this.y / this.length;
+    }
+    return 0.001;
+  }
+
   public static fromAngle(angle: number, magnitude: number): Vector {
     return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
@@ -77,5 +96,26 @@ export class Vector {
       }
     }
     return points;
+  }
+
+  public static lineOfSight(map: Map, source: Vector, target: Vector, steps: number = 16, offset: Vector = new Vector(16, 16)): boolean {
+    var source:Vector = new Vector(source.x + offset.x, source.y + offset.y);
+    var target:Vector = new Vector(target.x + offset.x, target.y + offset.y);
+    var diff:Vector = target.clone().subtract(source);
+    var numberOfPoints:number = diff.length / steps;
+
+    for(var i = 0; i < numberOfPoints; i ++) {
+      var length = steps * i;
+      var px:number = target.x + diff.nx * -length;
+      var py:number = target.y + diff.ny * -length;
+      Shape.circle(new Vector(px, py), 2, 'blue');
+
+      var tile:Tile = map.tileByVector(px, py);
+      if(tile.type == Types.Collider) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

@@ -1,7 +1,7 @@
 import { Camera } from './Camera';
 import { Tile } from '@entity/Tile';
 import { Vector } from '@math/Vector';
-import { Types, Entity } from '@entity/Entity';
+import { Types } from '@entity/Entity';
 
 export class Map {
 
@@ -60,31 +60,8 @@ export class Map {
     }
   }
 
-  public renderNeighbors(points: Vector[], color:string = 'green'): Entity[] {
-    var tiles:Entity[] = [];
-    for(var i = 0; i < points.length; i ++) {
-      var point:Vector = points[i];
-      var tile: Tile = this.tileByVector(point.x, point.y);
-      if(tile !== undefined && tile.type !== Types.Collider) {
-        var newTile = new Tile(tile.position.x, tile.position.y, tile.size, tile.type);
-        newTile.color = color;
-        newTile.render();
-        tiles.push(newTile);
-        tiles = Map.removeDuplicateNeighbors(tiles);
-      }
-    }
-    return tiles;
-  }
-
-  public static removeDuplicateNeighbors(arr: Entity[]) {
-    return arr.filter((e, i) => {
-      return arr.findIndex((x) => {
-      return x.position.x == e.position.x && x.position.y == e.position.y;}) == i;
-    });
-  }
-
-  public findNeighors(source: Vector, distance: number = 0): Entity[] {
-    var neighbors:Entity[] = [];
+  public findNeighbors(source: Vector, distance: number = 0): Tile[] {
+    var neighbors:Tile[] = [];
     var left:number = source.x / this.tileSize - distance;
     var right:number = (source.x + this.tileSize) / this.tileSize + distance;
     var top:number = source.y / this.tileSize - distance;
@@ -104,6 +81,19 @@ export class Map {
     return neighbors;
   }
 
+  public tilesByVectors(points: Vector[]): Tile[] {
+    var tiles:Tile[] = [];
+    for(var i = 0; i < points.length; i ++) {
+      var point:Vector = points[i];
+      var tile: Tile = this.tileByVector(point.x, point.y);
+      if(tile !== undefined && tile.type !== Types.Collider) {
+        tiles.push(tile);
+        tiles = Map.removeDuplicateTiles(tiles);
+      }
+    }
+    return tiles;
+  }
+
   public tileByVector(x: number, y: number): Tile {
     var _x = Math.floor(x / this.tileSize);
     var _y = Math.floor(y / this.tileSize);
@@ -113,5 +103,12 @@ export class Map {
   public tileByIndex(x: number, y: number): Tile {
     if (x < 0 || x >= this.tiles.length || y < 0 || y >= this.tiles[0].length) return;
     return this.tiles[x][y];
+  }
+
+  public static removeDuplicateTiles(arr: Tile[]) {
+    return arr.filter((e, i) => {
+      return arr.findIndex((x) => {
+      return x.position.x == e.position.x && x.position.y == e.position.y;}) == i;
+    });
   }
 }

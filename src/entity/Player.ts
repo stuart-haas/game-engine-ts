@@ -37,6 +37,6 @@ export class Player extends Entity {
   }
 
   public render(): void {
-      Shape.rectangle(this.position, 32, 32, '#ff0');
+      Shape.rectangle(this.position, 32, 32, 'red');
   }
 }

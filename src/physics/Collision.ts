@@ -6,7 +6,7 @@ export class Collision {
 
   public static detect(source: Entity, distance: number = 0, callback?: Function): boolean {
     var map = Map.getInstance();
-    var neighbors: Entity[] = map.findNeighors(source.position, distance);
+    var neighbors: Entity[] = map.findNeighbors(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Entity = neighbors[i];

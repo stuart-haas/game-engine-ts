@@ -62,11 +62,8 @@ export class Engine {
 
       this.map.render();
 
-      var neighbors = Vector.pointsInRadius(this.player.position, 64, 8, new Vector(this.map.tileSize / 2, this.map.tileSize / 2));
-      this.map.renderNeighbors(neighbors);
-
       Collision.detect(this.player, 0, function(source: Entity, target: Entity) {
-        target.color = '#000';
+        target.color = 'green';
         Collision.resolve(source, target);
       });
       
