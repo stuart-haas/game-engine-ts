@@ -26,10 +26,10 @@ export class Collision {
     var rv2: Vector = new Vector(target.position.x, target.position.y);
     var v0: Vector = rv2.subtract(rv1);
 
-    if(Math.abs(v0.x) < map.tileSize / 2 + map.tileSize / 2) {
-      if(Math.abs(v0.y) < map.tileSize /2 + map.tileSize / 2) {
-        var overlapX:number = map.tileSize / 2 + map.tileSize / 2 - Math.abs(v0.x);
-        var overlapY:number = map.tileSize / 2 + map.tileSize / 2 - Math.abs(v0.y);
+    if(Math.abs(v0.x) < map.nodeSize / 2 + map.nodeSize / 2) {
+      if(Math.abs(v0.y) < map.nodeSize /2 + map.nodeSize / 2) {
+        var overlapX:number = map.nodeSize / 2 + map.nodeSize / 2 - Math.abs(v0.x);
+        var overlapY:number = map.nodeSize / 2 + map.nodeSize / 2 - Math.abs(v0.y);
 
         if(overlapX >= overlapY) {
           if(v0.y > 0) {

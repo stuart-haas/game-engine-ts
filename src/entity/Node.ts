@@ -1,7 +1,7 @@
 import { Types, Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 
-export class Tile extends Entity {
+export class Node extends Entity {
 
   public constructor(x: number, y: number, size: number, type?: Types) {
     super();

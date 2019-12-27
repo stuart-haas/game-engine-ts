@@ -1,7 +1,7 @@
 import { Shape } from '@render/Shape';
-import { Map } from '../core/Map';
-import { Tile } from '../entity/Tile';
-import { Types } from '../entity/Entity';
+import { Map } from '@core/Map';
+import { Node } from '@entity/Node';
+import { Types } from '@entity/Entity';
 
 export class Vector {
 
@@ -110,8 +110,8 @@ export class Vector {
       var py:number = target.y + diff.ny * -length;
       Shape.circle(new Vector(px, py), 2, 'blue');
 
-      var tile:Tile = map.tileByVector(px, py);
-      if(tile.type == Types.Collider) {
+      var node:Node = map.nodeByVector(px, py);
+      if(node.type == Types.Collider) {
         return false;
       }
     }
