@@ -3,7 +3,7 @@ import { context } from '@core/Canvas';
 
 export class Shape {
 
-  public static circle(position: Vector, radius: number, color: string): void {
+  public static circle(position:Vector, radius:number, color:string):void {
     context.fillStyle = color;
     context.beginPath();
     context.arc(position.x, position.y, radius, 0, Math.PI * 2);
@@ -11,7 +11,7 @@ export class Shape {
     context.fill();
   }
 
-  public static rectangle(position: Vector, width: number, height: number, color: string): void {
+  public static rectangle(position:Vector, width:number, height:number, color:string):void {
     context.fillStyle = color;
     context.beginPath();
     context.rect(position.x, position.y, width, height);

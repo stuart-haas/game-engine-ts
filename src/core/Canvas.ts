@@ -1,4 +1,4 @@
-export var context: CanvasRenderingContext2D;
+export var context:CanvasRenderingContext2D;
 
 export class Canvas {
 
@@ -9,8 +9,8 @@ export class Canvas {
    * Initialize WebGL, potentially using the canvas
    * @param elementId 
    */
-  public static initialize(elementId?: string): HTMLCanvasElement {
-    var canvas: HTMLCanvasElement;
+  public static initialize(elementId?:string):HTMLCanvasElement {
+    var canvas:HTMLCanvasElement;
 
     if(elementId !== undefined) {
       canvas = document.getElementById(elementId) as HTMLCanvasElement;

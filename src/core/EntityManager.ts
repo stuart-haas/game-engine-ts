@@ -3,9 +3,9 @@ import { Camera } from './Camera';
 
 export class EntityManager {
 
-  public entities: Entity[] = [];
+  public entities:Entity[] = [];
 
-  private static instance: EntityManager;
+  private static instance:EntityManager;
 
   public static getInstance() {
     if(!EntityManager.instance) {
@@ -18,16 +18,16 @@ export class EntityManager {
     
   }
 
-  public addEntity(entity: Entity): void {
+  public addEntity(entity:Entity):void {
     var index = this.entities.push(entity)  - 1;
     entity.index = index;
   }
 
-  public getEntity(index: number): Entity {
+  public getEntity(index:number):Entity {
     return this.entities[index];
   }
 
-  public removeEntity(index: number): void {
+  public removeEntity(index:number):void {
     this.entities.splice(index, 1);
   }
 

@@ -7,21 +7,20 @@ export enum Types{
 
 export class Entity {
 
-  public targets: Vector[] = [];
-  public neighbors: Entity[] = [];
-  public position: Vector;
-  public velocity: Vector;
-  public acceleration: Vector;
-  public maxForce: number;
-  public maxSpeed: number;
-  public mass: number;
-  public friction: number;
-  public size: number;
-  public color: string;
-  public type: number;
-  public index: number;
+  public targets:Vector[] = [];
+  public position:Vector;
+  public velocity:Vector;
+  public acceleration:Vector;
+  public maxForce:number;
+  public maxSpeed:number;
+  public mass:number;
+  public friction:number;
+  public size:number;
+  public color:string;
+  public type:number;
+  public index:number;
 
-  constructor(position?: Vector, maxForce?: number, maxSpeed?: number, mass?: number, friction?: number, size?: number, color?: string) {
+  constructor(position?:Vector, maxForce?:number, maxSpeed?:number, mass?:number, friction?:number, size?:number, color?:string) {
     this.position = position || new Vector();
     this.velocity = new Vector();
     this.acceleration = new Vector();
@@ -33,16 +32,16 @@ export class Entity {
     this.color = color || '#000';
   }
 
-  public addTarget(target: Vector): void {  
+  public addTarget(target:Vector):void {  
     this.targets.push(target);
   }
 
-  public update(): void {
+  public update():void {
     this.velocity.add(this.acceleration);
     this.velocity.multiply(this.friction);
     this.acceleration.divide(this.mass);
     this.position.add(this.velocity);
   }
 
-  public render(): void {};
+  public render():void {};
 }

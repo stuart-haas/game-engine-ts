@@ -7,14 +7,14 @@ import { Collision } from '../physics/Collision';
 
 export class Seeker extends Entity {
 
-  private map: Map;
-  private seekThreshold: number;
-  private distance: Vector;
-  private force: Vector;
-  private sprite: SpriteSheet;
-  private animation: SpriteAnimation;
+  private map:Map;
+  private seekThreshold:number;
+  private distance:Vector;
+  private force:Vector;
+  private sprite:SpriteSheet;
+  private animation:SpriteAnimation;
 
-  constructor(position: Vector, maxForce?: number, seekThreshold?: number) {
+  constructor(position:Vector, maxForce?:number, seekThreshold?:number) {
       super(position, maxForce);
       this.map = Map.getInstance();
       this.seekThreshold = seekThreshold || 256;
@@ -22,11 +22,11 @@ export class Seeker extends Entity {
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
   }
 
-  public update(): void {
+  public update():void {
 
     this.animation.update();
 
-    Collision.detect(this, 0, function(source: Entity, target: Entity) {
+    Collision.detect(this, 0, function(source:Entity, target:Entity) {
       target.color = 'blue';
       Collision.resolve(source, target);
     });
@@ -46,7 +46,7 @@ export class Seeker extends Entity {
     super.update();
   }
 
-  public render(): void {
+  public render():void {
     this.animation.render();
   }
 }

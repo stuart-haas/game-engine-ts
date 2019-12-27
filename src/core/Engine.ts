@@ -11,12 +11,12 @@ import { Vector } from '@math/Vector';
 
 export class Engine {
 
-  public canvas: HTMLCanvasElement;
-  public map: Map;
-  public camera: Camera;
-  public player: Entity;
-  public entityManager: EntityManager;
-  public spawner: Spawner;
+  public canvas:HTMLCanvasElement;
+  public map:Map;
+  public camera:Camera;
+  public player:Entity;
+  public entityManager:EntityManager;
+  public spawner:Spawner;
 
   private currentTime:number = 0;
   private lastTime:number = (new Date()).getTime();
@@ -34,7 +34,7 @@ export class Engine {
     this.player = this.entityManager.getEntity(0);
   }
 
-  public start(): void {
+  public start():void {
 
     this.canvas = Canvas.initialize();
 
@@ -46,7 +46,7 @@ export class Engine {
     this.loop();
   }
 
-  public loop(): void {
+  public loop():void {
 
     window.requestAnimationFrame(this.loop.bind(this));
 
@@ -62,7 +62,7 @@ export class Engine {
 
       this.map.render();
 
-      Collision.detect(this.player, 0, function(source: Entity, target: Entity) {
+      Collision.detect(this.player, 0, function(source:Entity, target:Entity) {
         target.color = 'green';
         Collision.resolve(source, target);
       });
@@ -77,7 +77,7 @@ export class Engine {
     }
   }
 
-  public resize(): void {
+  public resize():void {
     if(this.canvas !== undefined) {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.outerHeight;

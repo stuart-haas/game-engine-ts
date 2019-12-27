@@ -5,47 +5,47 @@ import { Types } from '@entity/Entity';
 
 export class Vector {
 
-  public x: number = 0;
-  public y: number = 0;
+  public x:number = 0;
+  public y:number = 0;
 
-  constructor(x: number = 0, y: number = 0) {
+  constructor(x:number = 0, y:number = 0) {
     this.x = x;
     this.y = y;
   }
 
-  public add(vector: Vector): Vector {
+  public add(vector:Vector):Vector {
     this.x += vector.x;
     this.y += vector.y;
     return this;
   }
 
-  public subtract(vector: Vector): Vector {
+  public subtract(vector:Vector):Vector {
     this.x -= vector.x
     this.y -= vector.y;
     return this;
   }
 
-  public multiply(value: number): Vector {
+  public multiply(value:number):Vector {
     return new Vector(this.x *= value, this.y *= value);
   }
 
-  public divide(value: number): Vector {
+  public divide(value:number):Vector {
     return new Vector(this.x /= value, this.y /= value);
   }
 
-  public dist(vector: Vector): number {
+  public dist(vector:Vector):number {
     var dx = vector.x - this.x;
     var dy = vector.y - this.y;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  public distSq(vector: Vector): number {
+  public distSq(vector:Vector):number {
     var dx = vector.x - this.x;
     var dy = vector.y - this.y;
     return dx * dx + dy * dy;
   }
 
-  public normalize(): Vector {
+  public normalize():Vector {
     if (this.length != 0) {
       this.x /= this.length;
       this.y /= this.length;
@@ -53,37 +53,37 @@ export class Vector {
     return this;
   }
 
-  public clone(): Vector {
+  public clone():Vector {
     return new Vector(this.x, this.y);
   }
 
-  public get length(): number {
+  public get length():number {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
-  public get angle(): number {
+  public get angle():number {
     return Math.atan2(this.y, this.x);
   }
 
-  public get nx(): number {
+  public get nx():number {
     if(this.length !== 0) {
       return this.x / this.length;
     }
     return 0.001;
   }
 
-  public get ny(): number {
+  public get ny():number {
     if(this.length !== 0) {
       return this.y / this.length;
     }
     return 0.001;
   }
 
-  public static fromAngle(angle: number, magnitude: number): Vector {
+  public static fromAngle(angle:number, magnitude:number):Vector {
     return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
 
-  public static pointsInRadius(source: Vector, radius: number, step: number = 4, offset: Vector = new Vector()): Vector[] {
+  public static pointsInRadius(source:Vector, radius:number, step:number = 4, offset:Vector = new Vector()):Vector[] {
     var points:Vector[] = [];
     var x = Math.round(source.x + offset.x);
     var y = Math.round(source.y + offset.y);
@@ -98,7 +98,7 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(map: Map, source: Vector, target: Vector, steps: number = 16, offset: Vector = new Vector(16, 16)): boolean {
+  public static lineOfSight(map:Map, source:Vector, target:Vector, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
     var source:Vector = new Vector(source.x + offset.x, source.y + offset.y);
     var target:Vector = new Vector(target.x + offset.x, target.y + offset.y);
     var diff:Vector = target.clone().subtract(source);

@@ -1,6 +1,6 @@
 import { Engine } from '@core/Engine';
 
-var engine: Engine;
+var engine:Engine;
 
 window.onload = function() {
   engine = new Engine();

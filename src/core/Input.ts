@@ -7,15 +7,15 @@ export class Input {
       window.onkeydown = this.onKeydown.bind(this);
   }
 
-  isDown(keyCode: number) {
+  isDown(keyCode:number) {
       return this.pressed[keyCode];
   }
     
-  onKeydown(event: KeyboardEvent) {
+  onKeydown(event:KeyboardEvent) {
       this.pressed[event.keyCode] = true;
   }
     
-  onKeyup(event: KeyboardEvent) {
+  onKeyup(event:KeyboardEvent) {
       delete this.pressed[event.keyCode];
   }
 }

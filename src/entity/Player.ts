@@ -14,9 +14,9 @@ enum Keys {
 
 export class Player extends Entity {
 
-  private map: Map;
-  private input: Input
-  private offset: Vector = new Vector(79, 79);
+  private map:Map;
+  private input:Input
+  private offset:Vector = new Vector(79, 79);
 
   public constructor() {
     super();
@@ -24,7 +24,7 @@ export class Player extends Entity {
     this.input = new Input();
   }
 
-  public update(): void {
+  public update():void {
     if (this.input.isDown(Keys.Up)) this.acceleration.y -= this.maxSpeed;
     if (this.input.isDown(Keys.Left)) this.acceleration.x -= this.maxSpeed;
     if (this.input.isDown(Keys.Down)) this.acceleration.y += this.maxSpeed;
@@ -36,7 +36,7 @@ export class Player extends Entity {
     this.position.y = Math2.clamp(this.position.y, this.offset.y, this.map.height - this.offset.y);
   }
 
-  public render(): void {
+  public render():void {
       Shape.rectangle(this.position, 32, 32, 'red');
   }
 }

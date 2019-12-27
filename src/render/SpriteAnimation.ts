@@ -4,17 +4,17 @@ import { context } from '@core/Canvas';
 
 export class SpriteAnimation {
 
-  private parent: Entity;
-  private spriteSheet: SpriteSheet;
-  private frameSpeed: number;
-  private startFrame: number;
-  private endFrame: number;
+  private parent:Entity;
+  private spriteSheet:SpriteSheet;
+  private frameSpeed:number;
+  private startFrame:number;
+  private endFrame:number;
 
-  private animationSequence: number[] = [];
-  private currentFrame: number = 0;
-  private counter: number = 0;
+  private animationSequence:number[] = [];
+  private currentFrame:number = 0;
+  private counter:number = 0;
 
-  constructor(parent: Entity, spritesheet: SpriteSheet, frameSpeed: number, startFrame: number, endFrame: number) {
+  constructor(parent:Entity, spritesheet:SpriteSheet, frameSpeed:number, startFrame:number, endFrame:number) {
       this.parent = parent;
       this.spriteSheet = spritesheet;
       this.frameSpeed = frameSpeed;

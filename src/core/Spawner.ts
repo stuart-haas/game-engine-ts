@@ -7,13 +7,13 @@ import { Entity } from '@entity/Entity';
 
 export class Spawner {
 
-  private map: Map;
-  private entityManager: EntityManager;
+  private map:Map;
+  private entityManager:EntityManager;
   private maxEntities = 10;
-  private coinSpawnChance: number = 100;
-  private seekerSpawnChance: number = 300;
+  private coinSpawnChance:number = 100;
+  private seekerSpawnChance:number = 300;
 
-  private static instance: Spawner;
+  private static instance:Spawner;
 
   public static getInstance() {
     if(!Spawner.instance) {
@@ -27,7 +27,7 @@ export class Spawner {
     this.entityManager = EntityManager.getInstance();
   }
 
-  update(target: Vector): void {
+  update(target:Vector):void {
     if(this.entityManager.entities.length == this.maxEntities) return;
 
     if (Math.floor(Math.random() * this.coinSpawnChance) == 0) {
@@ -35,13 +35,13 @@ export class Spawner {
     }
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {
-      var seeker: Entity = new Seeker(this.getPosition(target));
+      var seeker:Entity = new Seeker(this.getPosition(target));
       seeker.addTarget(this.entityManager.getEntity(0).position);
       this.entityManager.addEntity(seeker);
     }
   }
 
-  getPosition(target: Vector): Vector {
+  getPosition(target:Vector):Vector {
     var position = null;
     do {
       position = new Vector(Math.random() * this.map.width, Math.random() * this.map.height);
