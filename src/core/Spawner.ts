@@ -11,7 +11,7 @@ export class Spawner {
   private entityManager:EntityManager;
   private maxEntities = 10;
   private coinSpawnChance:number = 100;
-  private seekerSpawnChance:number = 300;
+  private seekerSpawnChance:number = 100;
 
   private static instance:Spawner;
 

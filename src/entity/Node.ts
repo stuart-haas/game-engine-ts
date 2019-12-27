@@ -3,30 +3,33 @@ import { context } from '@core/Canvas';
 
 export class Node extends Entity {
 
-  public neighbors:Entity[] = [];
-  public open:Entity[] = [];
-  public closed:Entity[] = [];
+  public gridX:number;
+  public gridY:number;
+  public neighbors:Node[] = [];
+  public parent:Node;
+  public gCost:number = 0;
+  public hCost:number = 0;
 
-  private gCost:number;
-  private fCost:number;
-  private hCost:number;
-
-  public constructor(x:number, y:number, size:number, type?:Types) {
+  public constructor(x:number = 0, y:number = 0, size:number = 32, type?:Types) {
     super();
-    this.position.x = x;
-    this.position.y = y;
+    this.gridX = x;
+    this.gridY = y;
+    this.position.x = x * size;
+    this.position.y = y * size;
     this.size = size;
     this.type = type;
     this.color = type == Types.Path ? 'red' :'blue';
   }
 
   public render(color?:string):void {
-    if(this.type == Types.Collider) {
-      context.beginPath();
-      context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
-      context.fillStyle = color || this.color;
-      context.fill();
-      context.closePath();
-    }
+    context.beginPath();
+    context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
+    context.fillStyle = color || this.color;
+    context.fill();
+    context.closePath();
+  }
+
+  public get fCost():number {
+    return this.gCost + this.hCost;
   }
 }

@@ -7,7 +7,6 @@ import { EntityManager } from './EntityManager';
 import { Collision } from '@physics/Collision';
 import { ONE } from './Level';
 import { Entity } from '@entity/Entity';
-import { Vector } from '@math/Vector';
 
 export class Engine {
 
@@ -69,7 +68,7 @@ export class Engine {
       
       this.spawner.update(this.player.position);
 
-      this.entityManager.update(); 
+      this.entityManager.update();
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 

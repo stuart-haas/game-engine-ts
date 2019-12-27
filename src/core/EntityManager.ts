@@ -24,6 +24,7 @@ export class EntityManager {
   }
 
   public getEntity(index:number):Entity {
+    if(!this.entities[index]) return;
     return this.entities[index];
   }
 

@@ -3,7 +3,8 @@ import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@render/SpriteSheet';
 import { SpriteAnimation } from '@render/SpriteAnimation';
 import { Map } from '@core/Map';
-import { Collision } from '../physics/Collision';
+import { Collision } from '@physics/Collision';
+import { AStar } from '@behavior/AStar';
 
 export class Seeker extends Entity {
 
@@ -13,6 +14,7 @@ export class Seeker extends Entity {
   private force:Vector;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
+  private aStar: AStar;
 
   constructor(position:Vector, maxForce?:number, seekThreshold?:number) {
       super(position, maxForce);
@@ -20,6 +22,7 @@ export class Seeker extends Entity {
       this.seekThreshold = seekThreshold || 256;
       this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
+      this.aStar = new AStar();
   }
 
   public update():void {
@@ -35,6 +38,7 @@ export class Seeker extends Entity {
       var target = this.targets[i];
       this.distance = target.clone().subtract(this.position);
       if(this.distance.length <= this.seekThreshold && this.distance.length > this.seekThreshold / 2) {
+        this.aStar.update(this.position, target);
         if(Vector.lineOfSight(this.map, this.position, target)) {
           this.distance = target.clone().subtract(this.position);
           this.force = this.distance.normalize().multiply(this.maxForce);

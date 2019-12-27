@@ -110,7 +110,7 @@ export class Vector {
       var py:number = target.y + diff.ny * -length;
       Shape.circle(new Vector(px, py), 2, 'blue');
 
-      var node:Node = map.nodeByVector(px, py);
+      var node:Node = map.nodeFromWorldPoint(new Vector(px, py));
       if(node.type == Types.Collider) {
         return false;
       }

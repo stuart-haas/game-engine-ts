@@ -9,6 +9,7 @@ export class Map {
   public nodeSize:number;
   public width:number = 0;
   public height:number = 0;
+  public path:Node[] = [];
 
   private static instance:Map;
 
@@ -34,7 +35,7 @@ export class Map {
       for (var x = 0, i = 0; i < rows; x += this.nodeSize, i++) {
         this.nodes[i] = [];
         for (var y = 0, j = 0; j < columns; y += this.nodeSize, j++) {
-          this.nodes[i][j] = new Node(x, y, this.nodeSize, Math.round(Math.random()));
+          this.nodes[i][j] = new Node(i, j, this.nodeSize, Math.round(Math.random()));
         }
       }
     } else {
@@ -43,7 +44,7 @@ export class Map {
       for (var x = 0, i = 0; i < map.length; x+= this.nodeSize, i++) {
         this.nodes[i] = [];
         for (var y = 0, j = 0; j < map[i].length; y += this.nodeSize, j++) {
-          this.nodes[i][j] = new Node(x, y, this.nodeSize, map[i][j]);
+          this.nodes[i][j] = new Node(i, j, this.nodeSize, map[i][j]);
         }
       }
     }
@@ -56,11 +57,16 @@ export class Map {
         if(Camera.inViewPort(node.position.x, node.position.y)) {
           node.render();
         }
+        if(this.path !== null) {
+          if(this.path.includes(node)) {
+            node.color = 'black';
+          }
+        }
       }
     }
   }
 
-  public findNeighbors(source:Vector, distance:number = 0):Node[] {
+  public getNeighborsByPoint(source:Vector, distance:number = 0):Node[] {
     var neighbors:Node[] = [];
     var left:number = source.x / this.nodeSize - distance;
     var right:number = (source.x + this.nodeSize) / this.nodeSize + distance;
@@ -74,38 +80,55 @@ export class Map {
 
     for(var i = left; i <= right; i ++) { 
       for(var j = top; j <= bottom; j ++) {
-        var node:Node = this.nodeByIndex(Math.floor(i), Math.floor(j));
+        var node:Node = this.nodeFromIndex(Math.floor(i), Math.floor(j));
         neighbors.push(node);
       }
     }
     return neighbors;
   }
 
-  public nodesByVectors(points:Vector[]):Node[] {
+  public getNeighborsByNode(node:Node):Node[] {
+    var neighbors:Node[] = [];
+    for(var x = -1; x <= 1; x ++) {
+      for(var y = -1; y <= 1; y ++) {
+        if(x == 0 && y == 0) {
+          continue;
+        }
+
+        var cx = node.gridX + x;
+        var cy = node.gridY + y;
+        
+        neighbors.push(this.nodeFromIndex(cx, cy));
+      }
+    }
+    return neighbors;
+  }
+
+  public nodeFromWorldPoints(points:Vector[]):Node[] {
     var nodes:Node[] = [];
     for(var i = 0; i < points.length; i ++) {
       var point:Vector = points[i];
-      var node:Node = this.nodeByVector(point.x, point.y);
+      var node:Node = this.nodeFromWorldPoint(point);
       if(node !== undefined && node.type !== Types.Collider) {
         nodes.push(node);
-        nodes = Map.removeDuplicateTiles(nodes);
+        nodes = Map.removeDuplicateNodes(nodes);
       }
     }
     return nodes;
   }
 
-  public nodeByVector(x:number, y:number):Node {
-    var _x = Math.floor(x / this.nodeSize);
-    var _y = Math.floor(y / this.nodeSize);
-    return this.nodeByIndex(_x, _y);
+  public nodeFromWorldPoint(point:Vector):Node {
+    var x = Math.floor(point.x / this.nodeSize);
+    var y = Math.floor(point.y / this.nodeSize);
+    return this.nodeFromIndex(x, y);
   }
 
-  public nodeByIndex(x:number, y:number):Node {
-    if (x < 0 || x >= this.nodes.length || y < 0 || y >= this.nodes[0].length) return;
+  public nodeFromIndex(x:number, y:number):Node {
+    if (x < 0 && x > this.width && y < 0 && y > this.height) return;
     return this.nodes[x][y];
   }
 
-  public static removeDuplicateTiles(arr:Node[]) {
+  public static removeDuplicateNodes(arr:Node[]) {
     return arr.filter((e, i) => {
       return arr.findIndex((x) => {
       return x.position.x == e.position.x && x.position.y == e.position.y;}) == i;
