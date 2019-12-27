@@ -59,7 +59,7 @@ export class Map {
         }
         if(this.path !== null) {
           if(this.path.includes(node)) {
-            node.color = 'black';
+            node.render('black');
           }
         }
       }

@@ -36,9 +36,9 @@ export class Seeker extends Entity {
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
+      this.aStar.update(this.position, target);
       this.distance = target.clone().subtract(this.position);
       if(this.distance.length <= this.seekThreshold && this.distance.length > this.seekThreshold / 2) {
-        this.aStar.update(this.position, target);
         if(Vector.lineOfSight(this.map, this.position, target)) {
           this.distance = target.clone().subtract(this.position);
           this.force = this.distance.normalize().multiply(this.maxForce);
