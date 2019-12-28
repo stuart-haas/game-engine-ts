@@ -14,7 +14,7 @@ export class Seeker extends Entity {
   private force:Vector;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
-  private aStar: AStar;
+  private astar: AStar;
 
   constructor(position:Vector, maxForce?:number, seekThreshold?:number) {
       super(position, maxForce);
@@ -22,7 +22,7 @@ export class Seeker extends Entity {
       this.seekThreshold = seekThreshold || 256;
       this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
-      this.aStar = new AStar();
+      this.astar = new AStar();
   }
 
   public update():void {
@@ -36,7 +36,7 @@ export class Seeker extends Entity {
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      this.aStar.update(this.position, target);
+      this.astar.search(this.position, target);
       this.distance = target.clone().subtract(this.position);
       if(this.distance.length <= this.seekThreshold && this.distance.length > this.seekThreshold / 2) {
         if(Vector.lineOfSight(this.map, this.position, target)) {

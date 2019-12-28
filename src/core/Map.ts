@@ -56,10 +56,10 @@ export class Map {
         let node:Node = this.nodes[i][j];
         if(Camera.inViewPort(node.position.x, node.position.y)) {
           node.render();
-        }
-        if(this.path !== null) {
-          if(this.path.includes(node)) {
-            node.render('black');
+          if(this.path !== null) {
+            if(this.path.includes(node)) {
+              node.render('black');
+            }
           }
         }
       }
@@ -95,8 +95,8 @@ export class Map {
           continue;
         }
 
-        var cx = node.gridX + x;
-        var cy = node.gridY + y;
+        var cx = node.gx + x;
+        var cy = node.gy + y;
         
         neighbors.push(this.nodeFromIndex(cx, cy));
       }
@@ -104,7 +104,7 @@ export class Map {
     return neighbors;
   }
 
-  public nodeFromWorldPoints(points:Vector[]):Node[] {
+  public nodesFromWorldPoints(points:Vector[]):Node[] {
     var nodes:Node[] = [];
     for(var i = 0; i < points.length; i ++) {
       var point:Vector = points[i];

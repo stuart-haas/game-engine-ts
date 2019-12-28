@@ -3,8 +3,8 @@ import { context } from '@core/Canvas';
 
 export class Node extends Entity {
 
-  public gridX:number;
-  public gridY:number;
+  public gx:number;
+  public gy:number;
   public neighbors:Node[] = [];
   public parent:Node;
   public gCost:number = 0;
@@ -12,8 +12,8 @@ export class Node extends Entity {
 
   public constructor(x:number = 0, y:number = 0, size:number = 32, type?:Types) {
     super();
-    this.gridX = x;
-    this.gridY = y;
+    this.gx = x;
+    this.gy = y;
     this.position.x = x * size;
     this.position.y = y * size;
     this.size = size;

@@ -11,11 +11,7 @@ export class AStar {
     this.map = Map.getInstance();
   }
 
-  public update(start:Vector, target:Vector):void {
-    this.findPath(start, target);
-  }
-
-  public findPath(start:Vector, target:Vector):void {
+  public search(start:Vector, target:Vector):void {
     var open:Node[] = [];
     var closed:Node[] = [];
 
@@ -38,7 +34,7 @@ export class AStar {
       closed.push(currentNode);
 
       if(currentNode == targetNode) {
-        this.retracePath(startNode, targetNode);
+        this.trace(startNode, targetNode);
         return;
       }
 
@@ -63,7 +59,7 @@ export class AStar {
     }
   }
 
-  public retracePath(startNode:Node, targetNode:Node):void {
+  private trace(startNode:Node, targetNode:Node):void {
     var path:Node[] = [];
     var currentNode:Node = targetNode;
 
@@ -77,7 +73,7 @@ export class AStar {
     this.map.path = path;
   }
 
-  public heuristic(nodeA:Node, nodeB:Node):number {
+  private heuristic(nodeA:Node, nodeB:Node):number {
     var dx:number = Math.abs(nodeA.position.x - nodeB.position.x);
     var dy:number = Math.abs(nodeA.position.y - nodeB.position.y);
     if(dx > dy) 
