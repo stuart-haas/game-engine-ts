@@ -7,6 +7,8 @@ import { EntityManager } from './EntityManager';
 import { Collision } from '@physics/Collision';
 import { ONE } from './Level';
 import { Entity } from '@entity/Entity';
+import { AStar } from '@behavior/AStar';
+import { Vector } from "@math/Vector";
 
 export class Engine {
 
@@ -23,6 +25,8 @@ export class Engine {
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
 
+  private aStar: AStar;
+
   public constructor() {
     this.map = Map.getInstance();
     this.camera = Camera.getInstance();
@@ -31,6 +35,8 @@ export class Engine {
 
     this.entityManager.addEntity(new Player());
     this.player = this.entityManager.getEntity(0);
+
+    this.aStar = new AStar();
   }
 
   public start():void {
@@ -66,9 +72,11 @@ export class Engine {
         Collision.resolve(source, target);
       });
       
-      this.spawner.update(this.player.position);
+      //this.spawner.update(this.player.position);
 
       this.entityManager.update();
+
+      this.aStar.search(this.player.position, new Vector(400, 200));
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
