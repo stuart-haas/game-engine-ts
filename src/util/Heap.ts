@@ -63,16 +63,16 @@ export class Heap<T extends IHeapItem<T>> {
   }
 
   public sortUp(item:T):void {
+    var parentIndex = Math.floor((item.heapIndex - 1) / 2);
 
-    while(item.heapIndex > 0) {
-      var parentIndex = Math.floor((item.heapIndex + 1) / 2) - 1;
+    while(parentIndex > 0) {
       var parentItem = this.items[parentIndex];
       if(item.compareTo(parentItem) > 0) {
         this.swap(item, parentItem);
       } else {
         break;
       }
-      parentIndex = Math.floor((item.heapIndex + 1) / 2) - 1;
+      parentIndex = Math.floor((item.heapIndex - 1) / 2);
     }
   }
 

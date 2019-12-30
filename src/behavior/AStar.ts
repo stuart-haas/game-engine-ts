@@ -2,6 +2,7 @@ import { Types } from '@entity/Entity';
 import { Vector } from '@math/Vector';
 import { Map } from '@core/Map';
 import { Node } from '@entity/Node';
+import { Heap } from '@util/Heap';
 
 export class AStar {
 
@@ -12,25 +13,16 @@ export class AStar {
   }
 
   public search(start:Vector, target:Vector):void {
-    var open:Node[] = [];
+    var open:Heap<Node> = new Heap<Node>();
     var closed:Node[] = [];
 
     var startNode:Node = this.map.nodeFromWorldPoint(start);
     var targetNode:Node = this.map.nodeFromWorldPoint(target);
 
-    var index = open.push(startNode) - 1;
+    open.push(startNode);
 
     while(open.length > 0) {
-      var currentNode:Node = open[0];
-      for(var i = 1; i < open.length; i++) {
-        if(open[i].fCost < currentNode.fCost || 
-          open[i].fCost == currentNode.fCost &&
-          open[i].hCost < currentNode.hCost) {
-          currentNode = open[i];
-        }
-      }
-
-      open.splice(index, 1);
+      var currentNode:Node = open.removeFirst();
       closed.push(currentNode);
 
       if(currentNode == targetNode) {

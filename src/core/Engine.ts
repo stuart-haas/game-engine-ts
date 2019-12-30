@@ -76,7 +76,7 @@ export class Engine {
 
       this.entityManager.update();
 
-      this.aStar.search(this.player.position, new Vector(400, 200));
+      this.aStar.search(this.player.position, new Vector(250, 500));
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
