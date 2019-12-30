@@ -1,7 +1,7 @@
 import { Types, Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
-import { IHeapItem } from '../util/Heap';
+import { IHeapItem } from '@util/Heap';
 
 export class Node extends Entity implements IHeapItem<Node> {
 
