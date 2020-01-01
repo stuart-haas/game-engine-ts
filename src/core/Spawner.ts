@@ -9,8 +9,8 @@ export class Spawner {
 
   private map:Map;
   private entityManager:EntityManager;
-  private maxEntities = 2;
-  private coinSpawnChance:number = 100;
+  private maxEntities = 5;
+  private coinSpawnChance:number = 500;
   private seekerSpawnChance:number = 100;
 
   private static instance:Spawner;
@@ -31,7 +31,7 @@ export class Spawner {
     if(this.entityManager.entities.length == this.maxEntities) return;
 
     if (Math.floor(Math.random() * this.coinSpawnChance) == 0) {
-      //this.entityManager.addEntity(new Coin(this.getPosition(target)));
+      this.entityManager.addEntity(new Coin(this.getPosition(target)));
     }
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {

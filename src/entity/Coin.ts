@@ -5,8 +5,8 @@ import { SpriteAnimation } from '@render/SpriteAnimation';
 
 export class Coin extends Entity {
 
-  private sprite:SpriteSheet
-  private animation:SpriteAnimation
+  private sprite:SpriteSheet;
+  private animation:SpriteAnimation;
 
   constructor(position:Vector) {
     super(position);

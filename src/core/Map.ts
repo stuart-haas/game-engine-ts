@@ -29,8 +29,8 @@ export class Map {
 
   public generate(map?:number[][]):void {
     if(map === undefined) {
-      var rows = ~~(this.width / this.nodeSize) + 1;
-      var columns = ~~(this.height / this.nodeSize) + 1;
+      var rows = ~~(this.width / this.nodeSize);
+      var columns = ~~(this.height / this.nodeSize);
       
       for (var x = 0, i = 0; i < rows; x += this.nodeSize, i++) {
         this.nodes[i] = [];

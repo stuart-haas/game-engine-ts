@@ -68,15 +68,12 @@ export class Engine {
       this.map.render();
 
       Collision.detect(this.player, 0, function(source:Entity, target:Entity) {
-        target.color = 'green';
         Collision.resolve(source, target);
       });
       
       //this.spawner.update(this.player.position);
 
       this.entityManager.update();
-
-      this.aStar.search(this.player.position, new Vector(250, 500));
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
