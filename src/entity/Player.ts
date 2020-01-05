@@ -42,7 +42,7 @@ export class Player extends Entity {
     super.update();
 
     if(this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y) {
-      //this.astar.search(this.position, new Vector(400, 400), Layer.Collision);
+      this.astar.search(this.position, new Vector(400, 400), Layer.Collision);
       Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
         Collision.resolve(source, target);
       });

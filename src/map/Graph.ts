@@ -62,7 +62,7 @@ export class Graph {
         for(let j = 0; j < nodes[i].length; j ++) {
           let node:Node = nodes[i][j];
           if(Camera.inViewPort(node.position.x, node.position.y)) {
-            if(node.index > -1) {
+            if(node.index > 0) {
               node.render();
             }
             if(this.path !== null) {
@@ -122,7 +122,7 @@ export class Graph {
 
   public nodeFromIndex(x:number, y:number, layer:Layer):Node {
     if (x < 0 || x > this.width || y < 0 || y > this.height) return;
-    return this.layers[-1][x][y];
+    return this.layers[layer][x][y];
   }
 
   public getMap():number[][] {

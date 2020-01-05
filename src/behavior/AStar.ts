@@ -34,7 +34,7 @@ export class AStar {
       var neighbors = this.graph.getNeighborsByNode(currentNode, layer);
       for(var j = 0; j < neighbors.length; j++) {
         var neighbor:Node = neighbors[j];
-        if(neighbor.index > -1 || closed.includes(neighbor)) {
+        if(neighbor.index > 0 || closed.includes(neighbor)) {
           continue;
         }
 
