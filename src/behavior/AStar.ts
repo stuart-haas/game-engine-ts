@@ -1,9 +1,8 @@
-import { Types } from '@entity/Entity';
 import { Vector } from '@math/Vector';
 import { Graph } from 'map/Graph';
 import { Node } from '@entity/Node';
 import { Heap } from '@util/Heap';
-import { Layer } from '../map/Layer';
+import { Layer } from '@map/Graph';
 
 export class AStar {
 

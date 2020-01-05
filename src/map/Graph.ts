@@ -19,7 +19,7 @@ export class Graph {
   public height:number;
   public path:Node[] = [];
 
-  map:number[][] = [];
+  graph:number[][] = [];
   layers: { [key:number]:Node[][] } = {};
 
   private static instance:Graph;
@@ -35,15 +35,15 @@ export class Graph {
     this.width = columns;
     this.height = rows;
     this.nodes = [];
-    this.map = [];
+    this.graph = [];
     this.nodeSize = nodeSize;
   }
 
   public load(path:string, callback:Function):void {
     axios.get(path).then((response:AxiosResponse) => {
       var data:string = response.data;
-      this.map = parse(data).data;
-      this.map = Array.rotate(this.map);
+      this.graph = parse(data).data;
+      this.graph = Array.rotate(this.graph);
       callback();
     })
   }
@@ -130,6 +130,6 @@ export class Graph {
   }
 
   public getMap():number[][] {
-    return this.map;
+    return this.graph;
   }
 }

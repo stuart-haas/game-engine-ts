@@ -8,7 +8,7 @@ import { AStar } from '@behavior/AStar';
 
 export class Seeker extends Entity {
 
-  private map:Graph;
+  private graph:Graph;
   private seekThreshold:number;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
@@ -16,7 +16,7 @@ export class Seeker extends Entity {
 
   constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 256) {
       super(position, maxAcceleration);
-      this.map = Graph.getInstance();
+      this.graph = Graph.getInstance();
       this.seekThreshold = seekThreshold;
       this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
@@ -37,7 +37,7 @@ export class Seeker extends Entity {
       this.astar.search(this.position, target, Layer.Collision);
       var distance:Vector = target.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold && distance.length > this.seekThreshold / 2) {
-        if(Vector.lineOfSight(this.map, this.position, target, Layer.Collision)) {
+        if(Vector.lineOfSight(this.graph, this.position, target, Layer.Collision)) {
           distance = target.clone().subtract(this.position);
           var force:Vector = distance.normalize().multiply(this.maxAcceleration);
           this.acceleration.add(force);

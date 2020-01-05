@@ -1,5 +1,5 @@
 import { Entity } from './Entity';
-import { Input } from '@core/Input';
+import { Input, Keys } from '@core/Input';
 import { Shape } from '@render/Shape';
 import { Mathf } from '@math/Mathf';
 import { Vector } from '@math/Vector';
@@ -7,16 +7,9 @@ import { Graph, Layer } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';
 
-enum Keys {
-  Up = 38,
-  Down = 40,
-  Left = 37,
-  Right = 39,
-}
-
 export class Player extends Entity {
 
-  private map:Graph;
+  private graph:Graph;
   private input:Input
   private offset:Vector = new Vector(79, 79);
   private lastPosition:Vector = new Vector();
@@ -24,7 +17,7 @@ export class Player extends Entity {
 
   public constructor() {
     super();
-    this.map = Graph.getInstance();
+    this.graph = Graph.getInstance();
     this.input = new Input();
     this.astar = new AStar();
   }
@@ -47,8 +40,8 @@ export class Player extends Entity {
       });
     }
 
-    this.position.x = Mathf.clamp(this.position.x, this.offset.x, this.map.width - this.offset.x);
-    this.position.y = Mathf.clamp(this.position.y, this.offset.y, this.map.height - this.offset.y);
+    this.position.x = Mathf.clamp(this.position.x, this.offset.x, this.graph.width - this.offset.x);
+    this.position.y = Mathf.clamp(this.position.y, this.offset.y, this.graph.height - this.offset.y);
   }
 
   public render():void {

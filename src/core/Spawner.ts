@@ -7,7 +7,7 @@ import { Entity } from '@entity/Entity';
 
 export class Spawner {
 
-  private map:Graph;
+  private graph:Graph;
   private entityManager:EntityManager;
   private maxEntities = 5;
   private coinSpawnChance:number = 500;
@@ -23,7 +23,7 @@ export class Spawner {
   }
 
   constructor() {
-    this.map = Graph.getInstance();
+    this.graph = Graph.getInstance();
     this.entityManager = EntityManager.getInstance();
   }
 
@@ -44,7 +44,7 @@ export class Spawner {
   getPosition(target:Vector):Vector {
     var position = null;
     do {
-      position = new Vector(Math.random() * this.map.width, Math.random() * this.map.height);
+      position = new Vector(Math.random() * this.graph.width, Math.random() * this.graph.height);
     }
     while(position.distSq(target) < 5 * 5);
     return position;
