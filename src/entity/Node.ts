@@ -2,8 +2,9 @@ import { Types, Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
+import { Layer } from '@map/Layer';
 
-export class Node extends Entity implements IHeapItem<Node> {
+export class Node extends Entity implements IHeapItem<Node>  {
 
   public gx:number;
   public gy:number;
@@ -13,15 +14,16 @@ export class Node extends Entity implements IHeapItem<Node> {
   public hCost:number = 0;
   public heapIndex:number;
 
-  public constructor(x:number = 0, y:number = 0, size:number = 32, type?:Types) {
+  public constructor(index:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
     super();
+    this.index = index;
     this.gx = x;
     this.gy = y;
     this.position.x = x * size;
     this.position.y = y * size;
     this.size = size;
-    this.type = type;
-    this.color = type == Types.Path ? 'red' :'blue';
+    this.layer = layer;
+    this.color = index == Layer.Collision ? 'red' : 'blue';
   }
 
   public render(color?:string):void {

@@ -2,24 +2,23 @@ import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@render/SpriteSheet';
 import { SpriteAnimation } from '@render/SpriteAnimation';
-import { Map } from '@core/Map';
+import { Graph } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';
+import { Layer } from '@map/Layer';
 
 export class Seeker extends Entity {
 
-  private map:Map;
+  private map:Graph;
   private seekThreshold:number;
-  private distance:Vector;
-  private force:Vector;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
   private astar: AStar;
 
-  constructor(position:Vector, maxForce?:number, seekThreshold?:number) {
-      super(position, maxForce);
-      this.map = Map.getInstance();
-      this.seekThreshold = seekThreshold || 256;
+  constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 256) {
+      super(position, maxAcceleration);
+      this.map = Graph.getInstance();
+      this.seekThreshold = seekThreshold;
       this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
       this.astar = new AStar();
@@ -29,20 +28,20 @@ export class Seeker extends Entity {
 
     this.animation.update();
 
-    Collision.detect(this, 0, function(source:Entity, target:Entity) {
+    Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
       target.color = 'blue';
       Collision.resolve(source, target);
     });
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      this.astar.search(this.position, target);
-      this.distance = target.clone().subtract(this.position);
-      if(this.distance.length <= this.seekThreshold && this.distance.length > this.seekThreshold / 2) {
-        if(Vector.lineOfSight(this.map, this.position, target)) {
-          this.distance = target.clone().subtract(this.position);
-          this.force = this.distance.normalize().multiply(this.maxForce);
-          this.acceleration.add(this.force);
+      this.astar.search(this.position, target, Layer.Collision);
+      var distance:Vector = target.clone().subtract(this.position);
+      if(distance.length <= this.seekThreshold && distance.length > this.seekThreshold / 2) {
+        if(Vector.lineOfSight(this.map, this.position, target, Layer.Collision)) {
+          distance = target.clone().subtract(this.position);
+          var force:Vector = distance.normalize().multiply(this.maxAcceleration);
+          this.acceleration.add(force);
         }
       }
     }

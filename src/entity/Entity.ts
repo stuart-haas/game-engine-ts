@@ -1,4 +1,5 @@
 import { Vector } from '@math/Vector';
+import { Layer } from '@map/Layer';
 
 export enum Types{
   Path = 0,
@@ -11,25 +12,25 @@ export class Entity {
   public position:Vector;
   public velocity:Vector;
   public acceleration:Vector;
-  public maxForce:number;
-  public maxSpeed:number;
+  public maxAcceleration:number;
+  public maxVelocity:number;
   public mass:number;
   public friction:number;
   public size:number;
   public color:string;
-  public type:number;
+  public layer:Layer;
   public index:number;
 
-  constructor(position?:Vector, maxForce?:number, maxSpeed?:number, mass?:number, friction?:number, size?:number, color?:string) {
-    this.position = position || new Vector();
+  constructor(position:Vector = new Vector(), maxAcceleration:number = .25, maxVelocity:number = 1, mass:number = 100, friction:number = .95, size:number = 32, color:string = '#000') {
+    this.position = position;
+    this.maxAcceleration = maxAcceleration;
+    this.maxVelocity = maxVelocity;
+    this.mass = mass;
+    this.friction = friction;
+    this.size = size;
+    this.color = color;
     this.velocity = new Vector();
     this.acceleration = new Vector();
-    this.maxForce = maxForce || .25;
-    this.maxSpeed = maxSpeed || 1;
-    this.mass = mass || 100;
-    this.friction = friction || .95
-    this.size = size || 16;
-    this.color = color || '#000';
   }
 
   public addTarget(target:Vector):void {  

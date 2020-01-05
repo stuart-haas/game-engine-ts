@@ -1,6 +1,6 @@
 import { Vector } from '@math/Vector';
-import { Math2 } from '@math/Math2';
-import { Map } from './Map';
+import { Mathf } from '@math/Mathf';
+import { Graph } from '../map/Graph';
 import { Canvas, context } from './Canvas';
 
 export class Camera {
@@ -13,7 +13,7 @@ export class Camera {
   public position:Vector = new Vector();
   public scrollSpeed:number;
 
-  private map:Map;
+  private map:Graph;
 
   private static instance:Camera;
 
@@ -25,7 +25,7 @@ export class Camera {
   }
 
   public constructor(scrollSpeed?:number) {
-    this.map = Map.getInstance();
+    this.map = Graph.getInstance();
     this.scrollSpeed = scrollSpeed || 0.05;
   }
 
@@ -37,8 +37,8 @@ export class Camera {
     this.position.x = this.position.x  + ((target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed;
     this.position.y = this.position.y  + ((target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed;
 
-    this.position.x = Math2.clamp(this.position.x, 0, this.map.width -  Canvas.WIDTH);
-    this.position.y = Math2.clamp(this.position.y, 0, this.map.height - Canvas.HEIGHT);
+    this.position.x = Mathf.clamp(this.position.x, 0, this.map.width -  Canvas.WIDTH);
+    this.position.y = Mathf.clamp(this.position.y, 0, this.map.height - Canvas.HEIGHT);
 
     context.translate(-this.position.x, -this.position.y);
 

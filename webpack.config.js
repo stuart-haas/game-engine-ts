@@ -13,6 +13,7 @@ module.exports = {
     sourceMapFilename: '[file].map',
     path: path.resolve(__dirname, 'dist')
   },
+  node: { fs: 'empty' },
   module: {
     rules: [{
       test: /\.ts?$/,

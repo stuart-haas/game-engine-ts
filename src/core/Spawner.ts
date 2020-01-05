@@ -2,12 +2,12 @@ import { Vector } from '@math/Vector';
 import { Seeker } from '@entity/Seeker';
 import { Coin } from '@entity/Coin';
 import { EntityManager } from './EntityManager';
-import { Map } from './Map';
+import { Graph } from '@map/Graph';
 import { Entity } from '@entity/Entity';
 
 export class Spawner {
 
-  private map:Map;
+  private map:Graph;
   private entityManager:EntityManager;
   private maxEntities = 5;
   private coinSpawnChance:number = 500;
@@ -23,7 +23,7 @@ export class Spawner {
   }
 
   constructor() {
-    this.map = Map.getInstance();
+    this.map = Graph.getInstance();
     this.entityManager = EntityManager.getInstance();
   }
 

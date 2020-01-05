@@ -1,7 +1,7 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
 import { Spawner } from './Spawner';
-import { Map } from './Map';
+import { Graph } from '../map/Graph';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Collision } from '@physics/Collision';
@@ -9,11 +9,12 @@ import { ONE } from './Level';
 import { Entity } from '@entity/Entity';
 import { AStar } from '@behavior/AStar';
 import { Vector } from "@math/Vector";
+import { Layer } from '@map/Layer';
 
 export class Engine {
 
   public canvas:HTMLCanvasElement;
-  public map:Map;
+  public graph:Graph;
   public camera:Camera;
   public player:Entity;
   public entityManager:EntityManager;
@@ -28,7 +29,7 @@ export class Engine {
   private aStar: AStar;
 
   public constructor() {
-    this.map = Map.getInstance();
+    this.graph = Graph.getInstance();
     this.camera = Camera.getInstance();
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
@@ -46,7 +47,9 @@ export class Engine {
     Canvas.WIDTH = this.canvas.width;
     Canvas.HEIGHT = this.canvas.height;
 
-    this.map.generate(ONE);
+    this.graph.load("resources/levels/Tilemap_Collision Layer.csv", () => {
+      this.graph.addNodes(this.graph.getMap(), null, Layer.Collision);
+    });
 
     this.loop();
   }
@@ -65,11 +68,7 @@ export class Engine {
       
       this.camera.update(this.player.position);
 
-      this.map.render();
-
-      Collision.detect(this.player, 0, function(source:Entity, target:Entity) {
-        Collision.resolve(source, target);
-      });
+      this.graph.render();
       
       //this.spawner.update(this.player.position);
 

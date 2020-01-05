@@ -1,23 +1,24 @@
 import { Types } from '@entity/Entity';
 import { Vector } from '@math/Vector';
-import { Map } from '@core/Map';
+import { Graph } from 'map/Graph';
 import { Node } from '@entity/Node';
 import { Heap } from '@util/Heap';
+import { Layer } from '../map/Layer';
 
 export class AStar {
 
-  private map:Map;
+  private graph:Graph;
 
   constructor() {
-    this.map = Map.getInstance();
+    this.graph = Graph.getInstance();
   }
 
-  public search(start:Vector, target:Vector):void {
+  public search(start:Vector, target:Vector, layer:Layer):void {
     var open:Heap<Node> = new Heap<Node>();
     var closed:Node[] = [];
 
-    var startNode:Node = this.map.nodeFromWorldPoint(start);
-    var targetNode:Node = this.map.nodeFromWorldPoint(target);
+    var startNode:Node = this.graph.nodeFromWorldPoint(start, layer);
+    var targetNode:Node = this.graph.nodeFromWorldPoint(target, layer);
 
     open.push(startNode);
 
@@ -30,10 +31,10 @@ export class AStar {
         return;
       }
 
-      var neighbors = this.map.getNeighborsByNode(currentNode);
+      var neighbors = this.graph.getNeighborsByNode(currentNode, layer);
       for(var j = 0; j < neighbors.length; j++) {
         var neighbor:Node = neighbors[j];
-        if(neighbor.type !== Types.Path || closed.includes(neighbor)) {
+        if(neighbor.index > -1 || closed.includes(neighbor)) {
           continue;
         }
 
@@ -62,7 +63,7 @@ export class AStar {
 
     path = path.reverse();
 
-    this.map.path = path;
+    this.graph.path = path;
   }
 
   private heuristic(nodeA:Node, nodeB:Node):number {

@@ -1,80 +1,96 @@
 import { Shape } from '@render/Shape';
-import { Map } from '@core/Map';
+import { Graph } from 'map/Graph';
 import { Node } from '@entity/Node';
-import { Types } from '@entity/Entity';
+import { Layer } from '@map/Layer';
 
 export class Vector {
 
-  public x:number = 0;
-  public y:number = 0;
+  private _x:number = 0;
+  private _y:number = 0;
 
   constructor(x:number = 0, y:number = 0) {
-    this.x = x;
-    this.y = y;
+    this._x = x;
+    this._y = y;
   }
 
   public add(vector:Vector):Vector {
-    this.x += vector.x;
-    this.y += vector.y;
+    this._x += vector._x;
+    this._y += vector._y;
     return this;
   }
 
   public subtract(vector:Vector):Vector {
-    this.x -= vector.x
-    this.y -= vector.y;
+    this._x -= vector._x
+    this._y -= vector._y;
     return this;
   }
 
   public multiply(value:number):Vector {
-    return new Vector(this.x *= value, this.y *= value);
+    return new Vector(this._x *= value, this._y *= value);
   }
 
   public divide(value:number):Vector {
-    return new Vector(this.x /= value, this.y /= value);
+    return new Vector(this._x /= value, this._y /= value);
   }
 
   public dist(vector:Vector):number {
-    var dx = vector.x - this.x;
-    var dy = vector.y - this.y;
+    var dx = vector._x - this._x;
+    var dy = vector._y - this._y;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
   public distSq(vector:Vector):number {
-    var dx = vector.x - this.x;
-    var dy = vector.y - this.y;
+    var dx = vector._x - this._x;
+    var dy = vector._y - this._y;
     return dx * dx + dy * dy;
   }
 
   public normalize():Vector {
     if (this.length != 0) {
-      this.x /= this.length;
-      this.y /= this.length;
+      this._x /= this.length;
+      this._y /= this.length;
     }
     return this;
   }
 
   public clone():Vector {
-    return new Vector(this.x, this.y);
+    return new Vector(this._x, this._y);
+  }
+
+  public set x(value:number) {
+    this._x = value;
+  }
+
+  public get x():number {
+    return Math.round(this._x);
+  }
+
+  public set y(value:number) {
+    this._y = value;
+  }
+
+  public get y():number {
+    return Math.round(this._y);
   }
 
   public get length():number {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
+    return Math.sqrt(this._x * this._x + this._y * this._y);
   }
 
   public get angle():number {
-    return Math.atan2(this.y, this.x);
+    return Math.atan2(this._y, this._x);
   }
 
   public get nx():number {
     if(this.length !== 0) {
-      return this.x / this.length;
+      return this._x / this.length;
     }
     return 0.001;
   }
 
   public get ny():number {
     if(this.length !== 0) {
-      return this.y / this.length;
+      return this._y / this.length;
     }
     return 0.001;
   }
@@ -85,8 +101,8 @@ export class Vector {
 
   public static pointsInRadius(source:Vector, radius:number, step:number = 4, offset:Vector = new Vector()):Vector[] {
     var points:Vector[] = [];
-    var x = Math.round(source.x + offset.x);
-    var y = Math.round(source.y + offset.y);
+    var x = Math.round(source._x + offset._x);
+    var y = Math.round(source._y + offset._y);
 
     for(var j = x - radius; j <= x + radius; j += step) {
       for(var k = y - radius; k <= y + radius; k += step) {
@@ -98,20 +114,20 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(map:Map, source:Vector, target:Vector, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
-    var source:Vector = new Vector(source.x + offset.x, source.y + offset.y);
-    var target:Vector = new Vector(target.x + offset.x, target.y + offset.y);
+  public static lineOfSight(map:Graph, source:Vector, target:Vector, layer:Layer, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
+    var source:Vector = new Vector(source._x + offset._x, source._y + offset._y);
+    var target:Vector = new Vector(target._x + offset._x, target._y + offset._y);
     var diff:Vector = target.clone().subtract(source);
     var numberOfPoints:number = diff.length / steps;
 
     for(var i = 0; i < numberOfPoints; i ++) {
       var length = steps * i;
-      var px:number = target.x + diff.nx * -length;
-      var py:number = target.y + diff.ny * -length;
+      var px:number = target._x + diff.nx * -length;
+      var py:number = target._y + diff.ny * -length;
       Shape.circle(new Vector(px, py), 2, 'blue');
 
-      var node:Node = map.nodeFromWorldPoint(new Vector(px, py));
-      if(node.type == Types.Collider) {
+      var node:Node = map.nodeFromWorldPoint(new Vector(px, py), layer);
+      if(node.layer == layer) {
         return false;
       }
     }

@@ -1,26 +1,26 @@
 import { Vector } from '@math/Vector';
-import { Map } from '@core/Map';
-import { Types, Entity } from '@entity/Entity';
+import { Graph } from 'map/Graph';
+import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
+import { Layer } from '@map/Layer';
 
 export class Collision {
 
-  public static detect(source:Entity, distance:number = 0, callback?:Function):boolean {
-    var map = Map.getInstance();
+  public static detect(source:Entity, layer:Layer, distance:number = 0, callback?:Function):boolean {
+    var map = Graph.getInstance();
     var neighbors:Node[] = map.getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
-      if(target.type == Types.Collider) {
+      if(target.index > -1 && target.layer == layer) {
         callback(source, target, map);
-        return true;
       }
     }
     return false;
   }
 
   public static resolve(source:Entity, target:Entity):boolean {
-    var map = Map.getInstance();
+    var map = Graph.getInstance();
     var colliding:boolean = false;
     
     var rv1:Vector = new Vector(source.position.x, source.position.y);

@@ -1,4 +1,4 @@
-export class Math2 {
+export class Mathf {
 
   public static random():number {
     if (arguments.length > 2) {
