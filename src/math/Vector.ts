@@ -1,5 +1,5 @@
-import { Shape } from '@render/Shape';
-import { Graph } from 'map/Graph';
+import { Shape } from '@draw/Shape';
+import { Graph } from '@map/Graph';
 import { Node } from '@entity/Node';
 import { Layer } from '@map/Graph';
 

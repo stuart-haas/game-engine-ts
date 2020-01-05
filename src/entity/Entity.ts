@@ -1,5 +1,5 @@
 import { Vector } from '@math/Vector';
-import { Layer } from '@map/Layer';
+import { Layer } from '@map/Graph';
 
 export enum Types{
   Path = 0,

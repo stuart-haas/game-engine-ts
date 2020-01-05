@@ -1,6 +1,6 @@
 import { Entity } from './Entity';
 import { Input, Keys } from '@core/Input';
-import { Shape } from '@render/Shape';
+import { Shape } from '@draw/Shape';
 import { Mathf } from '@math/Mathf';
 import { Vector } from '@math/Vector';
 import { Graph, Layer } from 'map/Graph';

@@ -1,8 +1,7 @@
 import { Vector } from '@math/Vector';
-import { Graph } from 'map/Graph';
+import { Graph, Layer } from 'map/Graph';
 import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
-import { Layer } from '@map/Layer';
 
 export class Collision {
 

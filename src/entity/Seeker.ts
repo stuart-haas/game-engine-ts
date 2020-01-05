@@ -1,7 +1,7 @@
 import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
-import { SpriteSheet } from '@render/SpriteSheet';
-import { SpriteAnimation } from '@render/SpriteAnimation';
+import { SpriteSheet } from '@draw/SpriteSheet';
+import { SpriteAnimation } from 'draw/SpriteAnimation';
 import { Graph, Layer } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';

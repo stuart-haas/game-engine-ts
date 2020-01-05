@@ -14,7 +14,7 @@
       "@entity/*": ["entity/*"],
       "@math/*": ["math/*"],
       "@physics/*": ["physics/*"],
-      "@render/*": ["render/*"],
+      "@draw/*": ["draw/*"],
       "@service/*": ["service/*"],
       "@util/*": ["util/*"]
     }

@@ -1,7 +1,7 @@
 import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
-import { SpriteSheet } from '@render/SpriteSheet';
-import { SpriteAnimation } from '@render/SpriteAnimation';
+import { SpriteSheet } from '@draw/SpriteSheet';
+import { SpriteAnimation } from 'draw/SpriteAnimation';
 
 export class Coin extends Entity {
 
