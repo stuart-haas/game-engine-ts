@@ -1,15 +1,11 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
 import { Spawner } from './Spawner';
-import { Graph } from '../map/Graph';
+import { Graph, Layer } from '@map/Graph';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
-import { Collision } from '@physics/Collision';
-import { ONE } from './Level';
 import { Entity } from '@entity/Entity';
 import { AStar } from '@behavior/AStar';
-import { Vector } from "@math/Vector";
-import { Layer } from '@map/Layer';
 
 export class Engine {
 

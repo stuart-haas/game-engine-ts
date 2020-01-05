@@ -12,7 +12,7 @@ export class Collision {
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
-      if(target.index > 0 && target.layer == layer) {
+      if(target.index > layer && target.layer == layer) {
         callback(source, target, map);
       }
     }

@@ -3,9 +3,8 @@ import { Input } from '@core/Input';
 import { Shape } from '@render/Shape';
 import { Mathf } from '@math/Mathf';
 import { Vector } from '@math/Vector';
-import { Graph } from 'map/Graph';
+import { Graph, Layer } from 'map/Graph';
 import { Collision } from '@physics/Collision';
-import { Layer } from '@map/Layer';
 import { AStar } from '@behavior/AStar';
 
 enum Keys {

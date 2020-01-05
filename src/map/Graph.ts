@@ -1,11 +1,15 @@
 import { Camera } from '../core/Camera';
 import { Node } from '@entity/Node';
 import { Vector } from '@math/Vector';
-import { Types } from '@entity/Entity';
 import axios, { AxiosResponse } from 'axios';
 import { parse } from 'papaparse';
-import { Layer } from './Layer';
 import { Array } from '@util/Array';
+
+export enum Layer {
+  Player,
+  Path = 4,
+  Collision = 0
+};
 
 export class Graph {
 
@@ -62,7 +66,7 @@ export class Graph {
         for(let j = 0; j < nodes[i].length; j ++) {
           let node:Node = nodes[i][j];
           if(Camera.inViewPort(node.position.x, node.position.y)) {
-            if(node.index > 0) {
+            if(node.index > Layer.Collision) {
               node.render();
             }
             if(this.path !== null) {

@@ -1,8 +1,8 @@
-import { Types, Entity } from '@entity/Entity';
+import { Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
-import { Layer } from '@map/Layer';
+import { Layer } from '@map/Graph';
 
 export class Node extends Entity implements IHeapItem<Node>  {
 

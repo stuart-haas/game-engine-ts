@@ -2,10 +2,9 @@ import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@render/SpriteSheet';
 import { SpriteAnimation } from '@render/SpriteAnimation';
-import { Graph } from 'map/Graph';
+import { Graph, Layer } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';
-import { Layer } from '@map/Layer';
 
 export class Seeker extends Entity {
 
