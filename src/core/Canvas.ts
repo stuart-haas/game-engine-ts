@@ -5,10 +5,6 @@ export class Canvas {
   public static HEIGHT:number;
   public static WIDTH:number;
 
-  /**
-   * Initialize WebGL, potentially using the canvas
-   * @param elementId 
-   */
   public static initialize(elementId?:string):HTMLCanvasElement {
     var canvas:HTMLCanvasElement;
 

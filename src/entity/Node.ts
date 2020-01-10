@@ -3,6 +3,7 @@ import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
 import { Layer } from '@map/Graph';
+import { SpriteSheet } from '../draw/SpriteSheet';
 
 export class Node extends Entity implements IHeapItem<Node>  {
 
@@ -13,9 +14,11 @@ export class Node extends Entity implements IHeapItem<Node>  {
   public gCost:number = 0;
   public hCost:number = 0;
   public heapIndex:number;
+  public spriteSheet:SpriteSheet;
 
-  public constructor(index:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
+  public constructor(spriteSheet:SpriteSheet, index:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
     super();
+    this.spriteSheet = spriteSheet;
     this.index = index;
     this.gx = x;
     this.gy = y;
@@ -27,11 +30,15 @@ export class Node extends Entity implements IHeapItem<Node>  {
   }
 
   public render(color?:string):void {
-    context.beginPath();
-    context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
-    context.fillStyle = color || this.color;
-    context.fill();
-    context.closePath();
+    if(color) {
+      context.beginPath();
+      context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
+      context.fillStyle = color || this.color;
+      context.fill();
+      context.closePath();
+    } else {
+      this.spriteSheet.render(this.index, this.position);
+    }
   }
 
   public get fCost():number {

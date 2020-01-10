@@ -10,7 +10,8 @@ export class Coin extends Entity {
 
   constructor(position:Vector) {
     super(position);
-    this.sprite = new SpriteSheet(this, "/resources/coin.png", 32, 32);
+    this.sprite = new SpriteSheet(this);
+    this.sprite.load("/resources/sprites/coin.png", 32, 32);
     this.animation = new SpriteAnimation(this, this.sprite, 3, 0, 7);
   }
 

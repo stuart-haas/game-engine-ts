@@ -22,8 +22,6 @@ export class Engine {
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
 
-  private aStar: AStar;
-
   public constructor() {
     this.graph = Graph.getInstance();
     this.camera = Camera.getInstance();
@@ -43,8 +41,12 @@ export class Engine {
     Canvas.WIDTH = this.canvas.width;
     Canvas.HEIGHT = this.canvas.height;
 
-    this.graph.load("resources/levels/Tilemap_Collision Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), null, Layer.Collision);
+    this.graph.load("resources/tilemaps/Tilemap_Path Layer.csv", () => {
+      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgras.png", Layer.Path);
+    });
+
+    this.graph.load("resources/tilemaps/Tilemap_Collision Layer.csv", () => {
+      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/fence.png", Layer.Collision);
     });
 
     this.loop();

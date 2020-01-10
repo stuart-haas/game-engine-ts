@@ -20,7 +20,6 @@ export class SpriteAnimation {
       this.frameSpeed = frameSpeed;
       this.startFrame = startFrame;
       this.endFrame = endFrame;
-
       this.currentFrame = 0; 
       this.counter = 0; 
 
@@ -42,9 +41,9 @@ export class SpriteAnimation {
    
       context.drawImage(
         this.spriteSheet.image,
-        col * this.spriteSheet.frameWidth, row * this.spriteSheet.frameHeight,
-        this.spriteSheet.frameWidth, this.spriteSheet.frameHeight,
+        col * this.spriteSheet.width, row * this.spriteSheet.height,
+        this.spriteSheet.width, this.spriteSheet.height,
         this.parent.position.x, this.parent.position.y,
-        this.spriteSheet.frameWidth, this.spriteSheet.frameHeight);
+        this.spriteSheet.width, this.spriteSheet.height);
   }
 }

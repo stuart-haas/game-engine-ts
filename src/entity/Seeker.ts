@@ -18,7 +18,8 @@ export class Seeker extends Entity {
       super(position, maxAcceleration);
       this.graph = Graph.getInstance();
       this.seekThreshold = seekThreshold;
-      this.sprite = new SpriteSheet(this, "/resources/seeker.png", 32, 32);
+      this.sprite = new SpriteSheet(this);
+      this.sprite.load("/resources/sprites/seeker.png", 32, 32);
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
       this.astar = new AStar();
   }

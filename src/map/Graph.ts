@@ -4,6 +4,7 @@ import { Vector } from '@math/Vector';
 import axios, { AxiosResponse } from 'axios';
 import { parse } from 'papaparse';
 import { Array } from '@util/Array';
+import { SpriteSheet } from '@draw/SpriteSheet';
 
 export enum Layer {
   Player,
@@ -49,12 +50,14 @@ export class Graph {
   }
 
 
-  public addNodes(graph:number[][], texturePath:string, layer:Layer):void {
+  public addNodes(graph:number[][], imagePath:string, layer:Layer):void {
     var nodes:Node[][] = [];
+    var spriteSheet:SpriteSheet = new SpriteSheet();
+    spriteSheet.load(imagePath, this.nodeSize, this.nodeSize);
     for(var x = 0; x < graph.length; x ++) {
       nodes[x] = [];
       for(var y = 0; y < graph[x].length; y ++) {
-        nodes[x][y] = new Node(graph[x][y], x, y, this.nodeSize, layer);
+        nodes[x][y] = new Node(spriteSheet, graph[x][y], x, y, this.nodeSize, layer);
         this.layers[layer] = nodes;
       }
     }
