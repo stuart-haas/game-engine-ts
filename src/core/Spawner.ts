@@ -2,7 +2,6 @@ import { Vector } from '@math/Vector';
 import { Seeker } from '@entity/Seeker';
 import { Coin } from '@entity/Coin';
 import { EntityManager } from './EntityManager';
-import { Graph } from '@map/Graph';
 import { Entity } from '@entity/Entity';
 import { Canvas } from './Canvas';
 

@@ -128,8 +128,9 @@ export class Vector {
       Shape.circle(new Vector(px, py), 4, 'blue');
 
       var node:Node = graph.nodeFromWorldPoint(new Vector(px, py), layer);
-      if(node.layer == layer) {
-        continue; 
+
+      if(node.index > layer) {
+        return false;
       }
     }
 
