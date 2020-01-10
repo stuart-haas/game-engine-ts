@@ -30,8 +30,6 @@ export class Engine {
 
     this.entityManager.addEntity(new Player());
     this.player = this.entityManager.getEntity(0);
-
-    this.aStar = new AStar();
   }
 
   public start():void {
@@ -42,7 +40,7 @@ export class Engine {
     Canvas.HEIGHT = this.canvas.height;
 
     this.graph.load("resources/tilemaps/Tilemap_Path Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgras.png", Layer.Path);
+      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgrass.png", Layer.Path);
     });
 
     this.graph.load("resources/tilemaps/Tilemap_Collision Layer.csv", () => {

@@ -28,7 +28,7 @@ export class SpriteSheet {
       this.columns = this.image.width / width;
       this.rows = this.image.height / height;
       this.framesPerRow = Math.floor(this.image.width / this.width);
-      callback(this);
+      if(callback) callback(this);
     }.bind(this);
   }
 

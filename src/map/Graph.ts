@@ -5,23 +5,23 @@ import axios, { AxiosResponse } from 'axios';
 import { parse } from 'papaparse';
 import { Array } from '@util/Array';
 import { SpriteSheet } from '@draw/SpriteSheet';
+import { Collision } from '../physics/Collision';
 
 export enum Layer {
   Player,
-  Path = 4,
+  Path = 1,
   Collision = 0
 };
 
 export class Graph {
 
-  public nodes:Node[][];
   public nodeSize:number;
   public width:number;
   public height:number;
   public path:Node[] = [];
 
   graph:number[][] = [];
-  layers: { [key:number]:Node[][] } = {};
+  layers:Node[][][] =[];
 
   private static instance:Graph;
 
@@ -35,7 +35,6 @@ export class Graph {
   public constructor(columns?:number, rows?:number, nodeSize:number=32) {
     this.width = columns;
     this.height = rows;
-    this.nodes = [];
     this.graph = [];
     this.nodeSize = nodeSize;
   }
@@ -58,13 +57,14 @@ export class Graph {
       nodes[x] = [];
       for(var y = 0; y < graph[x].length; y ++) {
         nodes[x][y] = new Node(spriteSheet, graph[x][y], x, y, this.nodeSize, layer);
-        this.layers[layer] = nodes;
       }
     }
+    this.layers.push(nodes);
   }
 
   public render():void {
-    for (let nodes of Object.values(this.layers)) {
+    for(var key in this.layers) {
+      var nodes = this.layers[key];
       for(let i = 0; i < nodes.length; i ++) {
         for(let j = 0; j < nodes[i].length; j ++) {
           let node:Node = nodes[i][j];
@@ -81,6 +81,7 @@ export class Graph {
         }
       }
     }
+
   }
 
   public getNeighborsByPoint(source:Vector, layer:Layer, distance:number = 0):Node[] {
