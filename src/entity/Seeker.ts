@@ -15,7 +15,7 @@ export class Seeker extends Entity {
   private animation:SpriteAnimation;
   private astar: AStar;
 
-  constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 256) {
+  constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 512) {
       super(position, maxAcceleration);
       this.graph = Graph.getInstance();
       this.seekThreshold = seekThreshold;
@@ -36,10 +36,10 @@ export class Seeker extends Entity {
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      //this.astar.search(this.position, target, LayerId.Collision);
       var distance:Vector = target.clone().subtract(this.position);
-      if(distance.length <= this.seekThreshold && distance.length > this.seekThreshold / 2) {
+      if(distance.length <= this.seekThreshold) {
         if(Vector.lineOfSight(this.graph, this.position, target, LayerId.Collision, true)) {
+          this.astar.search(this.position, target, LayerId.Collision);
           distance = target.clone().subtract(this.position);
           var force:Vector = distance.normalize().multiply(this.maxAcceleration);
           this.acceleration.add(force);
