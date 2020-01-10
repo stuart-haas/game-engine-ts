@@ -4,13 +4,13 @@ import { Coin } from '@entity/Coin';
 import { EntityManager } from './EntityManager';
 import { Graph } from '@map/Graph';
 import { Entity } from '@entity/Entity';
+import { Canvas } from './Canvas';
 
 export class Spawner {
 
-  private graph:Graph;
   private entityManager:EntityManager;
-  private maxEntities = 5;
-  private coinSpawnChance:number = 500;
+  private maxEntities = 2;
+  private coinSpawnChance:number = 300;
   private seekerSpawnChance:number = 100;
 
   private static instance:Spawner;
@@ -23,7 +23,6 @@ export class Spawner {
   }
 
   constructor() {
-    this.graph = Graph.getInstance();
     this.entityManager = EntityManager.getInstance();
   }
 
@@ -44,7 +43,7 @@ export class Spawner {
   getPosition(target:Vector):Vector {
     var position = null;
     do {
-      position = new Vector(Math.random() * this.graph.width, Math.random() * this.graph.height);
+      position = new Vector(Math.random() * Canvas.WIDTH, Math.random() * Canvas.HEIGHT);
     }
     while(position.distSq(target) < 5 * 5);
     return position;

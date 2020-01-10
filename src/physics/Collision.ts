@@ -1,17 +1,18 @@
 import { Vector } from '@math/Vector';
-import { Graph, Layer } from 'map/Graph';
+import { Graph, LayerId } from 'map/Graph';
 import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
+import { LayerIndex } from '@map/Graph';
 
 export class Collision {
 
-  public static detect(source:Entity, layer:Layer, distance:number = 0, callback?:Function):boolean {
+  public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:Function):boolean {
     var map = Graph.getInstance();
     var neighbors:Node[] = map.getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
-      if(target.index > layer && target.layer == layer) {
+      if(target.index >= LayerIndex[layer] && target.layer == layer) {
         callback(source, target, map);
       }
     }

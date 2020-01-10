@@ -2,7 +2,7 @@ import { Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
-import { Layer } from '@map/Graph';
+import { LayerId } from '@map/Graph';
 import { SpriteSheet } from '../draw/SpriteSheet';
 
 export class Node extends Entity implements IHeapItem<Node>  {
@@ -16,7 +16,7 @@ export class Node extends Entity implements IHeapItem<Node>  {
   public heapIndex:number;
   public spriteSheet:SpriteSheet;
 
-  public constructor(spriteSheet:SpriteSheet, index:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
+  public constructor(spriteSheet:SpriteSheet, index:number, x:number = 0, y:number = 0, size:number = 32, layer?:LayerId) {
     super();
     this.spriteSheet = spriteSheet;
     this.index = index;
@@ -26,7 +26,7 @@ export class Node extends Entity implements IHeapItem<Node>  {
     this.position.y = y * size;
     this.size = size;
     this.layer = layer;
-    this.color = index == Layer.Collision ? 'red' : 'blue';
+    this.color = index == LayerId.Collision ? 'red' : 'blue';
   }
 
   public render(color?:string):void {

@@ -19,8 +19,7 @@ export class EntityManager {
   }
 
   public addEntity(entity:Entity):void {
-    var index = this.entities.push(entity)  - 1;
-    entity.index = index;
+    this.entities.push(entity);
   }
 
   public getEntity(index:number):Entity {

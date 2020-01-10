@@ -5,13 +5,14 @@ import axios, { AxiosResponse } from 'axios';
 import { parse } from 'papaparse';
 import { Array } from '@util/Array';
 import { SpriteSheet } from '@draw/SpriteSheet';
-import { Collision } from '../physics/Collision';
 
-export enum Layer {
+export enum LayerId {
   Player,
   Path = 1,
   Collision = 0
 };
+
+export var LayerIndex:number[] = [];
 
 export class Graph {
 
@@ -49,7 +50,7 @@ export class Graph {
   }
 
 
-  public addNodes(graph:number[][], imagePath:string, layer:Layer):void {
+  public addNodes(graph:number[][], imagePath:string, layer:LayerId):void {
     var nodes:Node[][] = [];
     var spriteSheet:SpriteSheet = new SpriteSheet();
     spriteSheet.load(imagePath, this.nodeSize, this.nodeSize);
@@ -59,7 +60,8 @@ export class Graph {
         nodes[x][y] = new Node(spriteSheet, graph[x][y], x, y, this.nodeSize, layer);
       }
     }
-    this.layers.push(nodes);
+    var index = this.layers.push(nodes) - 1;
+    LayerIndex[layer] = index;
   }
 
   public render():void {
@@ -69,7 +71,7 @@ export class Graph {
         for(let j = 0; j < nodes[i].length; j ++) {
           let node:Node = nodes[i][j];
           if(Camera.inViewPort(node.position.x, node.position.y)) {
-            if(node.index > Layer.Collision) {
+            if(node.index > LayerId.Collision) {
               node.render();
             }
             if(this.path !== null) {
@@ -84,7 +86,7 @@ export class Graph {
 
   }
 
-  public getNeighborsByPoint(source:Vector, layer:Layer, distance:number = 0):Node[] {
+  public getNeighborsByPoint(source:Vector, layer:LayerId, distance:number = 0):Node[] {
     var neighbors:Node[] = [];
     var left:number = source.x / this.nodeSize - distance;
     var right:number = (source.x + this.nodeSize) / this.nodeSize + distance;
@@ -105,7 +107,7 @@ export class Graph {
     return neighbors;
   }
 
-  public getNeighborsByNode(node:Node, layer:Layer):Node[] {
+  public getNeighborsByNode(node:Node, layer:LayerId):Node[] {
     var neighbors:Node[] = [];
     for(var x = -1; x <= 1; x ++) {
       for(var y = -1; y <= 1; y ++) {
@@ -122,15 +124,15 @@ export class Graph {
     return neighbors;
   }
 
-  public nodeFromWorldPoint(point:Vector, layer:Layer):Node {
+  public nodeFromWorldPoint(point:Vector, layer:LayerId):Node {
     var x = Math.floor(point.x / this.nodeSize);
     var y = Math.floor(point.y / this.nodeSize);
     return this.nodeFromIndex(x, y, layer);
   }
 
-  public nodeFromIndex(x:number, y:number, layer:Layer):Node {
+  public nodeFromIndex(x:number, y:number, layer:LayerId):Node {
     if (x < 0 || x > this.width || y < 0 || y > this.height) return;
-    return this.layers[layer][x][y];
+    return this.layers[LayerIndex[layer]][x][y];
   }
 
   public getMap():number[][] {

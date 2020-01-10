@@ -3,7 +3,7 @@ import { Input, Keys } from '@core/Input';
 import { Shape } from '@draw/Shape';
 import { Mathf } from '@math/Mathf';
 import { Vector } from '@math/Vector';
-import { Graph, Layer } from 'map/Graph';
+import { Graph, LayerId } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';
 
@@ -34,8 +34,8 @@ export class Player extends Entity {
     super.update();
 
     if(this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y) {
-      this.astar.search(this.position, new Vector(400, 400), Layer.Collision);
-      Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
+      this.astar.search(this.position, new Vector(400, 400), LayerId.Collision);
+      Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
         Collision.resolve(source, target);
       });
     }

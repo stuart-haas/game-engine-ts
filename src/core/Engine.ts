@@ -1,11 +1,10 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
 import { Spawner } from './Spawner';
-import { Graph, Layer } from '@map/Graph';
+import { Graph, LayerId } from '@map/Graph';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
-import { AStar } from '@behavior/AStar';
 
 export class Engine {
 
@@ -40,11 +39,11 @@ export class Engine {
     Canvas.HEIGHT = this.canvas.height;
 
     this.graph.load("resources/tilemaps/Tilemap_Path Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgrass.png", Layer.Path);
+      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgrass.png", LayerId.Path);
     });
 
     this.graph.load("resources/tilemaps/Tilemap_Collision Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/fence.png", Layer.Collision);
+      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/fence.png", LayerId.Collision);
     });
 
     this.loop();
@@ -65,10 +64,10 @@ export class Engine {
       this.camera.update(this.player.position);
 
       this.graph.render();
-      
-      //this.spawner.update(this.player.position);
 
       this.entityManager.update();
+
+      this.spawner.update(this.player.position);
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 

@@ -2,9 +2,10 @@ import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@draw/SpriteSheet';
 import { SpriteAnimation } from 'draw/SpriteAnimation';
-import { Graph, Layer } from 'map/Graph';
+import { Graph, LayerId } from 'map/Graph';
 import { Collision } from '@physics/Collision';
 import { AStar } from '@behavior/AStar';
+import { Shape } from '@draw/Shape';
 
 export class Seeker extends Entity {
 
@@ -28,17 +29,17 @@ export class Seeker extends Entity {
 
     this.animation.update();
 
-    Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
+    Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
       target.color = 'blue';
       Collision.resolve(source, target);
     });
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      this.astar.search(this.position, target, Layer.Collision);
+      //this.astar.search(this.position, target, LayerId.Collision);
       var distance:Vector = target.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold && distance.length > this.seekThreshold / 2) {
-        if(Vector.lineOfSight(this.graph, this.position, target, Layer.Collision)) {
+        if(Vector.lineOfSight(this.graph, this.position, target, LayerId.Collision)) {
           distance = target.clone().subtract(this.position);
           var force:Vector = distance.normalize().multiply(this.maxAcceleration);
           this.acceleration.add(force);
