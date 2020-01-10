@@ -48,9 +48,9 @@ export class Camera {
 
   public static inViewPort(x:number, y:number):boolean {
     if(
-      x < Camera.OFFSET_X - Canvas.WIDTH / 2 ||
+      x < Camera.OFFSET_X - Canvas.WIDTH ||
       x > Camera.X + Canvas.WIDTH ||
-      y < Camera.OFFSET_Y - Canvas.HEIGHT / 2 ||
+      y < Camera.OFFSET_Y - Canvas.HEIGHT ||
       y > Camera.Y + Canvas.HEIGHT
     ) {
       return false;

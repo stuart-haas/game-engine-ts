@@ -4,6 +4,7 @@ import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
 import { LayerId } from '@map/Graph';
 import { SpriteSheet } from '../draw/SpriteSheet';
+import { Mathf } from '@math/Mathf';
 
 export class Node extends Entity implements IHeapItem<Node>  {
 
@@ -46,9 +47,9 @@ export class Node extends Entity implements IHeapItem<Node>  {
   }
 
   public compareTo(other:Node):number {
-    var compare:number = Array.compare(this.fCost, other.fCost);
+    var compare:number = Mathf.compare(this.fCost, other.fCost);
     if(compare == 0) {
-      compare = Array.compare(this.hCost, other.hCost);
+      compare = Mathf.compare(this.hCost, other.hCost);
     }
     return -compare;
   }

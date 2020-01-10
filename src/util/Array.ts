@@ -1,17 +1,22 @@
 export class Array {
 
-  public static compare(a:number, b:number):number {
-    if(a < b) return -1;
-    if(a == b) return 0;
-    if(a > b) return 1;
+  public static rotate(arr:any[][]):any[][] {
+    let result = [];
+    for(let i = 0; i < arr[0].length; i++) {
+        let row = arr.map(e => e[i]).reverse();
+        result.push(row);
+    }
+    return Array.clean(result);
   }
 
-  public static rotate(matrix:any[][]) {
-    let result = [];
-      for(let i = 0; i < matrix[0].length; i++) {
-          let row = matrix.map(e => e[i]).reverse();
-          result.push(row);
+  public static clean(arr:any[][]):any[][] {
+    for(let i = 0; i < arr.length; i++) {
+      for(let j = 0; j < arr[i].length; j++) {
+          if(arr[i][j] == undefined || arr[i][j] == "") {
+            arr[i].splice(j, 1);
+          }
       }
-      return result;
+    }
+    return arr;
   }
 }

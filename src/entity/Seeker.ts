@@ -39,7 +39,7 @@ export class Seeker extends Entity {
       //this.astar.search(this.position, target, LayerId.Collision);
       var distance:Vector = target.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold && distance.length > this.seekThreshold / 2) {
-        if(Vector.lineOfSight(this.graph, this.position, target, LayerId.Collision)) {
+        if(Vector.lineOfSight(this.graph, this.position, target, LayerId.Collision, true)) {
           distance = target.clone().subtract(this.position);
           var force:Vector = distance.normalize().multiply(this.maxAcceleration);
           this.acceleration.add(force);

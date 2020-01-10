@@ -114,7 +114,7 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(graph:Graph, source:Vector, target:Vector, layer:LayerId, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
+  public static lineOfSight(graph:Graph, source:Vector, target:Vector, layer:LayerId, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
     var source:Vector = new Vector(source._x + offset._x, source._y + offset._y);
     var target:Vector = new Vector(target._x + offset._x, target._y + offset._y);
     var diff:Vector = target.clone().subtract(source);
@@ -125,7 +125,9 @@ export class Vector {
       var px:number = target._x + diff.nx * -length;
       var py:number = target._y + diff.ny * -length;
 
-      Shape.circle(new Vector(px, py), 4, 'blue');
+      if(debug) {
+        Shape.circle(new Vector(px, py), 2, 'blue');
+      }
 
       var node:Node = graph.nodeFromWorldPoint(new Vector(px, py), layer);
 

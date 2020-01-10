@@ -49,15 +49,18 @@ export class Graph {
     })
   }
 
-
   public addNodes(graph:number[][], imagePath:string, layer:LayerId):void {
+    this.width = 0;
+    this.height = 0;
     var nodes:Node[][] = [];
     var spriteSheet:SpriteSheet = new SpriteSheet();
     spriteSheet.load(imagePath, this.nodeSize, this.nodeSize);
-    for(var x = 0; x < graph.length; x ++) {
+    for(let x = 0; x < graph.length; x ++) {
       nodes[x] = [];
-      for(var y = 0; y < graph[x].length; y ++) {
+      this.width = graph.length * this.nodeSize;
+      for(let y = 0; y < graph[x].length; y ++) {
         nodes[x][y] = new Node(spriteSheet, graph[x][y], x, y, this.nodeSize, layer);
+        this.height = graph[x].length * this.nodeSize;
       }
     }
     var index = this.layers.push(nodes) - 1;
@@ -83,7 +86,6 @@ export class Graph {
         }
       }
     }
-
   }
 
   public getNeighborsByPoint(source:Vector, layer:LayerId, distance:number = 0):Node[] {
@@ -109,8 +111,8 @@ export class Graph {
 
   public getNeighborsByNode(node:Node, layer:LayerId):Node[] {
     var neighbors:Node[] = [];
-    for(var x = -1; x <= 1; x ++) {
-      for(var y = -1; y <= 1; y ++) {
+    for(let x = -1; x <= 1; x ++) {
+      for(let y = -1; y <= 1; y ++) {
         if(x == 0 && y == 0) {
           continue;
         }
@@ -125,8 +127,8 @@ export class Graph {
   }
 
   public nodeFromWorldPoint(point:Vector, layer:LayerId):Node {
-    var x = Math.floor(point.x / this.nodeSize);
-    var y = Math.floor(point.y / this.nodeSize);
+    let x = Math.floor(point.x / this.nodeSize);
+    let y = Math.floor(point.y / this.nodeSize);
     return this.nodeFromIndex(x, y, layer);
   }
 
