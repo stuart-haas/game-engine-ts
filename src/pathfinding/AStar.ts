@@ -1,14 +1,14 @@
 import { Vector } from '@math/Vector';
-import { Graph } from 'map/Graph';
+import { Map } from '@core/Map';
 import { Node } from '@entity/Node';
 import { Heap } from '@util/Heap';
-import { LayerId } from '@map/Graph';
-import { LayerIndex } from '@map/Graph';
-import { PathRequestManager } from './PathRequestManager';
+import { LayerId } from '@core/Map';
+import { LayerIndex } from '@core/Map';
+import { PathManager } from './PathManager';
 
 export class AStar {
 
-  private static graph:Graph = Graph.getInstance();
+  private static map:Map = Map.getInstance();
 
   public static search(start:Vector, target:Vector, layer:LayerId):void {
     var open:Heap<Node> = new Heap<Node>();
@@ -17,8 +17,8 @@ export class AStar {
     var waypoints:Vector[];
     var pathSuccess:boolean = false;
 
-    var startNode:Node = this.graph.nodeFromWorldPoint(start, layer);
-    var targetNode:Node = this.graph.nodeFromWorldPoint(target, layer);
+    var startNode:Node = this.map.nodeFromWorldPoint(start, layer);
+    var targetNode:Node = this.map.nodeFromWorldPoint(target, layer);
 
     open.push(startNode);
 
@@ -31,7 +31,7 @@ export class AStar {
         break;
       }
 
-      var neighbors = this.graph.getNeighborsByNode(currentNode, layer);
+      var neighbors = this.map.getNeighborsByNode(currentNode, layer);
       for(var j = 0; j < neighbors.length; j++) {
         var neighbor:Node = neighbors[j];
         if(neighbor !== undefined) {
@@ -55,7 +55,7 @@ export class AStar {
     if(pathSuccess) {
       waypoints = this.trace(startNode, targetNode);
     }
-    PathRequestManager.finishedProcessingPath(waypoints, pathSuccess);
+    PathManager.finishedProcessingPath(waypoints, pathSuccess);
   }
 
   private static trace(startNode:Node, targetNode:Node):Vector[] {

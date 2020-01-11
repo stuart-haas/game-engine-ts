@@ -1,5 +1,5 @@
 import { Vector } from '@math/Vector';
-import { LayerId } from '@map/Graph';
+import { LayerId } from '@core/Map';
 
 export enum Types{
   Path = 0,
@@ -9,6 +9,7 @@ export enum Types{
 export class Entity {
 
   public targets:Vector[] = [];
+  public path:Vector[] = [];
   public position:Vector;
   public velocity:Vector;
   public acceleration:Vector;

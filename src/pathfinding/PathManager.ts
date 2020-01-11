@@ -1,20 +1,20 @@
 import { Vector } from '@math/Vector';
 import { AStar } from './AStar';
-import { LayerId } from '@map/Graph';
+import { LayerId } from '@core/Map';
 
 export interface PathRequestCallback {
   ( path:Vector[], success:boolean ) : void;
 }
 
-export class PathRequestManager {
+export class PathManager {
 
-  public static instance:PathRequestManager;
+  public static instance:PathManager;
 
   public static getInstance() {
-    if(!PathRequestManager.instance) {
-      PathRequestManager.instance = new PathRequestManager();
+    if(!PathManager.instance) {
+      PathManager.instance = new PathManager();
     }
-    return PathRequestManager.instance;
+    return PathManager.instance;
   }
 
   private pathRequestQueue:PathRequest[] = [];

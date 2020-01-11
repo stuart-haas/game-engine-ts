@@ -1,17 +1,16 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
 import { Spawner } from './Spawner';
-import { Graph, LayerId } from '@map/Graph';
+import { Map, LayerId } from '@core/Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
-import { PathRequestManager } from '../behavior/PathRequestManager';
-import { Vector } from "@math/Vector";
+import { MapResource } from './Map';
 
 export class Engine {
 
   public canvas:HTMLCanvasElement;
-  public graph:Graph;
+  public map:Map;
   public camera:Camera;
   public player:Entity;
   public entityManager:EntityManager;
@@ -24,13 +23,10 @@ export class Engine {
   private interval:number = 1000 / this.fps;
 
   public constructor() {
-    this.graph = Graph.getInstance();
+    this.map = Map.getInstance();
     this.camera = Camera.getInstance();
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
-
-    this.entityManager.addEntity(new Player());
-    this.player = this.entityManager.getEntity(0);
   }
 
   public start():void {
@@ -42,26 +38,24 @@ export class Engine {
     Canvas.WIDTH = this.canvas.width;
     Canvas.HEIGHT = this.canvas.height;
 
-    this.graph.load("resources/tilemaps/Tilemap_Path Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/tallgrass.png", LayerId.Path);
-    });
-
-    this.graph.load("resources/tilemaps/Tilemap_Collision Layer.csv", () => {
-      this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/fence.png", LayerId.Collision);
-
-      PathRequestManager.requestPath(new Vector(200, 200), new Vector(1200, 1200), self.onPathFound);
-    });
-
-    this.loop();
+    this.map.load([
+      new MapResource("resources/tilemaps/Tilemap_Path Layer.csv", "resources/tilesets/tallgrass.png", LayerId.Path), 
+      new MapResource("resources/tilemaps/Tilemap_Collision Layer.csv", "resources/tilesets/fence.png", LayerId.Collision)      
+    ]).then(data => {
+      self.ready();
+    })
   }
 
-  private onPathFound(path:Vector[], success:boolean):void {
-    console.log(path, success);
+  private ready():void {
+    this.entityManager.addEntity(new Player());
+    this.player = this.entityManager.getEntity(0);
+
+    this.update();
   }
 
-  public loop():void {
+  public update():void {
 
-    window.requestAnimationFrame(this.loop.bind(this));
+    window.requestAnimationFrame(this.update.bind(this));
 
     this.currentTime = (new Date()).getTime();
     this.delta = (this.currentTime - this.lastTime);
@@ -73,7 +67,7 @@ export class Engine {
       
       this.camera.update(this.player.position);
 
-      this.graph.render();
+      this.map.render();
 
       this.entityManager.update();
 

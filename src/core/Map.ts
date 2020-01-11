@@ -1,8 +1,8 @@
-import { Camera } from '../core/Camera';
+import { Camera } from './Camera';
 import { Node } from '@entity/Node';
 import { Vector } from '@math/Vector';
 import axios, { AxiosResponse } from 'axios';
-import { parse } from 'papaparse';
+import * as papaparse from 'papaparse';
 import { Array } from '@util/Array';
 import { SpriteSheet } from '@draw/SpriteSheet';
 
@@ -14,53 +14,67 @@ export enum LayerId {
 
 export var LayerIndex:number[] = [];
 
-export class Graph {
+export class MapResource {
+
+  public map:string;
+  public spriteSheet:string;
+  public layer:LayerId;
+
+  public constructor(map:string, spriteSheet:string, layer:LayerId) {
+    this.map = map;
+    this.spriteSheet = spriteSheet;
+    this.layer = layer;
+  }
+}
+
+export class Map {
+
+  private static instance:Map;
+
+  public static getInstance(columns?:number, rows?:number, nodeSize:number=32) {
+    if(!Map.instance) {
+      Map.instance = new Map(columns, rows, nodeSize);
+    }
+    return Map.instance;
+  }
 
   public nodeSize:number;
   public width:number;
   public height:number;
   public path:Node[] = [];
 
-  graph:number[][] = [];
-  layers:Node[][][] =[];
-
-  private static instance:Graph;
-
-  public static getInstance(columns?:number, rows?:number, nodeSize:number=32) {
-    if(!Graph.instance) {
-      Graph.instance = new Graph(columns, rows, nodeSize);
-    }
-    return Graph.instance;
-  }
+  private layers:Node[][][] = [];
 
   public constructor(columns?:number, rows?:number, nodeSize:number=32) {
     this.width = columns;
     this.height = rows;
-    this.graph = [];
     this.nodeSize = nodeSize;
   }
 
-  public load(path:string, callback:Function):void {
-    axios.get(path).then((response:AxiosResponse) => {
-      var data:string = response.data;
-      this.graph = parse(data).data;
-      this.graph = Array.rotate(this.graph);
-      callback();
-    })
+  public async load(objects:MapResource[]):Promise<AxiosResponse[]> {
+    return await axios.all(objects.map(object => {
+      return axios.get(object.map)
+        .then(response => {
+          var map:number[][] = papaparse.parse(response.data).data;
+          map = Array.rotate(map);
+          this.addNodes(map, object.spriteSheet, object.layer);
+          return papaparse.parse(response.data).data;
+        });   
+    }));
   }
 
-  public addNodes(graph:number[][], imagePath:string, layer:LayerId):void {
+  public addNodes(map:number[][], imagePath:string, layer:LayerId):void {
     this.width = 0;
     this.height = 0;
     var nodes:Node[][] = [];
     var spriteSheet:SpriteSheet = new SpriteSheet();
     spriteSheet.load(imagePath, this.nodeSize, this.nodeSize);
-    for(let x = 0; x < graph.length; x ++) {
+    for(let x = 0; x < map.length; x ++) {
       nodes[x] = [];
-      this.width = graph.length * this.nodeSize;
-      for(let y = 0; y < graph[x].length; y ++) {
-        nodes[x][y] = new Node(spriteSheet, graph[x][y], x, y, this.nodeSize, layer);
-        this.height = graph[x].length * this.nodeSize;
+      this.width = map.length * this.nodeSize;
+      for(let y = 0; y < map[x].length; y ++) {
+        nodes[x][y] = new Node(spriteSheet, map[x][y], x, y, this.nodeSize, layer);
+        this.height = map[x].length * this.nodeSize;
       }
     }
     var index = this.layers.push(nodes) - 1;
@@ -135,9 +149,5 @@ export class Graph {
   public nodeFromIndex(x:number, y:number, layer:LayerId):Node {
     if (x < 0 || x > this.width || y < 0 || y > this.height) return;
     return this.layers[LayerIndex[layer]][x][y];
-  }
-
-  public getMap():number[][] {
-    return this.graph;
   }
 }

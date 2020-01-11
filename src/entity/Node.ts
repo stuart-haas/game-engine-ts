@@ -2,7 +2,7 @@ import { Entity } from '@entity/Entity';
 import { context } from '@core/Canvas';
 import { Array } from '@util/Array';
 import { IHeapItem } from '@util/Heap';
-import { LayerId } from '@map/Graph';
+import { LayerId } from '@core/Map';
 import { SpriteSheet } from '../draw/SpriteSheet';
 import { Mathf } from '@math/Mathf';
 

@@ -2,20 +2,20 @@ import { Entity } from './Entity';
 import { Vector } from '@math/Vector';
 import { SpriteSheet } from '@draw/SpriteSheet';
 import { SpriteAnimation } from 'draw/SpriteAnimation';
-import { Graph, LayerId } from 'map/Graph';
+import { Map, LayerId } from '@core/Map';
 import { Collision } from '@physics/Collision';
-import { AStar } from '@behavior/AStar';
+import { AStar } from '@pathfinding/AStar';
 
 export class Seeker extends Entity {
 
-  private graph:Graph;
+  private map:Map;
   private seekThreshold:number;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
 
   constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 512) {
       super(position, maxAcceleration);
-      this.graph = Graph.getInstance();
+      this.map = Map.getInstance();
       this.seekThreshold = seekThreshold;
       this.sprite = new SpriteSheet(this);
       this.sprite.load("/resources/sprites/seeker.png", 32, 32);
@@ -35,7 +35,7 @@ export class Seeker extends Entity {
       var target = this.targets[i];
       var distance:Vector = target.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
-        if(Vector.lineOfSight(this.graph, this.position, target, LayerId.Collision, true)) {
+        if(Vector.lineOfSight(this.map, this.position, target, LayerId.Collision, true)) {
           AStar.search(this.position, target, LayerId.Collision);
           distance = target.clone().subtract(this.position);
           var force:Vector = distance.normalize().multiply(this.maxAcceleration);

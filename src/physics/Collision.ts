@@ -1,13 +1,13 @@
 import { Vector } from '@math/Vector';
-import { Graph, LayerId } from 'map/Graph';
+import { Map, LayerId } from '@core/Map';
 import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
-import { LayerIndex } from '@map/Graph';
+import { LayerIndex } from '@core/Map';
 
 export class Collision {
 
   public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:Function):boolean {
-    var map = Graph.getInstance();
+    var map = Map.getInstance();
     var neighbors:Node[] = map.getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
@@ -20,7 +20,7 @@ export class Collision {
   }
 
   public static resolve(source:Entity, target:Entity):boolean {
-    var map = Graph.getInstance();
+    var map = Map.getInstance();
     var colliding:boolean = false;
     
     var rv1:Vector = new Vector(source.position.x, source.position.y);
