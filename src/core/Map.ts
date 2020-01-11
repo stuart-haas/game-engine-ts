@@ -91,11 +91,6 @@ export class Map {
             if(node.index > LayerId.Collision) {
               node.render();
             }
-            if(this.path !== null) {
-              if(this.path.includes(node)) {
-                node.render('black');
-              }
-            }
           }
         }
       }
