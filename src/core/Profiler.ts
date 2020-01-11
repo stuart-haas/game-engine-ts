@@ -1,6 +1,6 @@
 export class Profiler {
 
-  public static FPS:number;
+  public static FPS:number = 0;
 
   private static instance:Profiler;
 

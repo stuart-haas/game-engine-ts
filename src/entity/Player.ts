@@ -6,6 +6,9 @@ import { Vector } from '@math/Vector';
 import { Map, LayerId } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
+import { Engine } from '../core/Engine';
+import { EventDispatcher } from '../events/EventDispatcher';
+import { deflate } from 'zlib';
 
 export class Player extends Entity {
 
@@ -13,16 +16,21 @@ export class Player extends Entity {
   private input:Input
   private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
+  private dispatcher:EventDispatcher;
 
   public constructor() {
     super();
-    this.map = Map.getInstance();
     this.input = new Input();
-    PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound);
+    this.map = Map.getInstance();
+    this.dispatcher = EventDispatcher.getInstance();
+    PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
   private onPathFound(path:Vector[], success:boolean):void {
     console.log(path, success);
+    this.dispatcher.subscribe("update", (delta) => {
+      //this.position.add(new Vector(1, 1));
+    });
   }
 
   public update():void {

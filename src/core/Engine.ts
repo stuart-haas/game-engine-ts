@@ -7,8 +7,11 @@ import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
 import { MapResource } from './Map';
 import { Profiler } from "./Profiler";
+import { EventDispatcher } from '../events/EventDispatcher';
 
 export class Engine {
+
+  public static DELTA:number = 0;
 
   public canvas:HTMLCanvasElement;
   public map:Map;
@@ -18,13 +21,14 @@ export class Engine {
   public spawner:Spawner;
   public profiler:Profiler;
 
-  private currentTime:number = 0;
-  private lastTime:number = (new Date()).getTime();
+  private currentTime:number = Date.now();
+  private lastTime:number = this.currentTime;
   private delta:number = 0;
+  private timer:number = Date.now();
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
-  private timer:number = Date.now();
   private frames:number = 0;
+  private dispatcher:EventDispatcher;
 
   public constructor() {
     this.map = Map.getInstance();
@@ -32,6 +36,14 @@ export class Engine {
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
     this.profiler = Profiler.getInstance();
+    this.dispatcher = EventDispatcher.getInstance();
+  }
+
+  public resize():void {
+    if(this.canvas !== undefined) {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.outerHeight;
+    }
   }
 
   public start():void {
@@ -58,15 +70,13 @@ export class Engine {
     this.update();
   }
 
-  public update():void {
+  private update():void {
 
-    window.requestAnimationFrame(this.update.bind(this));
-
-    this.currentTime = (new Date()).getTime();
+    this.currentTime = Date.now();
     this.delta = (this.currentTime - this.lastTime);
 
     if(this.delta > this.interval) {
-      
+
       context.clearRect(0, 0, Canvas.WIDTH, Canvas.HEIGHT);
       context.save();
       
@@ -76,7 +86,7 @@ export class Engine {
 
       this.entityManager.update();
 
-      this.spawner.update(this.player.position);
+      //this.spawner.update(this.player.position);
 
       this.frames ++;
 
@@ -88,16 +98,13 @@ export class Engine {
 
       this.profiler.update();
 
+      this.dispatcher.publish("update", this.delta);
+
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
       context.restore();
     }
-  }
 
-  public resize():void {
-    if(this.canvas !== undefined) {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.outerHeight;
-    }
+    window.requestAnimationFrame(this.update.bind(this));
   }
 }
