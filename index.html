@@ -3,19 +3,37 @@
 <head>
    <title>Typescript Game Engine</title>
    <link rel="icon" type="image/x-icon" href="favicon.png" />
+   <link "rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323&display=swap">
    <style>
       html, body {
          margin: 0;
          padding: 0;
          overflow: hidden;
+         font-family: 'VT323', monospace;
+         font-size: 26px;
       }
       canvas {
          width: 100%;
          height: 100%;
       }
+      .profiler {
+         position: fixed;
+         top: 0;
+         right: 0;
+         z-index: 9999;
+      }
+      .inner {
+         padding: .5em;
+         background: blue;
+      }
    </style>
 </head>
 <body>
+   <div class="profiler">
+      <div class="inner">
+         <div id="fps"><span class="label">FPS: </span><span class="value">0</span></div>
+      </div>
+   </div>
    <script type="text/javascript" src="main.js"></script>
 </body>
 </html>

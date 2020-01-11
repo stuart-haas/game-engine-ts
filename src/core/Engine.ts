@@ -9,6 +9,8 @@ import { MapResource } from './Map';
 
 export class Engine {
 
+  public static FPS:number;
+
   public canvas:HTMLCanvasElement;
   public map:Map;
   public camera:Camera;
@@ -21,6 +23,8 @@ export class Engine {
   private delta:number = 0;
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
+  private timer:number = Date.now();
+  private frames:number = 0;
 
   public constructor() {
     this.map = Map.getInstance();
@@ -72,6 +76,15 @@ export class Engine {
       this.entityManager.update();
 
       //this.spawner.update(this.player.position);
+
+      this.frames ++;
+
+      if(Date.now() - this.timer > 1000) {
+        this.timer += 1000;
+        Engine.FPS = this.frames;
+        document.getElementById('fps').getElementsByClassName("value")[0].innerHTML = Engine.FPS.toString();
+        this.frames = 0;
+      }
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
