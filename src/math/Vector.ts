@@ -53,6 +53,10 @@ export class Vector {
     return this;
   }
 
+  public equals(vector:Vector):boolean {
+    return this.x == vector.x && this.y == vector.y;
+  }
+
   public clone():Vector {
     return new Vector(this._x, this._y);
   }

@@ -67,7 +67,7 @@ export class Engine {
 
       this.entityManager.update();
 
-      this.spawner.update(this.player.position);
+      //this.spawner.update(this.player.position);
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
