@@ -5,6 +5,8 @@ import { Graph, LayerId } from '@map/Graph';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
+import { PathRequestManager } from '../behavior/PathRequestManager';
+import { Vector } from "@math/Vector";
 
 export class Engine {
 
@@ -33,6 +35,8 @@ export class Engine {
 
   public start():void {
 
+    const self = this;
+
     this.canvas = Canvas.initialize();
 
     Canvas.WIDTH = this.canvas.width;
@@ -44,9 +48,15 @@ export class Engine {
 
     this.graph.load("resources/tilemaps/Tilemap_Collision Layer.csv", () => {
       this.graph.addNodes(this.graph.getMap(), "/resources/tilesets/fence.png", LayerId.Collision);
+
+      PathRequestManager.requestPath(new Vector(200, 200), new Vector(1200, 1200), self.onPathFound);
     });
 
     this.loop();
+  }
+
+  private onPathFound(path:Vector[], success:boolean):void {
+    console.log(path, success);
   }
 
   public loop():void {

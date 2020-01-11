@@ -13,13 +13,11 @@ export class Player extends Entity {
   private input:Input
   private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
-  private astar: AStar;
 
   public constructor() {
     super();
     this.graph = Graph.getInstance();
     this.input = new Input();
-    this.astar = new AStar();
   }
 
   public update():void {
@@ -34,7 +32,6 @@ export class Player extends Entity {
     super.update();
 
     if(this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y) {
-      console.log(this.astar.search(this.position, new Vector(400, 400), LayerId.Collision));
       Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
         Collision.resolve(source, target);
       });

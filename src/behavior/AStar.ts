@@ -4,20 +4,18 @@ import { Node } from '@entity/Node';
 import { Heap } from '@util/Heap';
 import { LayerId } from '@map/Graph';
 import { LayerIndex } from '@map/Graph';
-import { context } from '../core/Canvas';
-import { Shape } from '@draw/Shape';
+import { PathRequestManager } from './PathRequestManager';
 
 export class AStar {
 
-  private graph:Graph;
+  private static graph:Graph = Graph.getInstance();
 
-  constructor() {
-    this.graph = Graph.getInstance();
-  }
-
-  public search(start:Vector, target:Vector, layer:LayerId):Vector[] {
+  public static search(start:Vector, target:Vector, layer:LayerId):void {
     var open:Heap<Node> = new Heap<Node>();
     var closed:Node[] = [];
+
+    var waypoints:Vector[];
+    var pathSuccess:boolean = false;
 
     var startNode:Node = this.graph.nodeFromWorldPoint(start, layer);
     var targetNode:Node = this.graph.nodeFromWorldPoint(target, layer);
@@ -29,7 +27,8 @@ export class AStar {
       closed.push(currentNode);
 
       if(currentNode == targetNode) {
-        return this.trace(startNode, targetNode);
+        pathSuccess = true;
+        break;
       }
 
       var neighbors = this.graph.getNeighborsByNode(currentNode, layer);
@@ -53,9 +52,13 @@ export class AStar {
         }
       }
     }
+    if(pathSuccess) {
+      waypoints = this.trace(startNode, targetNode);
+    }
+    PathRequestManager.finishedProcessingPath(waypoints, pathSuccess);
   }
 
-  private trace(startNode:Node, targetNode:Node):Vector[] {
+  private static trace(startNode:Node, targetNode:Node):Vector[] {
     var path:Node[] = [];
     var currentNode:Node = targetNode;
 
@@ -70,7 +73,7 @@ export class AStar {
     return waypoints;
   }
 
-  private waypoints(path:Node[]):Vector[] {
+  private static waypoints(path:Node[]):Vector[] {
     var waypoints:Vector[] = [];
     var directionOld:Vector = new Vector();
 
@@ -86,7 +89,7 @@ export class AStar {
     return waypoints;
   }
 
-  private heuristic(nodeA:Node, nodeB:Node):number {
+  private static heuristic(nodeA:Node, nodeB:Node):number {
     var dx:number = Math.abs(nodeA.position.x - nodeB.position.x);
     var dy:number = Math.abs(nodeA.position.y - nodeB.position.y);
     if(dx > dy) 
