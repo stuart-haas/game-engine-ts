@@ -4,16 +4,20 @@ import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
 import { LayerIndex } from '@core/Map';
 
+export interface CollisionCallback {
+  ( source:Entity, target:Entity ) : void;
+}
+
 export class Collision {
 
-  public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:Function):boolean {
-    var map = Map.getInstance();
-    var neighbors:Node[] = map.getNeighborsByPoint(source.position, distance);
+  public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:CollisionCallback):boolean {
+    var neighbors:Node[] = Map.getInstance().getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
       if(target.index >= LayerIndex[layer] && target.layer == layer) {
-        callback(source, target, map);
+        if(callback) callback(source, target);
+        return true;
       }
     }
     return false;

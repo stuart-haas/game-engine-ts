@@ -18,7 +18,7 @@ export class SpriteSheet {
       this.spriteArray = [];
   }
 
-  public load(path:string, width:number, height:number, callback?:Function):void {
+  public load(path:string, width:number, height:number):void {
     this.width = width;
     this.height = height;
 
@@ -28,7 +28,6 @@ export class SpriteSheet {
       this.columns = this.image.width / width;
       this.rows = this.image.height / height;
       this.framesPerRow = Math.floor(this.image.width / this.width);
-      if(callback) callback(this);
     }.bind(this);
   }
 
