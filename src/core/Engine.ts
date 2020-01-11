@@ -6,10 +6,9 @@ import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
 import { MapResource } from './Map';
+import { Profiler } from "./Profiler";
 
 export class Engine {
-
-  public static FPS:number;
 
   public canvas:HTMLCanvasElement;
   public map:Map;
@@ -17,6 +16,7 @@ export class Engine {
   public player:Entity;
   public entityManager:EntityManager;
   public spawner:Spawner;
+  public profiler:Profiler;
 
   private currentTime:number = 0;
   private lastTime:number = (new Date()).getTime();
@@ -31,6 +31,7 @@ export class Engine {
     this.camera = Camera.getInstance();
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
+    this.profiler = Profiler.getInstance();
   }
 
   public start():void {
@@ -75,16 +76,17 @@ export class Engine {
 
       this.entityManager.update();
 
-      //this.spawner.update(this.player.position);
+      this.spawner.update(this.player.position);
 
       this.frames ++;
 
       if(Date.now() - this.timer > 1000) {
         this.timer += 1000;
-        Engine.FPS = this.frames;
-        document.getElementById('fps').getElementsByClassName("value")[0].innerHTML = Engine.FPS.toString();
+        Profiler.FPS = this.frames;
         this.frames = 0;
       }
+
+      this.profiler.update();
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 
