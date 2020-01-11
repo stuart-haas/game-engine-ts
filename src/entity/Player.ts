@@ -11,7 +11,7 @@ export class Player extends Entity {
 
   private graph:Graph;
   private input:Input
-  private offset:Vector = new Vector(79, 79);
+  private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
   private astar: AStar;
 
@@ -40,8 +40,8 @@ export class Player extends Entity {
       });
     }
 
-    this.position.x = Mathf.clamp(this.position.x, this.offset.x, this.graph.width - this.offset.x);
-    this.position.y = Mathf.clamp(this.position.y, this.offset.y, this.graph.height - this.offset.y);
+    this.position.x = Mathf.clamp(this.position.x, this.offset.x, this.graph.width - this.offset.x * 2);
+    this.position.y = Mathf.clamp(this.position.y, this.offset.y, this.graph.height - this.offset.y * 2);
   }
 
   public render():void {
