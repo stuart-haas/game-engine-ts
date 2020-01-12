@@ -173,4 +173,16 @@ export class Vector {
     }
     return vector;
   }
+
+  public static evade(source:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, fleeThreshold:number):Vector {
+    var lookAheadTime:number = source.clone().subtract(targetPosition).length / maxVelocity;
+    var predictedTarget:Vector = targetPosition.clone().add(targetVelocity.clone().multiply(lookAheadTime));
+    return Vector.flee(source, predictedTarget, fleeThreshold);
+  }
+
+  public static pursue(source:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, seekThreshold:number):Vector {
+    var lookAheadTime:number = source.clone().subtract(targetPosition).length / maxVelocity;
+    var predictedTarget:Vector = targetPosition.clone().add(targetVelocity.clone().multiply(lookAheadTime));
+    return Vector.seek(source, predictedTarget, seekThreshold);
+  }
 }

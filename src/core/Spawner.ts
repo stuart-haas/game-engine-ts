@@ -34,7 +34,7 @@ export class Spawner {
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {
       var seeker:Entity = new Seeker(this.getPosition(target));
-      seeker.addTarget(this.entityManager.getEntity(0).position);
+      seeker.addTarget(this.entityManager.getEntity(0));
       this.entityManager.addEntity(seeker);
     }
   }

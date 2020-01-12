@@ -8,7 +8,7 @@ export enum Types{
 
 export class Entity {
 
-  public targets:Vector[] = [];
+  public targets:Entity[] = [];
   public path:Vector[] = [];
   public position:Vector;
   public velocity:Vector;
@@ -36,7 +36,7 @@ export class Entity {
     this.acceleration = new Vector();
   }
 
-  public addTarget(target:Vector):void {  
+  public addTarget(target:Entity):void {  
     this.targets.push(target);
   }
 

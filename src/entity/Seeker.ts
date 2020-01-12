@@ -13,7 +13,7 @@ export class Seeker extends Entity {
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
 
-  constructor(position:Vector, seekThreshold:number = 512) {
+  constructor(position:Vector, seekThreshold:number = 128) {
       super(position, .25, 5, 5);
       this.map = Map.getInstance();
       this.seekThreshold = seekThreshold;
@@ -32,10 +32,10 @@ export class Seeker extends Entity {
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
-      var distance:Vector = target.clone().subtract(this.position);
+      var distance:Vector = target.position.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
-        if(Vector.lineOfSight(this.map, this.position, target, LayerId.Collision, true)) {
-          this.acceleration = Vector.arrive(this.position, target, this.maxVelocity, 128);
+        if(Vector.lineOfSight(this.map, this.position, target.position, LayerId.Collision, true)) {
+          this.acceleration = Vector.evade(this.position, target.position, target.velocity, this.maxVelocity, 64);
         }
       }
     }
