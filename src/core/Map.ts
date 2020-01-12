@@ -6,21 +6,21 @@ import * as papaparse from 'papaparse';
 import { Array } from '@util/Array';
 import { SpriteSheet } from '@draw/SpriteSheet';
 
-export enum LayerId {
+export enum Layer {
   Player,
   Path = 1,
   Collision = 0
 };
 
-export var LayerIndex:number[] = [];
+export var Index:number[] = [];
 
 export class MapResource {
 
   public map:string;
   public spriteSheet:string;
-  public layer:LayerId;
+  public layer:Layer;
 
-  public constructor(map:string, spriteSheet:string, layer:LayerId) {
+  public constructor(map:string, spriteSheet:string, layer:Layer) {
     this.map = map;
     this.spriteSheet = spriteSheet;
     this.layer = layer;
@@ -63,7 +63,7 @@ export class Map {
     }));
   }
 
-  public addNodes(map:number[][], imagePath:string, layer:LayerId):void {
+  public addNodes(map:number[][], imagePath:string, layer:Layer):void {
     this.width = 0;
     this.height = 0;
     var nodes:Node[][] = [];
@@ -78,7 +78,7 @@ export class Map {
       }
     }
     var index = this.layers.push(nodes) - 1;
-    LayerIndex[layer] = index;
+    Index[layer] = index;
   }
 
   public render():void {
@@ -88,7 +88,7 @@ export class Map {
         for(let j = 0; j < nodes[i].length; j ++) {
           let node:Node = nodes[i][j];
           if(Camera.inViewPort(node.position.x, node.position.y)) {
-            if(node.index > LayerId.Collision) {
+            if(node.index > Layer.Collision) {
               node.render();
             }
           }
@@ -97,7 +97,7 @@ export class Map {
     }
   }
 
-  public getNeighborsByPoint(source:Vector, layer:LayerId, distance:number = 0):Node[] {
+  public getNeighborsByPoint(source:Vector, layer:Layer, distance:number = 0):Node[] {
     var neighbors:Node[] = [];
     var left:number = source.x / this.nodeSize - distance;
     var right:number = (source.x + this.nodeSize) / this.nodeSize + distance;
@@ -118,7 +118,7 @@ export class Map {
     return neighbors;
   }
 
-  public getNeighborsByNode(node:Node, layer:LayerId):Node[] {
+  public getNeighborsByNode(node:Node, layer:Layer):Node[] {
     var neighbors:Node[] = [];
     for(let x = -1; x <= 1; x ++) {
       for(let y = -1; y <= 1; y ++) {
@@ -135,14 +135,14 @@ export class Map {
     return neighbors;
   }
 
-  public nodeFromWorldPoint(point:Vector, layer:LayerId):Node {
+  public nodeFromWorldPoint(point:Vector, layer:Layer):Node {
     let x = Math.floor(point.x / this.nodeSize);
     let y = Math.floor(point.y / this.nodeSize);
     return this.nodeFromIndex(x, y, layer);
   }
 
-  public nodeFromIndex(x:number, y:number, layer:LayerId):Node {
+  public nodeFromIndex(x:number, y:number, layer:Layer):Node {
     if (x < 0 || x >= this.width / this.nodeSize || y < 0 || y >= this.height / this.nodeSize) return;
-    return this.layers[LayerIndex[layer]][x][y];
+    return this.layers[Index[layer]][x][y];
   }
 }

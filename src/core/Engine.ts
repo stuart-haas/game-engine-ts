@@ -1,7 +1,7 @@
 import { context, Canvas } from "./Canvas";
 import { Player } from '@entity/Player';
 import { Spawner } from './Spawner';
-import { Map, LayerId } from '@core/Map';
+import { Map, Layer } from '@core/Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
@@ -44,8 +44,8 @@ export class Engine {
     Canvas.HEIGHT = this.canvas.height;
 
     Map.instance.load([
-      new MapResource("resources/tilemaps/Tilemap_Path Layer.csv", "resources/tilesets/tallgrass.png", LayerId.Path), 
-      new MapResource("resources/tilemaps/Tilemap_Collision Layer.csv", "resources/tilesets/fence.png", LayerId.Collision)      
+      new MapResource("resources/tilemaps/Tilemap_Path Layer.csv", "resources/tilesets/tallgrass.png", Layer.Path), 
+      new MapResource("resources/tilemaps/Tilemap_Collision Layer.csv", "resources/tilesets/fence.png", Layer.Collision)      
     ]).then(data => {
       self.ready();
     })

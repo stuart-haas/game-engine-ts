@@ -1,8 +1,8 @@
 import { Vector } from '@math/Vector';
-import { Map, LayerId } from '@core/Map';
+import { Map, Layer } from '@core/Map';
 import { Entity } from '@entity/Entity';
 import { Node } from '@entity/Node';
-import { LayerIndex } from '@core/Map';
+import { Index } from '@core/Map';
 
 export interface CollisionCallback {
   ( source:Entity, target:Entity ) : void;
@@ -10,13 +10,13 @@ export interface CollisionCallback {
 
 export class Collision {
 
-  public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:CollisionCallback):boolean {
+  public static detect(source:Entity, layer:Layer, distance:number = 0, callback?:CollisionCallback):boolean {
     var neighbors:Node[] = Map.instance.getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
       if(target !== undefined) {
-        if(target.index >= LayerIndex[layer] && target.layer == layer) {
+        if(target.index >= Index[layer] && target.layer == layer) {
           if(callback) callback(source, target);
           return true;
         }

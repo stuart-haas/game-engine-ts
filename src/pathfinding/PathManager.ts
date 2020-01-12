@@ -1,6 +1,6 @@
 import { Vector } from '@math/Vector';
 import { AStar } from './AStar';
-import { LayerId } from '@core/Map';
+import { Layer } from '@core/Map';
 
 export interface PathRequestCallback {
   ( path:Vector[], success:boolean ) : void;
@@ -32,7 +32,7 @@ export class PathManager {
     if(!this.isProcessingPath && this.pathRequestQueue.length > 0) {
       this.currentPathRequest = this.pathRequestQueue.shift();
       this.isProcessingPath = true;
-      AStar.search(this.currentPathRequest.pathStart, this.currentPathRequest.pathEnd, LayerId.Collision);
+      AStar.search(this.currentPathRequest.pathStart, this.currentPathRequest.pathEnd, Layer.Collision);
     }
   }
 

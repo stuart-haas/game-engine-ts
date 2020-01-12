@@ -1,7 +1,7 @@
 import { Shape } from '@draw/Shape';
 import { Map } from '@core/Map';
 import { Node } from '@entity/Node';
-import { LayerId } from '@core/Map';
+import { Layer } from '@core/Map';
 
 export class Vector {
 
@@ -132,7 +132,7 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(source:Vector, target:Vector, layer:LayerId, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
+  public static lineOfSight(source:Vector, target:Vector, layer:Layer, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
     var source:Vector = new Vector(source._x + offset._x, source._y + offset._y);
     var target:Vector = new Vector(target._x + offset._x, target._y + offset._y);
     var diff:Vector = target.clone().subtract(source);

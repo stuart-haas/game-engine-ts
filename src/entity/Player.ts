@@ -2,7 +2,7 @@ import { Input, Keys } from '@core/Input';
 import { Shape } from '@draw/Shape';
 import { Mathf } from '@math/Mathf';
 import { Vector } from '@math/Vector';
-import { Map, LayerId } from '@core/Map';
+import { Map, Layer } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
 import { EventManager, Event } from '@events/EventManager';
@@ -54,7 +54,7 @@ export class Player extends Entity {
     super.update(delta);
 
     if(!this.lastPosition.equals(this.position)) {
-      Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
+      Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
         Collision.resolve(source, target);
       });
     }

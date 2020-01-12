@@ -2,13 +2,13 @@ import { Vector } from '@math/Vector';
 import { Map } from '@core/Map';
 import { Node } from '@entity/Node';
 import { Heap } from '@util/Heap';
-import { LayerId } from '@core/Map';
-import { LayerIndex } from '@core/Map';
+import { Layer } from '@core/Map';
+import { Index } from '@core/Map';
 import { PathManager } from './PathManager';
 
 export class AStar {
 
-  public static search(start:Vector, target:Vector, layer:LayerId):void {
+  public static search(start:Vector, target:Vector, layer:Layer):void {
     var open:Heap<Node> = new Heap<Node>();
     var closed:Node[] = [];
 
@@ -33,7 +33,7 @@ export class AStar {
       for(var j = 0; j < neighbors.length; j++) {
         var neighbor:Node = neighbors[j];
         if(neighbor !== undefined) {
-          if(neighbor.index >= LayerIndex[layer] || closed.includes(neighbor)) {
+          if(neighbor.index >= Index[layer] || closed.includes(neighbor)) {
             continue;
           }
 

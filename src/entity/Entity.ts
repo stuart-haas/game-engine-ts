@@ -1,5 +1,5 @@
 import { Vector } from '@math/Vector';
-import { LayerId } from '@core/Map';
+import { Layer } from '@core/Map';
 
 export enum Types{
   Path = 0,
@@ -20,7 +20,7 @@ export class Entity {
   public friction:number;
   public size:number;
   public color:string;
-  public layer:LayerId;
+  public layer:Layer;
   public index:number;
 
   constructor(position:Vector = new Vector(), maxAcceleration:number = 1, maxVelocity:number = 5, maxSpeed:number = 5, mass:number = 100, friction:number = .98, size:number = 32, color:string = '#000') {
