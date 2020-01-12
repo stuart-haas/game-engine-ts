@@ -26,16 +26,16 @@ export class Camera {
 
   public constructor(scrollSpeed?:number) {
     this.map = Map.getInstance();
-    this.scrollSpeed = scrollSpeed || 0.05;
+    this.scrollSpeed = scrollSpeed || 5;
   }
 
-  public update(target:Vector):void {
+  public update(delta:number, target:Vector):void {
     
     Camera.OFFSET_X = Math.round(target.x - Camera.X);
     Camera.OFFSET_Y = Math.round(target.y - Camera.Y);
 
-    this.position.x = this.position.x  + ((target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed;
-    this.position.y = this.position.y  + ((target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed;
+    this.position.x = this.position.x + ((target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed * delta;
+    this.position.y = this.position.y + ((target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed * delta;
 
     this.position.x = Mathf.clamp(this.position.x, 0, this.map.width -  Canvas.WIDTH);
     this.position.y = Mathf.clamp(this.position.y, 0, this.map.height - Canvas.HEIGHT);

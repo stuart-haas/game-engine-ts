@@ -23,7 +23,7 @@ export class Seeker extends Entity {
       this.animation = new SpriteAnimation(this, this.sprite, 5, 0, 5);
   }
 
-  public update():void {
+  public update(delta:number):void {
 
     this.lastPosition = this.position.clone();
 
@@ -35,7 +35,7 @@ export class Seeker extends Entity {
       });
     }
 
-    for(var i = 0; i < this.targets.length; i ++) {
+    for(let i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
       var distance:Vector = target.position.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
@@ -45,7 +45,7 @@ export class Seeker extends Entity {
       }
     }
 
-    super.update();
+    super.update(delta);
   }
 
   public render():void {

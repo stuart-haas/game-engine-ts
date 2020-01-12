@@ -31,11 +31,11 @@ export class EntityManager {
     this.entities.splice(index, 1);
   }
 
-  public update() {
+  public update(delta:number) {
     for(var i = 0; i < this.entities.length; i ++) {
       var entity = this.entities[i];
       if(Camera.inViewPort(entity.position.x, entity.position.y)) {
-        entity.update();
+        entity.update(delta);
         entity.render();
       }
     }

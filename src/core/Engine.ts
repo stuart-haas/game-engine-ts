@@ -71,18 +71,18 @@ export class Engine {
   private update():void {
 
     this.currentTime = Date.now();
-    this.delta = (this.currentTime - this.lastTime);
+    this.delta = (this.currentTime - this.lastTime) / 1000;
 
-    if(this.delta > this.interval) {
+    //if(this.delta > this.interval) {
 
       context.clearRect(0, 0, Canvas.WIDTH, Canvas.HEIGHT);
       context.save();
       
-      this.camera.update(this.player.position);
+      this.camera.update(this.delta, this.player.position);
 
       this.map.render();
 
-      this.entityManager.update();
+      this.entityManager.update(this.delta);
 
       this.spawner.update(this.player.position);
 
@@ -98,10 +98,10 @@ export class Engine {
 
       this.eventManager.publish(Event.UPDATE, this.delta);
 
-      this.lastTime = this.currentTime - (this.delta % this.interval);
+      this.lastTime = this.currentTime;
 
       context.restore();
-    }
+    //}
 
     window.requestAnimationFrame(this.update.bind(this));
   }

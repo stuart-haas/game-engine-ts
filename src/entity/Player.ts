@@ -21,7 +21,7 @@ export class Player extends Entity {
     this.input = new Input();
     this.map = Map.getInstance();
     this.eventDispatcher = EventManager.getInstance();
-    PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
+    //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
   private onPathFound(path:Vector[], success:boolean):void {
@@ -46,7 +46,7 @@ export class Player extends Entity {
     });
   }
 
-  public update():void {
+  public update(delta:number):void {
 
     this.lastPosition = this.position.clone();
     
@@ -55,7 +55,7 @@ export class Player extends Entity {
     if (this.input.isDown(Keys.Down)) this.acceleration.y += this.maxVelocity;
     if (this.input.isDown(Keys.Right)) this.acceleration.x += this.maxVelocity;
 
-    super.update();
+    super.update(delta);
 
     if(!this.lastPosition.equals(this.position)) {
       Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {

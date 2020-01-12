@@ -40,9 +40,9 @@ export class Entity {
     this.targets.push(target);
   }
 
-  public update():void {
+  public update(delta:number):void {
     this.acceleration.subtract(this.velocity).truncate(this.maxAcceleration).divide(this.mass);
-    this.velocity.add(this.acceleration).multiply(this.friction).truncate(this.maxSpeed);
+    this.velocity.add(this.acceleration).multiply(this.friction).truncate(this.maxSpeed).multiply(delta);
     this.position.add(this.velocity);
   }
 

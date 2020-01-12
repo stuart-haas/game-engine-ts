@@ -82,7 +82,7 @@ export class Map {
   }
 
   public render():void {
-    for(var key in this.layers) {
+    for(let key in this.layers) {
       var nodes = this.layers[key];
       for(let i = 0; i < nodes.length; i ++) {
         for(let j = 0; j < nodes[i].length; j ++) {
