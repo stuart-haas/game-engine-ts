@@ -85,7 +85,7 @@ export class Engine {
 
       this.entityManager.update();
 
-      //this.spawner.update(this.player.position);
+      this.spawner.update(this.player.position);
 
       this.frames ++;
 

@@ -13,8 +13,8 @@ export class Seeker extends Entity {
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
 
-  constructor(position:Vector, maxAcceleration?:number, seekThreshold:number = 512) {
-      super(position, maxAcceleration);
+  constructor(position:Vector, seekThreshold:number = 512) {
+      super(position, .25, 5, 5);
       this.map = Map.getInstance();
       this.seekThreshold = seekThreshold;
       this.sprite = new SpriteSheet(this);
@@ -27,7 +27,6 @@ export class Seeker extends Entity {
     this.animation.update();
 
     Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
-      target.color = 'blue';
       Collision.resolve(source, target);
     });
 
@@ -36,10 +35,7 @@ export class Seeker extends Entity {
       var distance:Vector = target.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
         if(Vector.lineOfSight(this.map, this.position, target, LayerId.Collision, true)) {
-          AStar.search(this.position, target, LayerId.Collision);
-          distance = target.clone().subtract(this.position);
-          var force:Vector = distance.normalize().multiply(this.maxAcceleration);
-          this.acceleration.add(force);
+          this.acceleration = Vector.seek(this.position, target, this.maxVelocity);
         }
       }
     }

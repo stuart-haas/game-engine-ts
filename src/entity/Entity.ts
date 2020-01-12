@@ -23,7 +23,7 @@ export class Entity {
   public layer:LayerId;
   public index:number;
 
-  constructor(position:Vector = new Vector(), maxAcceleration:number = 1, maxVelocity:number = 10, maxSpeed:number = 20, mass:number = 100, friction:number = .98, size:number = 32, color:string = '#000') {
+  constructor(position:Vector = new Vector(), maxAcceleration:number = 1, maxVelocity:number = 5, maxSpeed:number = 5, mass:number = 100, friction:number = .98, size:number = 32, color:string = '#000') {
     this.position = position;
     this.maxAcceleration = maxAcceleration;
     this.maxVelocity = maxVelocity;

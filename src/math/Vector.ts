@@ -52,6 +52,12 @@ export class Vector {
     }
     return this;
   }
+
+  public reverse():Vector {
+    this._x -= this._x;
+    this._y -= this._y;
+    return this;
+  }
   
   public truncate(max:number):Vector {
     if(this.length > max) {
@@ -150,7 +156,11 @@ export class Vector {
     return true;
   }
 
-  public static moveTo(source:Vector, target:Vector, maxVelocity:number):Vector {
+  public static seek(source:Vector, target:Vector, maxVelocity:number):Vector {
     return target.clone().subtract(source).normalize().multiply(maxVelocity);
+  }
+
+  public static flee(source:Vector, target:Vector, maxVelocity:number):Vector {
+    return source.clone().subtract(target).normalize().multiply(maxVelocity);
   }
 }

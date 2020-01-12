@@ -22,7 +22,7 @@ export class Player extends Entity {
     this.input = new Input();
     this.map = Map.getInstance();
     this.eventDispatcher = EventDispatcher.getInstance();
-    PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
+    //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
   private onPathFound(path:Vector[], success:boolean):void {
@@ -42,7 +42,7 @@ export class Player extends Entity {
       }
 
       if(pathIndex < path.length) {
-        this.acceleration = Vector.moveTo(this.position, target, this.maxVelocity);
+        this.acceleration = Vector.seek(this.position, target, this.maxVelocity);
       }
     });
   }
