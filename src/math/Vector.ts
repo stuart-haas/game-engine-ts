@@ -149,8 +149,10 @@ export class Vector {
 
       var node:Node = map.nodeFromWorldPoint(new Vector(px, py), layer);
 
-      if(node.index > layer) {
-        return false;
+      if(node !== undefined) {
+        if(node.index > layer) {
+          return false;
+        }
       }
     }
     return true;

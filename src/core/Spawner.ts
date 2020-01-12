@@ -8,9 +8,9 @@ import { Canvas } from './Canvas';
 export class Spawner {
 
   private entityManager:EntityManager;
-  private maxEntities = 2;
+  private maxEntities = 100;
   private coinSpawnChance:number = 300;
-  private seekerSpawnChance:number = 100;
+  private seekerSpawnChance:number = 10;
 
   private static instance:Spawner;
 
@@ -29,7 +29,7 @@ export class Spawner {
     if(this.entityManager.entities.length == this.maxEntities) return;
 
     if (Math.floor(Math.random() * this.coinSpawnChance) == 0) {
-      this.entityManager.addEntity(new Coin(this.getPosition(target)));
+      //this.entityManager.addEntity(new Coin(this.getPosition(target)));
     }
 
     if (Math.floor(Math.random() * this.seekerSpawnChance) == 0) {

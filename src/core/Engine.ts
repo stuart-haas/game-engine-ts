@@ -26,7 +26,7 @@ export class Engine {
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
   private frames:number = 0;
-  private eventDispatcher:EventManager;
+  private eventManager:EventManager;
 
   public constructor() {
     this.map = Map.getInstance();
@@ -34,7 +34,7 @@ export class Engine {
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
     this.profiler = Profiler.getInstance();
-    this.eventDispatcher = EventManager.getInstance();
+    this.eventManager = EventManager.getInstance();
   }
 
   public resize():void {
@@ -96,7 +96,7 @@ export class Engine {
 
       this.profiler.update();
 
-      this.eventDispatcher.publish(Event.UPDATE, this.delta);
+      this.eventManager.publish(Event.UPDATE, this.delta);
 
       this.lastTime = this.currentTime - (this.delta % this.interval);
 

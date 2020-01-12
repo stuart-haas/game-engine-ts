@@ -142,7 +142,7 @@ export class Map {
   }
 
   public nodeFromIndex(x:number, y:number, layer:LayerId):Node {
-    if (x < 0 || x > this.width || y < 0 || y > this.height) return;
+    if (x <= 0 || x >= this.width / this.nodeSize || y <= 0 || y >= this.height / this.nodeSize) return;
     return this.layers[LayerIndex[layer]][x][y];
   }
 }

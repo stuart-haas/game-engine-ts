@@ -12,6 +12,7 @@ export class Seeker extends Entity {
   private seekThreshold:number;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
+  private lastPosition:Vector = new Vector();
 
   constructor(position:Vector, seekThreshold:number = 128) {
       super(position, .25, 5, 5);
@@ -24,18 +25,22 @@ export class Seeker extends Entity {
 
   public update():void {
 
+    this.lastPosition = this.position.clone();
+
     this.animation.update();
 
-    Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
-      Collision.resolve(source, target);
-    });
+    if(!this.lastPosition.equals(this.position)) {
+      Collision.detect(this, LayerId.Collision, 0, function(source:Entity, target:Entity) {
+        Collision.resolve(source, target);
+      });
+    }
 
     for(var i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
       var distance:Vector = target.position.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
         if(Vector.lineOfSight(this.map, this.position, target.position, LayerId.Collision, true)) {
-          this.acceleration = Vector.evade(this.position, target.position, target.velocity, this.maxVelocity, 64);
+          this.acceleration = Vector.pursue(this.position, target.position, target.velocity, this.maxVelocity, 64);
         }
       }
     }

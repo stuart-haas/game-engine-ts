@@ -15,9 +15,11 @@ export class Collision {
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
-      if(target.index >= LayerIndex[layer] && target.layer == layer) {
-        if(callback) callback(source, target);
-        return true;
+      if(target !== undefined) {
+        if(target.index >= LayerIndex[layer] && target.layer == layer) {
+          if(callback) callback(source, target);
+          return true;
+        }
       }
     }
     return false;
