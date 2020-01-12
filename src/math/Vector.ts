@@ -163,4 +163,14 @@ export class Vector {
   public static flee(source:Vector, target:Vector, maxVelocity:number):Vector {
     return source.clone().subtract(target).normalize().multiply(maxVelocity);
   }
+
+  public static arrive(source:Vector, target:Vector, maxVelocity:number, arriveThreshold:number):Vector {
+    var vector:Vector = target.clone().subtract(source);
+    if(vector.length < arriveThreshold) {
+      vector = vector.normalize().multiply(maxVelocity).multiply(this.length / arriveThreshold);
+    } else {
+      vector = vector.normalize().multiply(maxVelocity);
+    }
+    return vector;
+  }
 }
