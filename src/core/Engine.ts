@@ -11,9 +11,7 @@ import { EventManager, Event } from '@events/EventManager';
 
 export class Engine {
 
-  public canvas:HTMLCanvasElement;
-  public player:Entity;
-
+  private canvas:HTMLCanvasElement;
   private currentTime:number = Date.now();
   private lastTime:number = this.currentTime;
   private delta:number = 0;
@@ -55,8 +53,7 @@ export class Engine {
 
   private ready():void {
     EntityManager.instance.addEntity(new Player());
-    this.player = EntityManager.instance.getEntity(0);
-    Camera.instance.setTarget(this.player.position);
+    Camera.instance.setTarget(EntityManager.instance.getEntity(0).position);
 
     this.update();
   }
