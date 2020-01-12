@@ -11,6 +11,7 @@
       "@controller/*": ["controller/*"], 
       "@core/*": ["core/*"],
       "@entity/*": ["entity/*"],
+      "@events/*": ["events/*"],
       "@maps/*": ["maps/*"],
       "@math/*": ["math/*"],
       "@pathfinding/*": ["pathfinding/*"],

@@ -6,9 +6,8 @@ import { Vector } from '@math/Vector';
 import { Map, LayerId } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
-import { Engine } from '../core/Engine';
-import { EventDispatcher } from '../events/EventDispatcher';
-import { deflate } from 'zlib';
+import { EventDispatcher } from 'events/EventDispatcher';
+import { Event } from '../events/Event';
 
 export class Player extends Entity {
 
@@ -16,20 +15,35 @@ export class Player extends Entity {
   private input:Input
   private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
-  private dispatcher:EventDispatcher;
+  private eventDispatcher:EventDispatcher;
 
   public constructor() {
     super();
     this.input = new Input();
     this.map = Map.getInstance();
-    this.dispatcher = EventDispatcher.getInstance();
+    this.eventDispatcher = EventDispatcher.getInstance();
     PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
   private onPathFound(path:Vector[], success:boolean):void {
     console.log(path, success);
-    this.dispatcher.subscribe("update", (delta) => {
-      //this.position.add(new Vector(1, 1));
+
+    var pathIndex:number = 0;
+
+    this.eventDispatcher.subscribe(Event.UPDATE, (delta) => {
+      var target:Vector = path[pathIndex];
+
+      this.lastPosition = this.position.clone();
+
+      Shape.circle(target, 4, 'green');
+
+      if(this.position.dist(target) <= 10) {
+        pathIndex ++;
+      }
+
+      if(pathIndex < path.length) {
+        this.acceleration = Vector.moveTo(this.position, target, this.maxVelocity);
+      }
     });
   }
 

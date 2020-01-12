@@ -1,5 +1,4 @@
 export class EventDispatcher {
-  events: any;
 
   private static instance:EventDispatcher;
 
@@ -10,35 +9,37 @@ export class EventDispatcher {
     return EventDispatcher.instance;
   }
 
+  private events:any;
+
   constructor() {
     this.events = {};
   }
 
-  subscribe(event: string, callback: (data?: any) => any) {
+  subscribe(event:string, callback:(data?:any) => any) {
     if (this.events[event] === undefined) {
       this.events[event] = {
-        listeners: []
+        listeners:[]
       };
     }
     this.events[event].listeners.push(callback);
   }
 
-  unsubscribe(event: string, callback: (data?: any) => any) {
+  unsubscribe(event:string, callback:(data?:any) => any) {
     if (this.events[event] === undefined) {
       return false;
     }
     this.events[event].listeners = this.events[event].listeners.filter(
-      (listener: string) => {
+      (listener:string) => {
         return listener.toString() !== callback.toString();
       }
     );
   }
 
-  publish(event: string, data?: any) {
+  publish(event:string, data?:any) {
     if (this.events[event] === undefined) {
       return false;
     }
-    this.events[event].listeners.forEach((listener: any) => {
+    this.events[event].listeners.forEach((listener:any) => {
       listener(data);
     });
   }

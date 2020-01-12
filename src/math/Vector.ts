@@ -52,6 +52,14 @@ export class Vector {
     }
     return this;
   }
+  
+  public truncate(max:number):Vector {
+    if(this.length > max) {
+      this.normalize();
+      return this.multiply(max);
+    }
+    return this;
+  }
 
   public equals(vector:Vector):boolean {
     return this.x == vector.x && this.y == vector.y;
@@ -139,7 +147,10 @@ export class Vector {
         return false;
       }
     }
-
     return true;
+  }
+
+  public static moveTo(source:Vector, target:Vector, maxVelocity:number):Vector {
+    return target.clone().subtract(source).normalize().multiply(maxVelocity);
   }
 }

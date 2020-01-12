@@ -15,6 +15,7 @@ export class Entity {
   public acceleration:Vector;
   public maxAcceleration:number;
   public maxVelocity:number;
+  public maxSpeed:number;
   public mass:number;
   public friction:number;
   public size:number;
@@ -22,10 +23,11 @@ export class Entity {
   public layer:LayerId;
   public index:number;
 
-  constructor(position:Vector = new Vector(), maxAcceleration:number = .25, maxVelocity:number = 1, mass:number = 100, friction:number = .95, size:number = 32, color:string = '#000') {
+  constructor(position:Vector = new Vector(), maxAcceleration:number = 1, maxVelocity:number = 10, maxSpeed:number = 20, mass:number = 100, friction:number = .98, size:number = 32, color:string = '#000') {
     this.position = position;
     this.maxAcceleration = maxAcceleration;
     this.maxVelocity = maxVelocity;
+    this.maxSpeed = maxSpeed;
     this.mass = mass;
     this.friction = friction;
     this.size = size;
@@ -39,9 +41,8 @@ export class Entity {
   }
 
   public update():void {
-    this.velocity.add(this.acceleration);
-    this.velocity.multiply(this.friction);
-    this.acceleration.divide(this.mass);
+    this.acceleration.subtract(this.velocity).truncate(this.maxAcceleration).divide(this.mass);
+    this.velocity.add(this.acceleration).multiply(this.friction).truncate(this.maxSpeed);
     this.position.add(this.velocity);
   }
 
