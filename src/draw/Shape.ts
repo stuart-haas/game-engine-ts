@@ -18,4 +18,11 @@ export class Shape {
     context.closePath();
     context.fill();
   }
+
+  public static line(start:Vector, end:Vector):void {
+    context.beginPath();
+    context.moveTo(start.x, start.y);
+    context.lineTo(end.x, end.y);
+    context.stroke();
+  }
 }

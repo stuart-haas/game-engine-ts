@@ -185,4 +185,8 @@ export class Vector {
     var predictedTarget:Vector = targetPosition.clone().add(targetVelocity.clone().multiply(lookAheadTime));
     return Vector.seek(source, predictedTarget, seekThreshold);
   }
+
+  public static avoid(source:Vector, sourceVelocity:Vector, maxLookAhead:number):Vector {
+    return new Vector();
+  }
 }
