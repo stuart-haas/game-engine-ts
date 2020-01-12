@@ -8,7 +8,7 @@ import { Canvas } from './Canvas';
 export class Spawner {
 
   private entityManager:EntityManager;
-  private maxEntities = 100;
+  private maxEntities = 25;
   private coinSpawnChance:number = 300;
   private seekerSpawnChance:number = 10;
 

@@ -21,7 +21,7 @@ export class Player extends Entity {
     this.input = new Input();
     this.map = Map.getInstance();
     this.eventDispatcher = EventManager.getInstance();
-    //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
+    PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
   private onPathFound(path:Vector[], success:boolean):void {
@@ -31,6 +31,8 @@ export class Player extends Entity {
 
     this.eventDispatcher.subscribe(Event.UPDATE, (delta) => {
       var target:Vector = path[pathIndex];
+
+      if(target == undefined) return;
 
       this.lastPosition = this.position.clone();
 
