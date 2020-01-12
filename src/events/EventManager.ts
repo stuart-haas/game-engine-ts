@@ -1,12 +1,18 @@
-export class EventDispatcher {
+export class Event {
 
-  private static instance:EventDispatcher;
+  public static UPDATE:string = "UPDATE";
+
+}
+
+export class EventManager {
+
+  private static instance:EventManager;
 
   public static getInstance() {
-    if(!EventDispatcher.instance) {
-      EventDispatcher.instance = new EventDispatcher();
+    if(!EventManager.instance) {
+      EventManager.instance = new EventManager();
     }
-    return EventDispatcher.instance;
+    return EventManager.instance;
   }
 
   private events:any;

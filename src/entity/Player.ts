@@ -6,8 +6,7 @@ import { Vector } from '@math/Vector';
 import { Map, LayerId } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
-import { EventDispatcher } from 'events/EventDispatcher';
-import { Event } from '../events/Event';
+import { EventManager, Event } from '@events/EventManager';
 
 export class Player extends Entity {
 
@@ -15,13 +14,13 @@ export class Player extends Entity {
   private input:Input
   private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
-  private eventDispatcher:EventDispatcher;
+  private eventDispatcher:EventManager;
 
   public constructor() {
     super();
     this.input = new Input();
     this.map = Map.getInstance();
-    this.eventDispatcher = EventDispatcher.getInstance();
+    this.eventDispatcher = EventManager.getInstance();
     //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
@@ -34,8 +33,6 @@ export class Player extends Entity {
       var target:Vector = path[pathIndex];
 
       this.lastPosition = this.position.clone();
-
-      Shape.circle(target, 4, 'green');
 
       if(this.position.dist(target) <= 10) {
         pathIndex ++;

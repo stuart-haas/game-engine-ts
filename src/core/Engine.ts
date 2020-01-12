@@ -7,8 +7,7 @@ import { EntityManager } from './EntityManager';
 import { Entity } from '@entity/Entity';
 import { MapResource } from './Map';
 import { Profiler } from "./Profiler";
-import { EventDispatcher } from '../events/EventDispatcher';
-import { Event } from '../events/Event';
+import { EventManager, Event } from '@events/EventManager';
 
 export class Engine {
 
@@ -27,7 +26,7 @@ export class Engine {
   private fps:number = 60;
   private interval:number = 1000 / this.fps;
   private frames:number = 0;
-  private eventDispatcher:EventDispatcher;
+  private eventDispatcher:EventManager;
 
   public constructor() {
     this.map = Map.getInstance();
@@ -35,7 +34,7 @@ export class Engine {
     this.entityManager = EntityManager.getInstance();
     this.spawner = Spawner.getInstance();
     this.profiler = Profiler.getInstance();
-    this.eventDispatcher = EventDispatcher.getInstance();
+    this.eventDispatcher = EventManager.getInstance();
   }
 
   public resize():void {
