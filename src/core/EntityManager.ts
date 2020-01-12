@@ -5,18 +5,16 @@ export class EntityManager {
 
   public entities:Entity[] = [];
 
-  private static instance:EntityManager;
+  public static instance:EntityManager;
 
-  public static getInstance() {
+  public static createInstance() {
     if(!EntityManager.instance) {
       EntityManager.instance = new EntityManager();
     }
     return EntityManager.instance;
   }
 
-  public constructor() {
-    
-  }
+  public constructor() {}
 
   public addEntity(entity:Entity):void {
     this.entities.push(entity);

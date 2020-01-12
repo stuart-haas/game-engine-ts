@@ -132,7 +132,7 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(map:Map, source:Vector, target:Vector, layer:LayerId, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
+  public static lineOfSight(source:Vector, target:Vector, layer:LayerId, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
     var source:Vector = new Vector(source._x + offset._x, source._y + offset._y);
     var target:Vector = new Vector(target._x + offset._x, target._y + offset._y);
     var diff:Vector = target.clone().subtract(source);
@@ -147,7 +147,7 @@ export class Vector {
         Shape.circle(new Vector(px, py), 2, 'blue');
       }
 
-      var node:Node = map.nodeFromWorldPoint(new Vector(px, py), layer);
+      var node:Node = Map.instance.nodeFromWorldPoint(new Vector(px, py), layer);
 
       if(node !== undefined) {
         if(node.index > layer) {

@@ -8,7 +8,6 @@ import { AStar } from '@pathfinding/AStar';
 
 export class Seeker extends Entity {
 
-  private map:Map;
   private seekThreshold:number;
   private sprite:SpriteSheet;
   private animation:SpriteAnimation;
@@ -16,7 +15,6 @@ export class Seeker extends Entity {
 
   constructor(position:Vector, seekThreshold:number = 128) {
       super(position, .25, 5, 5);
-      this.map = Map.getInstance();
       this.seekThreshold = seekThreshold;
       this.sprite = new SpriteSheet(this);
       this.sprite.load("/resources/sprites/seeker.png", 32, 32);
@@ -39,8 +37,8 @@ export class Seeker extends Entity {
       var target = this.targets[i];
       var distance:Vector = target.position.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
-        if(Vector.lineOfSight(this.map, this.position, target.position, LayerId.Collision, true)) {
-          this.acceleration = Vector.pursue(this.position, target.position, target.velocity, this.maxVelocity, 64);
+        if(Vector.lineOfSight(this.position, target.position, LayerId.Collision, true)) {
+          this.acceleration = Vector.evade(this.position, target.position, target.velocity, this.maxVelocity, 64);
         }
       }
     }

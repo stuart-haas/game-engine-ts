@@ -8,8 +8,6 @@ import { PathManager } from './PathManager';
 
 export class AStar {
 
-  private static map:Map = Map.getInstance();
-
   public static search(start:Vector, target:Vector, layer:LayerId):void {
     var open:Heap<Node> = new Heap<Node>();
     var closed:Node[] = [];
@@ -17,8 +15,8 @@ export class AStar {
     var waypoints:Vector[];
     var pathSuccess:boolean = false;
 
-    var startNode:Node = this.map.nodeFromWorldPoint(start, layer);
-    var targetNode:Node = this.map.nodeFromWorldPoint(target, layer);
+    var startNode:Node = Map.instance.nodeFromWorldPoint(start, layer);
+    var targetNode:Node = Map.instance.nodeFromWorldPoint(target, layer);
 
     open.push(startNode);
 
@@ -31,7 +29,7 @@ export class AStar {
         break;
       }
 
-      var neighbors = this.map.getNeighborsByNode(currentNode, layer);
+      var neighbors = Map.instance.getNeighborsByNode(currentNode, layer);
       for(var j = 0; j < neighbors.length; j++) {
         var neighbor:Node = neighbors[j];
         if(neighbor !== undefined) {

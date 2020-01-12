@@ -11,7 +11,7 @@ export interface CollisionCallback {
 export class Collision {
 
   public static detect(source:Entity, layer:LayerId, distance:number = 0, callback?:CollisionCallback):boolean {
-    var neighbors:Node[] = Map.getInstance().getNeighborsByPoint(source.position, distance);
+    var neighbors:Node[] = Map.instance.getNeighborsByPoint(source.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
@@ -26,17 +26,16 @@ export class Collision {
   }
 
   public static resolve(source:Entity, target:Entity):boolean {
-    var map = Map.getInstance();
     var colliding:boolean = false;
     
     var rv1:Vector = new Vector(source.position.x, source.position.y);
     var rv2:Vector = new Vector(target.position.x, target.position.y);
     var v0:Vector = rv2.subtract(rv1);
 
-    if(Math.abs(v0.x) < map.nodeSize / 2 + map.nodeSize / 2) {
-      if(Math.abs(v0.y) < map.nodeSize /2 + map.nodeSize / 2) {
-        var overlapX:number = map.nodeSize / 2 + map.nodeSize / 2 - Math.abs(v0.x);
-        var overlapY:number = map.nodeSize / 2 + map.nodeSize / 2 - Math.abs(v0.y);
+    if(Math.abs(v0.x) < Map.instance.nodeSize / 2 + Map.instance.nodeSize / 2) {
+      if(Math.abs(v0.y) < Map.instance.nodeSize /2 + Map.instance.nodeSize / 2) {
+        var overlapX:number = Map.instance.nodeSize / 2 + Map.instance.nodeSize / 2 - Math.abs(v0.x);
+        var overlapY:number = Map.instance.nodeSize / 2 + Map.instance.nodeSize / 2 - Math.abs(v0.y);
 
         if(overlapX >= overlapY) {
           if(v0.y > 0) {

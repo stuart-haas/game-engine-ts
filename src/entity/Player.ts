@@ -1,4 +1,3 @@
-import { Entity } from './Entity';
 import { Input, Keys } from '@core/Input';
 import { Shape } from '@draw/Shape';
 import { Mathf } from '@math/Mathf';
@@ -7,20 +6,17 @@ import { Map, LayerId } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
 import { EventManager, Event } from '@events/EventManager';
+import { Entity } from './Entity';
 
 export class Player extends Entity {
 
-  private map:Map;
   private input:Input
   private offset:Vector = new Vector(32, 32);
   private lastPosition:Vector = new Vector();
-  private eventDispatcher:EventManager;
 
   public constructor() {
     super();
     this.input = new Input();
-    this.map = Map.getInstance();
-    this.eventDispatcher = EventManager.getInstance();
     //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
@@ -29,7 +25,7 @@ export class Player extends Entity {
 
     var pathIndex:number = 0;
 
-    this.eventDispatcher.subscribe(Event.UPDATE, (delta) => {
+    EventManager.instance.subscribe(Event.UPDATE, (delta) => {
       var target:Vector = path[pathIndex];
 
       if(target == undefined) return;
@@ -63,8 +59,8 @@ export class Player extends Entity {
       });
     }
 
-    this.position.x = Mathf.clamp(this.position.x, this.offset.x, this.map.width - this.offset.x * 2);
-    this.position.y = Mathf.clamp(this.position.y, this.offset.y, this.map.height - this.offset.y * 2);
+    this.position.x = Mathf.clamp(this.position.x, this.offset.x, Map.instance.width - this.offset.x * 2);
+    this.position.y = Mathf.clamp(this.position.y, this.offset.y, Map.instance.height - this.offset.y * 2);
   }
 
   public render():void {

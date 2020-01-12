@@ -10,35 +10,40 @@ export class Camera {
   public static X:number;
   public static Y:number;
 
-  public position:Vector = new Vector();
-  public scrollSpeed:number;
+  public position:Vector;
 
-  private map:Map;
+  private target:Vector;
+  private scrollSpeed:number;
 
-  private static instance:Camera;
+  public static instance:Camera;
 
-  public static getInstance(scrollSpeed?:number) {
+  public static createInstance(target?:Vector, scrollSpeed?:number) {
     if(!Camera.instance) {
-      Camera.instance = new Camera(scrollSpeed);
+      Camera.instance = new Camera(target, scrollSpeed);
     }
     return Camera.instance;
   }
 
-  public constructor(scrollSpeed?:number) {
-    this.map = Map.getInstance();
-    this.scrollSpeed = scrollSpeed || 5;
+  public constructor(target:Vector = new Vector(), scrollSpeed:number = 5) {
+    this.position = new Vector();
+    this.target = target;
+    this.scrollSpeed = scrollSpeed;
   }
 
-  public update(delta:number, target:Vector):void {
+  public setTarget(target:Vector):void {
+    this.target = target;
+  }
+
+  public update(delta:number):void {
     
-    Camera.OFFSET_X = Math.round(target.x - Camera.X);
-    Camera.OFFSET_Y = Math.round(target.y - Camera.Y);
+    Camera.OFFSET_X = Math.round(this.target.x - Camera.X);
+    Camera.OFFSET_Y = Math.round(this.target.y - Camera.Y);
 
-    this.position.x = this.position.x + ((target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed * delta;
-    this.position.y = this.position.y + ((target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed * delta;
+    this.position.x = this.position.x + ((this.target.x - Canvas.WIDTH / 2) - this.position.x) * this.scrollSpeed * delta;
+    this.position.y = this.position.y + ((this.target.y - Canvas.HEIGHT / 2) - this.position.y) * this.scrollSpeed * delta;
 
-    this.position.x = Mathf.clamp(this.position.x, 0, this.map.width -  Canvas.WIDTH);
-    this.position.y = Mathf.clamp(this.position.y, 0, this.map.height - Canvas.HEIGHT);
+    this.position.x = Mathf.clamp(this.position.x, 0, Map.instance.width -  Canvas.WIDTH);
+    this.position.y = Mathf.clamp(this.position.y, 0, Map.instance.height - Canvas.HEIGHT);
 
     context.translate(-this.position.x, -this.position.y);
 

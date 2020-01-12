@@ -2,9 +2,9 @@ export class Profiler {
 
   public static FPS:number = 0;
 
-  private static instance:Profiler;
+  public static instance:Profiler;
 
-  public static getInstance() {
+  public static createInstance() {
     if(!Profiler.instance) {
       Profiler.instance = new Profiler();
     }

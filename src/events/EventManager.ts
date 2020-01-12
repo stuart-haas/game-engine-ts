@@ -6,9 +6,9 @@ export class Event {
 
 export class EventManager {
 
-  private static instance:EventManager;
+  public static instance:EventManager;
 
-  public static getInstance() {
+  public static createInstance() {
     if(!EventManager.instance) {
       EventManager.instance = new EventManager();
     }

@@ -12,29 +12,21 @@ import { EventManager, Event } from '@events/EventManager';
 export class Engine {
 
   public canvas:HTMLCanvasElement;
-  public map:Map;
-  public camera:Camera;
   public player:Entity;
-  public entityManager:EntityManager;
-  public spawner:Spawner;
-  public profiler:Profiler;
 
   private currentTime:number = Date.now();
   private lastTime:number = this.currentTime;
   private delta:number = 0;
   private timer:number = Date.now();
-  private fps:number = 60;
-  private interval:number = 1000 / this.fps;
   private frames:number = 0;
-  private eventManager:EventManager;
 
   public constructor() {
-    this.map = Map.getInstance();
-    this.camera = Camera.getInstance();
-    this.entityManager = EntityManager.getInstance();
-    this.spawner = Spawner.getInstance();
-    this.profiler = Profiler.getInstance();
-    this.eventManager = EventManager.getInstance();
+    Map.createInstance();
+    Camera.createInstance();
+    EntityManager.createInstance();
+    Spawner.createInstance();
+    Profiler.createInstance();
+    EventManager.createInstance();
   }
 
   public resize():void {
@@ -53,7 +45,7 @@ export class Engine {
     Canvas.WIDTH = this.canvas.width;
     Canvas.HEIGHT = this.canvas.height;
 
-    this.map.load([
+    Map.instance.load([
       new MapResource("resources/tilemaps/Tilemap_Path Layer.csv", "resources/tilesets/tallgrass.png", LayerId.Path), 
       new MapResource("resources/tilemaps/Tilemap_Collision Layer.csv", "resources/tilesets/fence.png", LayerId.Collision)      
     ]).then(data => {
@@ -62,8 +54,9 @@ export class Engine {
   }
 
   private ready():void {
-    this.entityManager.addEntity(new Player());
-    this.player = this.entityManager.getEntity(0);
+    EntityManager.instance.addEntity(new Player());
+    this.player = EntityManager.instance.getEntity(0);
+    Camera.instance.setTarget(this.player.position);
 
     this.update();
   }
@@ -73,35 +66,32 @@ export class Engine {
     this.currentTime = Date.now();
     this.delta = (this.currentTime - this.lastTime) / 1000;
 
-    //if(this.delta > this.interval) {
+    context.clearRect(0, 0, Canvas.WIDTH, Canvas.HEIGHT);
+    context.save();
+    
+    Camera.instance.update(this.delta);
 
-      context.clearRect(0, 0, Canvas.WIDTH, Canvas.HEIGHT);
-      context.save();
-      
-      this.camera.update(this.delta, this.player.position);
+    Map.instance.render();
 
-      this.map.render();
+    EntityManager.instance.update(this.delta);
 
-      this.entityManager.update(this.delta);
+    Spawner.instance.update();
 
-      this.spawner.update(this.player.position);
+    this.frames ++;
 
-      this.frames ++;
+    if(Date.now() - this.timer > 1000) {
+      this.timer += 1000;
+      Profiler.FPS = this.frames;
+      this.frames = 0;
+    }
 
-      if(Date.now() - this.timer > 1000) {
-        this.timer += 1000;
-        Profiler.FPS = this.frames;
-        this.frames = 0;
-      }
+    Profiler.instance.update();
 
-      this.profiler.update();
+    EventManager.instance.publish(Event.UPDATE, this.delta);
 
-      this.eventManager.publish(Event.UPDATE, this.delta);
+    this.lastTime = this.currentTime;
 
-      this.lastTime = this.currentTime;
-
-      context.restore();
-    //}
+    context.restore();
 
     window.requestAnimationFrame(this.update.bind(this));
   }

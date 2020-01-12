@@ -29,9 +29,9 @@ export class MapResource {
 
 export class Map {
 
-  private static instance:Map;
+  public static instance:Map;
 
-  public static getInstance(columns?:number, rows?:number, nodeSize:number=32) {
+  public static createInstance(columns?:number, rows?:number, nodeSize:number=32) {
     if(!Map.instance) {
       Map.instance = new Map(columns, rows, nodeSize);
     }

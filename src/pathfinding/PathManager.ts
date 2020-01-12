@@ -10,7 +10,7 @@ export class PathManager {
 
   public static instance:PathManager;
 
-  public static getInstance() {
+  public static createInstance() {
     if(!PathManager.instance) {
       PathManager.instance = new PathManager();
     }
@@ -24,8 +24,8 @@ export class PathManager {
 
   public static requestPath(pathStart:Vector, pathEnd:Vector, callback:PathRequestCallback):void {
     var pathRequest:PathRequest = new PathRequest(pathStart, pathEnd, callback);
-    this.getInstance().pathRequestQueue.push(pathRequest);
-    this.getInstance().tryProcessNext();
+    this.instance.pathRequestQueue.push(pathRequest);
+    this.instance.tryProcessNext();
   }
 
   private tryProcessNext():void {
