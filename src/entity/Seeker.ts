@@ -32,13 +32,13 @@ export class Seeker extends Entity {
       var distance:Vector = target.position.clone().subtract(this.position);
       if(distance.length <= this.seekThreshold) {
         if(Vector.lineOfSight(this.position, target.position, Layer.Collision, true)) {
-          this.acceleration = Vector.pursue(this.position, target.position, target.velocity, this.maxVelocity, 64);
+          this.acceleration.add(Vector.evade(this.position, target.position, target.velocity, this.maxVelocity, 50));
         }
       }
     }
 
-    this.acceleration = this.acceleration.add(Vector.wander(this.velocity, 1, 1, 360));
-    this.acceleration = this.acceleration.add(Vector.avoid(this.position, this.velocity, 50, 50));
+    this.acceleration.add(Vector.wander(this.velocity, 1, 1, 360));
+    this.acceleration.add(Vector.avoid(this.position, this.velocity, this.maxVelocity, 50, 50));
 
     super.update(delta);
 

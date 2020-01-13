@@ -207,12 +207,12 @@ export class Vector {
     return Vector.seek(origin, predictedTarget, seekThreshold);
   }
 
-  public static avoid(origin:Vector, originVelocity:Vector, maxLookAhead:number, maxAvoidanceForce:number):Vector {
+  public static avoid(origin:Vector, originVelocity:Vector, maxVelocity:number, maxLookAhead:number, maxAvoidanceForce:number):Vector {
     var origin:Vector = new Vector(origin.x + 16, origin.y + 16);
     var velocity:Vector = originVelocity.clone();
     var target:Vector = origin.clone().add(Vector.fromAngle(velocity.angle, maxLookAhead));
     Collision.intersects(origin, Layer.Collision, function(node) {
-      return Vector.flee(target, node.position, maxAvoidanceForce);
+      return Vector.evade(target, node.position, velocity, maxVelocity, maxAvoidanceForce);
     });
     return new Vector();
   }
