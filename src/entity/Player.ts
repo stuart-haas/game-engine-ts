@@ -5,7 +5,7 @@ import { Vector } from '@math/Vector';
 import { Map, Layer } from '@core/Map';
 import { Collision } from '@physics/Collision';
 import { PathManager } from '@pathfinding/PathManager';
-import { EventManager, Event } from '@events/EventManager';
+import { EventManager, Event } from '@core/EventManager';
 import { Entity } from './Entity';
 
 export class Player extends Entity {

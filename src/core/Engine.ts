@@ -6,7 +6,7 @@ import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
 import { MapResource } from './Map';
 import { Profiler } from "./Profiler";
-import { EventManager, Event } from '@events/EventManager';
+import { EventManager, Event } from '@core/EventManager';
 
 export class Engine {
 
