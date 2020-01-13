@@ -27,10 +27,6 @@ export class Seeker extends Entity {
 
     this.animation.update();
 
-    Collision.detect(this, Layer.Collision, 0, function(origin:Entity, target:Entity) {
-      Collision.resolve(origin, target);
-    });
-
     for(let i = 0; i < this.targets.length; i ++) {
       var target = this.targets[i];
       var distance:Vector = target.position.clone().subtract(this.position);
@@ -41,10 +37,16 @@ export class Seeker extends Entity {
       }
     }
 
-    super.update(delta);
-
     this.acceleration = this.acceleration.add(Vector.wander(this.velocity, 1, 1, 360));
     this.acceleration = this.acceleration.add(Vector.avoid(this.position, this.velocity, 50, 50));
+
+    super.update(delta);
+
+    if(!this.lastPosition.equals(this.position)) {
+      Collision.detect(this, Layer.Collision, 0, function(origin:Entity, target:Entity) {
+        Collision.resolve(origin, target);
+      });
+    }
   }
 
   public render():void {
