@@ -2,8 +2,13 @@ import { Shape } from '@draw/Shape';
 import { Map } from '@core/Map';
 import { Node } from '@entity/Node';
 import { Layer } from '@core/Map';
+import { Collision } from '@physics/Collision';
+import { Entity } from '../entity/Entity';
 
 export class Vector {
+
+  public static DEG_TO_RAD:number = Math.PI / 180;
+	public static RAD_TO_DEG:number = 180 / Math.PI;
 
   private _x:number = 0;
   private _y:number = 0;
@@ -113,6 +118,20 @@ export class Vector {
     return 0.001;
   }
 
+  public setDirection(value:number):Vector {
+    var angle:number = this.angle;
+    this.x = Math.cos(angle) * value;
+    this.y = Math.sin(angle) * value;
+    return this;
+  }
+
+  public setAngle(value:number):Vector {
+    var length:number = this.length;
+    this.x = Math.cos(value) * length;
+    this.y = Math.sin(value) * length;
+    return this;
+  }
+
   public static fromAngle(angle:number, magnitude:number):Vector {
     return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
@@ -188,7 +207,22 @@ export class Vector {
     return Vector.seek(origin, predictedTarget, seekThreshold);
   }
 
-  public static avoid(origin:Vector, originVelocity:Vector, maxLookAhead:number):Vector {
+  public static avoid(origin:Vector, originVelocity:Vector, maxLookAhead:number, maxAvoidanceForce:number):Vector {
+    var origin:Vector = new Vector(origin.x + 16, origin.y + 16);
+    var velocity:Vector = originVelocity.clone();
+    var target:Vector = origin.clone().add(Vector.fromAngle(velocity.angle, maxLookAhead));
+    Collision.intersects(origin, Layer.Collision, function(node) {
+      return Vector.flee(target, node.position, maxAvoidanceForce);
+    });
     return new Vector();
+  }
+
+  public static wander(originVelocity:Vector, wanderDistance:number, wanderRadius:number, wanderRange:number) {
+    var wanderAngle:number = Math.random() * wanderRange - wanderRange * .5;
+    var center:Vector = originVelocity.clone().normalize().multiply(wanderDistance);
+    var offset:Vector = new Vector();
+    offset.setDirection(wanderRadius);
+    offset.setAngle(wanderAngle);
+    return center.add(offset);
   }
 }

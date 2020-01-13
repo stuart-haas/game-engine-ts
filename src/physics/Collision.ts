@@ -10,8 +10,23 @@ export interface CollisionCallback {
 
 export class Collision {
 
+  public static intersects(origin:Vector, layer:Layer, callback?:Function):boolean {
+    var node:Node = Map.instance.nodeFromWorldPoint(origin, layer);
+
+    if(node !== undefined) {
+      if(node.index >= Index[layer] && node.layer == layer) {
+        var center:Vector = new Vector(node.position.x + 16, node.position.y + 16);
+        if(origin.dist(center) <= 16) {
+          if(callback) callback(node);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public static detect(origin:Entity, layer:Layer, distance:number = 0, callback?:CollisionCallback):boolean {
-    var neighbors:Node[] = Map.instance.getNeighborsByPoint(origin.position, distance);
+    var neighbors:Node[] = Map.instance.getNeighborsByPoint(origin.position, layer, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];

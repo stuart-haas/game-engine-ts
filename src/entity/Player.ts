@@ -53,8 +53,6 @@ export class Player extends Entity {
     if (this.input.isDown(Keys.Down)) this.acceleration.y += this.maxVelocity;
     if (this.input.isDown(Keys.Right)) this.acceleration.x += this.maxVelocity;
 
-    Vector.avoid(this.position, this.velocity, 10);
-
     super.update(delta);
 
     if(!this.lastPosition.equals(this.position)) {

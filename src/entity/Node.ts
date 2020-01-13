@@ -16,7 +16,9 @@ export class Node extends Entity implements IHeapItem<Node>  {
   public heapIndex:number;
   public spriteSheet:SpriteSheet;
 
-  public constructor(spriteSheet:SpriteSheet, index:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
+  public debug:boolean = false;
+
+  public constructor(spriteSheet?:SpriteSheet, index?:number, x:number = 0, y:number = 0, size:number = 32, layer?:Layer) {
     super();
     this.spriteSheet = spriteSheet;
     this.index = index;
@@ -38,6 +40,13 @@ export class Node extends Entity implements IHeapItem<Node>  {
       context.closePath();
     } else {
       this.spriteSheet.render(this.index, this.position);
+      if(this.debug) {
+        context.beginPath();
+        context.rect(this.position.x, this.position.y, this.size - 2, this.size - 2);
+        context.fillStyle = color || this.color;
+        context.fill();
+        context.closePath();
+      }
     }
   }
 
