@@ -28,8 +28,8 @@ export class Seeker extends Entity {
     this.animation.update();
 
     if(!this.lastPosition.equals(this.position)) {
-      Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
-        Collision.resolve(source, target);
+      Collision.detect(this, Layer.Collision, 0, function(origin:Entity, target:Entity) {
+        Collision.resolve(origin, target);
       });
     }
 

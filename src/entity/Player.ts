@@ -15,7 +15,7 @@ export class Player extends Entity {
   private lastPosition:Vector;
 
   public constructor() {
-    super();
+    super(new Vector(), .5, 10, 10);
     this.input = new Input();
     this.bounds = new Vector(32, 32);
     this.lastPosition = new Vector();
@@ -53,11 +53,13 @@ export class Player extends Entity {
     if (this.input.isDown(Keys.Down)) this.acceleration.y += this.maxVelocity;
     if (this.input.isDown(Keys.Right)) this.acceleration.x += this.maxVelocity;
 
+    Vector.avoid(this.position, this.velocity, 10);
+
     super.update(delta);
 
     if(!this.lastPosition.equals(this.position)) {
-      Collision.detect(this, Layer.Collision, 0, function(source:Entity, target:Entity) {
-        Collision.resolve(source, target);
+      Collision.detect(this, Layer.Collision, 0, function(origin:Entity, target:Entity) {
+        Collision.resolve(origin, target);
       });
     }
 

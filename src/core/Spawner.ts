@@ -6,7 +6,7 @@ import { Canvas } from './Canvas';
 
 export class Spawner {
 
-  private maxEntities:number = 25;
+  private maxEntities:number = 10;
   private seekerSpawnChance:number = 100;
 
   public static instance:Spawner;

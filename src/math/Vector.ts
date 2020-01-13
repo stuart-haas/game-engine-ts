@@ -117,10 +117,10 @@ export class Vector {
     return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
 
-  public static pointsInRadius(source:Vector, radius:number, step:number = 4, offset:Vector = new Vector()):Vector[] {
+  public static pointsInRadius(origin:Vector, radius:number, step:number = 4, offset:Vector = new Vector()):Vector[] {
     var points:Vector[] = [];
-    var x = Math.round(source._x + offset._x);
-    var y = Math.round(source._y + offset._y);
+    var x = Math.round(origin._x + offset._x);
+    var y = Math.round(origin._y + offset._y);
 
     for(var j = x - radius; j <= x + radius; j += step) {
       for(var k = y - radius; k <= y + radius; k += step) {
@@ -132,10 +132,10 @@ export class Vector {
     return points;
   }
 
-  public static lineOfSight(source:Vector, target:Vector, layer:Layer, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
-    var source:Vector = new Vector(source._x + offset._x, source._y + offset._y);
+  public static lineOfSight(origin:Vector, target:Vector, layer:Layer, debug:boolean = false, steps:number = 16, offset:Vector = new Vector(16, 16)):boolean {
+    var origin:Vector = new Vector(origin._x + offset._x, origin._y + offset._y);
     var target:Vector = new Vector(target._x + offset._x, target._y + offset._y);
-    var diff:Vector = target.clone().subtract(source);
+    var diff:Vector = target.clone().subtract(origin);
     var numberOfPoints:number = diff.length / steps;
 
     for(var i = 0; i < numberOfPoints; i ++) {
@@ -158,16 +158,16 @@ export class Vector {
     return true;
   }
 
-  public static seek(source:Vector, target:Vector, maxVelocity:number):Vector {
-    return target.clone().subtract(source).normalize().multiply(maxVelocity);
+  public static seek(origin:Vector, target:Vector, maxVelocity:number):Vector {
+    return target.clone().subtract(origin).normalize().multiply(maxVelocity);
   }
 
-  public static flee(source:Vector, target:Vector, maxVelocity:number):Vector {
-    return source.clone().subtract(target).normalize().multiply(maxVelocity);
+  public static flee(origin:Vector, target:Vector, maxVelocity:number):Vector {
+    return origin.clone().subtract(target).normalize().multiply(maxVelocity);
   }
 
-  public static arrive(source:Vector, target:Vector, maxVelocity:number, arriveThreshold:number):Vector {
-    var vector:Vector = target.clone().subtract(source);
+  public static arrive(origin:Vector, target:Vector, maxVelocity:number, arriveThreshold:number):Vector {
+    var vector:Vector = target.clone().subtract(origin);
     if(vector.length < arriveThreshold) {
       vector = vector.normalize().multiply(maxVelocity).multiply(this.length / arriveThreshold);
     } else {
@@ -176,19 +176,19 @@ export class Vector {
     return vector;
   }
 
-  public static evade(source:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, fleeThreshold:number):Vector {
-    var lookAheadTime:number = source.clone().subtract(targetPosition).length / maxVelocity;
+  public static evade(origin:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, fleeThreshold:number):Vector {
+    var lookAheadTime:number = origin.clone().subtract(targetPosition).length / maxVelocity;
     var predictedTarget:Vector = targetPosition.clone().add(targetVelocity.clone().multiply(lookAheadTime));
-    return Vector.flee(source, predictedTarget, fleeThreshold);
+    return Vector.flee(origin, predictedTarget, fleeThreshold);
   }
 
-  public static pursue(source:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, seekThreshold:number):Vector {
-    var lookAheadTime:number = source.clone().subtract(targetPosition).length / maxVelocity;
+  public static pursue(origin:Vector, targetPosition:Vector, targetVelocity:Vector, maxVelocity:number, seekThreshold:number):Vector {
+    var lookAheadTime:number = origin.clone().subtract(targetPosition).length / maxVelocity;
     var predictedTarget:Vector = targetPosition.clone().add(targetVelocity.clone().multiply(lookAheadTime));
-    return Vector.seek(source, predictedTarget, seekThreshold);
+    return Vector.seek(origin, predictedTarget, seekThreshold);
   }
 
-  public static avoid(source:Vector, sourceVelocity:Vector, maxLookAhead:number):Vector {
+  public static avoid(origin:Vector, originVelocity:Vector, maxLookAhead:number):Vector {
     return new Vector();
   }
 }

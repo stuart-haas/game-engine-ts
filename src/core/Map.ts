@@ -97,12 +97,12 @@ export class Map {
     }
   }
 
-  public getNeighborsByPoint(source:Vector, layer:Layer, distance:number = 0):Node[] {
+  public getNeighborsByPoint(origin:Vector, layer:Layer, distance:number = 0):Node[] {
     var neighbors:Node[] = [];
-    var left:number = source.x / this.nodeSize - distance;
-    var right:number = (source.x + this.nodeSize) / this.nodeSize + distance;
-    var top:number = source.y / this.nodeSize - distance;
-    var bottom:number = (source.y + this.nodeSize) / this.nodeSize + distance;
+    var left:number = origin.x / this.nodeSize - distance;
+    var right:number = (origin.x + this.nodeSize) / this.nodeSize + distance;
+    var top:number = origin.y / this.nodeSize - distance;
+    var bottom:number = (origin.y + this.nodeSize) / this.nodeSize + distance;
 
     if(left < 0) left = 0;
     if(right > this.width) right = this.width;

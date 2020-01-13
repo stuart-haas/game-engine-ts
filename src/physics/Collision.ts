@@ -5,19 +5,19 @@ import { Node } from '@entity/Node';
 import { Index } from '@core/Map';
 
 export interface CollisionCallback {
-  ( source:Entity, target:Entity ) : void;
+  ( origin:Entity, target:Entity ) : void;
 }
 
 export class Collision {
 
-  public static detect(source:Entity, layer:Layer, distance:number = 0, callback?:CollisionCallback):boolean {
-    var neighbors:Node[] = Map.instance.getNeighborsByPoint(source.position, distance);
+  public static detect(origin:Entity, layer:Layer, distance:number = 0, callback?:CollisionCallback):boolean {
+    var neighbors:Node[] = Map.instance.getNeighborsByPoint(origin.position, distance);
 
     for(var i = 0; i < neighbors.length; i ++) {
       var target:Node = neighbors[i];
       if(target !== undefined) {
         if(target.index >= Index[layer] && target.layer == layer) {
-          if(callback) callback(source, target);
+          if(callback) callback(origin, target);
           return true;
         }
       }
@@ -25,10 +25,10 @@ export class Collision {
     return false;
   }
 
-  public static resolve(source:Entity, target:Entity):boolean {
+  public static resolve(origin:Entity, target:Entity):boolean {
     var colliding:boolean = false;
     
-    var rv1:Vector = new Vector(source.position.x, source.position.y);
+    var rv1:Vector = new Vector(origin.position.x, origin.position.y);
     var rv2:Vector = new Vector(target.position.x, target.position.y);
     var v0:Vector = rv2.subtract(rv1);
 
@@ -39,22 +39,22 @@ export class Collision {
 
         if(overlapX >= overlapY) {
           if(v0.y > 0) {
-            source.velocity.y = 0;
-            source.position.y = source.position.y - overlapY;
+            origin.velocity.y = 0;
+            origin.position.y = origin.position.y - overlapY;
             colliding = true;
           } else {
-            source.velocity.y = 0;
-            source.position.y = source.position.y + overlapY;
+            origin.velocity.y = 0;
+            origin.position.y = origin.position.y + overlapY;
             colliding = true;
           }
         } else {
           if(v0.x > 0) {
-            source.velocity.x = 0;
-            source.position.x = source.position.x - overlapX;
+            origin.velocity.x = 0;
+            origin.position.x = origin.position.x - overlapX;
             colliding = true;
           } else {
-            source.velocity.x = 0;
-            source.position.x = source.position.x + overlapX;
+            origin.velocity.x = 0;
+            origin.position.x = origin.position.x + overlapX;
             colliding = true;
           }
         }
