@@ -11,12 +11,14 @@ import { Entity } from './Entity';
 export class Player extends Entity {
 
   private input:Input
-  private offset:Vector = new Vector(32, 32);
-  private lastPosition:Vector = new Vector();
+  private bounds:Vector;
+  private lastPosition:Vector;
 
   public constructor() {
     super();
     this.input = new Input();
+    this.bounds = new Vector(32, 32);
+    this.lastPosition = new Vector();
     //PathManager.requestPath(this.position, new Vector(700, 600), this.onPathFound.bind(this));
   }
 
@@ -59,8 +61,8 @@ export class Player extends Entity {
       });
     }
 
-    this.position.x = Mathf.clamp(this.position.x, this.offset.x, Map.instance.width - this.offset.x * 2);
-    this.position.y = Mathf.clamp(this.position.y, this.offset.y, Map.instance.height - this.offset.y * 2);
+    this.position.x = Mathf.clamp(this.position.x, this.bounds.x, Map.instance.width - this.bounds.x * 2);
+    this.position.y = Mathf.clamp(this.position.y, this.bounds.y, Map.instance.height - this.bounds.y * 2);
   }
 
   public render():void {
