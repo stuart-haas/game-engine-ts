@@ -4,7 +4,6 @@ import { Spawner } from './Spawner';
 import { Map, Layer } from '@core/Map';
 import { Camera } from './Camera';
 import { EntityManager } from './EntityManager';
-import { Entity } from '@entity/Entity';
 import { MapResource } from './Map';
 import { Profiler } from "./Profiler";
 import { EventManager, Event } from '@events/EventManager';
@@ -23,8 +22,8 @@ export class Engine {
     Camera.createInstance();
     EntityManager.createInstance();
     Spawner.createInstance();
-    Profiler.createInstance();
     EventManager.createInstance();
+    Profiler.createInstance();
   }
 
   public resize():void {
@@ -39,9 +38,6 @@ export class Engine {
     const self = this;
 
     this.canvas = Canvas.initialize();
-
-    Canvas.WIDTH = this.canvas.width;
-    Canvas.HEIGHT = this.canvas.height;
 
     Map.instance.load([
       new MapResource("resources/tilemaps/Tilemap_Path Layer.csv", "resources/tilesets/tallgrass.png", Layer.Path), 

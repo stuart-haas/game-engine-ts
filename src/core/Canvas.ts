@@ -22,6 +22,9 @@ export class Canvas {
 
     context = canvas.getContext("2d");
 
+    Canvas.WIDTH = canvas.width;
+    Canvas.HEIGHT = canvas.height;
+
     return canvas;
   }
 }
