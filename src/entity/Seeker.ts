@@ -36,7 +36,7 @@ export class Seeker extends Entity {
         }
       }
     }
-
+    
     this.acceleration.add(Vector.wander(this.velocity, 1, 1, 360));
     this.acceleration.add(Vector.avoid(this.position, this.velocity, this.maxVelocity, 50, 50));
 

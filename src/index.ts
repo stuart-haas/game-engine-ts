@@ -1,12 +1,12 @@
-import { Engine } from '@core/Engine';
+import { Game } from '@core/Game';
 
-var engine:Engine;
+var game:Game;
 
 window.onload = function() {
-  engine = new Engine();
-  engine.start();
+  game = new Game();
+  game.start();
 }
 
 window.onresize = function() {
-  engine.resize();
+  game.resize();
 }

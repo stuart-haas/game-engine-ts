@@ -13,10 +13,7 @@ export class Shape {
 
   public static rectangle(position:Vector, width:number, height:number, color:string):void {
     context.fillStyle = color;
-    context.beginPath();
-    context.rect(position.x, position.y, width, height);
-    context.closePath();
-    context.fill();
+    context.fillRect(position.x, position.y, width, height);
   }
 
   public static line(start:Vector, end:Vector):void {

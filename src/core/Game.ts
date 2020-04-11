@@ -8,7 +8,7 @@ import { MapResource } from './Map';
 import { Profiler } from "./Profiler";
 import { EventManager, Event } from '@core/EventManager';
 
-export class Engine {
+export class Game {
 
   private canvas:HTMLCanvasElement;
   private currentTime:number = Date.now();
@@ -30,6 +30,8 @@ export class Engine {
     if(this.canvas !== undefined) {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.outerHeight;
+      Canvas.WIDTH = this.canvas.width;
+      Canvas.HEIGHT = this.canvas.height;
     }
   }
 
